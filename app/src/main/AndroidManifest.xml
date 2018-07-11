@@ -25,6 +25,9 @@
             android:name=".ParentSignInActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
+            android:name=".VerifyPhoneActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
             android:name=".VerificationCodeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>

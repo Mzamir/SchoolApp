@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">SchoolAppAnd</string>
+    <string name="art_work">art_work</string>
+    <string name="welcome_to_school">Welcome to school</string>
+    <string name="welcome_message_splash">description description description description description description description description</string>
+    <string name="skip_this">Skip this</string>
+    <string name="email_hint">Email</string>
+    <string name="signup">Sign-Up!</string>
+    <string name="mobile_hint">Mobile number</string>
+    <string name="id_number_hint">ID number</string>
+    <string name="password_hint">Password</string>
+    <string name="username_hint">Full name</string>
+    <string name="signin">Sign-In!</string>
+    <string name="verify_number">Verify Your Phone Number</string>
+    <string name="verify_number_message">Please enter you valid phone number below \n to complete verification</string>
+    <string name="verify_btn">Verify</string>
+</resources>

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/art_work"
+        android:src="@drawable/ic_art_work"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,14 +24,14 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="104dp"
         android:text="@string/signin"
         android:textColor="@color/colorPrimary"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/imageView3"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.208"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView3"
         tools:ignore="MissingConstraints" />
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/icons_padding"
-            android:drawableStart="@drawable/id_ico"
+            android:drawableStart="@drawable/ic_id_ico"
             android:hint="@string/id_number_hint"
             android:inputType="number" />
     </android.support.design.widget.TextInputLayout>
@@ -70,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/icons_padding"
-            android:drawableStart="@drawable/password_ico"
+            android:drawableStart="@drawable/ic_password_ico"
             android:hint="@string/password_hint"
             android:inputType="textPassword" />
     </android.support.design.widget.TextInputLayout>
@@ -81,8 +81,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:backgroundTint="@color/colorPrimary"
         android:gravity="center"
@@ -91,9 +89,8 @@
         android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_edx"
+        tools:layout_editor_absoluteX="48dp"
         tools:ignore="MissingConstraints" />
 </android.support.constraint.ConstraintLayout>
 

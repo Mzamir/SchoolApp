@@ -14,11 +14,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="76" />
-                            <entry key="outputName" value="ic_verification_code_sent_icon" />
+                            <entry key="height" value="17" />
+                            <entry key="outputName" value="ic_mail_ico" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="E:\PersonalData\AndroidProjects\SchoolApp\Slicing\SVG\Verification Screen 2\verification_code_sent_icon.svg" />
-                            <entry key="width" value="75" />
+                            <entry key="sourceFile" value="C:\Users\Mahmoud Samir\Desktop\SVGForAndroid\mail_ico.svg" />
+                            <entry key="width" value="20" />
                           </map>
                         </option>
                       </PersistentState>

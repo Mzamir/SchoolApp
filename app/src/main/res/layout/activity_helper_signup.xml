@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginTop="16dp"
-                android:src="@drawable/ic_art_work_signup"
+                android:src="@drawable/art_work"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -31,15 +31,13 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="36dp"
-                android:layout_marginTop="104dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="80dp"
                 android:text="@string/signup"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/imageView3"
-                app:layout_constraintHorizontal_bias="0.208"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/imageView3"
                 tools:ignore="MissingConstraints" />
@@ -50,8 +48,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="32dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView3">
 
@@ -59,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/icons_padding"
-                    android:drawableStart="@drawable/ic_mail_ico"
+                    android:drawableStart="@drawable/mail_ico"
                     android:hint="@string/email_hint"
                     android:inputType="textEmailAddress" />
             </android.support.design.widget.TextInputLayout>
@@ -78,7 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/icons_padding"
-                    android:drawableStart="@drawable/ic_user_name_ico"
+                    android:drawableStart="@drawable/user_nameico"
                     android:hint="@string/username_hint"
                     android:inputType="text" />
             </android.support.design.widget.TextInputLayout>
@@ -97,7 +95,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/icons_padding"
-                    android:drawableStart="@drawable/ic_password_ico"
+                    android:drawableStart="@drawable/password_ico"
                     android:hint="@string/password_hint"
                     android:inputType="textPassword" />
             </android.support.design.widget.TextInputLayout>
@@ -116,7 +114,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/icons_padding"
-                    android:drawableStart="@drawable/ic_id_ico"
+                    android:drawableStart="@drawable/id_ico"
                     android:hint="@string/id_number_hint"
                     android:inputType="number" />
             </android.support.design.widget.TextInputLayout>
@@ -135,7 +133,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/icons_padding"
-                    android:drawableStart="@drawable/ic_mobile_ico"
+                    android:drawableStart="@drawable/mobile_ico"
                     android:hint="@string/mobile_hint"
                     android:inputType="phone" />
             </android.support.design.widget.TextInputLayout>

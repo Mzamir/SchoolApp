@@ -14,7 +14,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:src="@drawable/ic_verify_mobile_number"
+        android:src="@drawable/received_code_screen_ico"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
@@ -67,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/icons_padding"
-            android:drawableStart="@drawable/ic_mobile_ico"
+            android:drawableStart="@drawable/mobile_ico"
             android:hint="@string/mobile_hint"
             android:inputType="phone" />
     </android.support.design.widget.TextInputLayout>

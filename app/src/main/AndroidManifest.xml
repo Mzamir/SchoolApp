@@ -19,10 +19,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HelperSignupActivity"
+            android:name=".helper_signup.HelperSignupActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".ParentSignInActivity"
+            android:name=".parent_signin.view.ParentSignInActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".VerifyPhoneActivity"
@@ -30,7 +30,14 @@
         <activity
             android:name=".VerificationCodeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".WaitingAcrivity"></activity>
+        <activity android:name=".WaitingAcrivity" />
+        <activity android:name=".add_helper.AddHelperActivity" />
+        <activity
+            android:name=".ParentHomeActivity"
+            android:label="@string/title_activity_parent_home"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ParentProfileActivity" />
+        <activity android:name=".mentor_home.MentorHomeActivity"></activity>
     </application>
 
 </manifest>

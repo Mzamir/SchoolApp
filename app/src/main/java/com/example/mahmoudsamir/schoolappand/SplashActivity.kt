@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
+import com.example.mahmoudsamir.schoolappand.helper_signup.HelperSignupActivity
 import java.util.*
 import kotlin.concurrent.schedule
 

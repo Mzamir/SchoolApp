@@ -1,7 +1,9 @@
-package com.example.mahmoudsamir.schoolappand;
+package com.example.mahmoudsamir.schoolappand.helper_signup;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.mahmoudsamir.schoolappand.R;
 
 public class HelperSignupActivity extends AppCompatActivity {
 

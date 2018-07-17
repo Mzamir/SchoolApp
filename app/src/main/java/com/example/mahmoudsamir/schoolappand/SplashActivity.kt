@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
-import com.example.mahmoudsamir.schoolappand.helper_signup.HelperSignupActivity
+import com.example.mahmoudsamir.schoolappand.parent_account.view.ParentSignInActivity
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -18,7 +18,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         timer.schedule(2000) {
-            val intent = Intent(this@SplashActivity, HelperSignupActivity::class.java)
+            val intent = Intent(this@SplashActivity, ParentSignInActivity::class.java)
             startActivity(intent)
         }
     }

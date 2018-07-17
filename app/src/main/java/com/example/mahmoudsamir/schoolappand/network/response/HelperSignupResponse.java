@@ -4,7 +4,7 @@ import com.example.mahmoudsamir.schoolappand.network.BaseResponse;
 
 import java.util.ArrayList;
 
-public class ParentSignInResponse extends BaseResponse {
+public class HelperSignupResponse extends BaseResponse {
 
     int id;
     String name;
@@ -13,9 +13,8 @@ public class ParentSignInResponse extends BaseResponse {
     String phone;
     String created_at;
     String updated_at;
-    int status;
-    String authy_code;
-    ArrayList<Roles> roles = new ArrayList<>();
+    String token;
+
 
     public int getId() {
         return id;
@@ -73,36 +72,12 @@ public class ParentSignInResponse extends BaseResponse {
         this.updated_at = updated_at;
     }
 
-    public int getStatus() {
-        return status;
+    public String getToken() {
+        return token;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setToken(String token) {
+        this.token = token;
     }
-
-    public String getAuthy_code() {
-        return authy_code;
-    }
-
-    public void setAuthy_code(String authy_code) {
-        this.authy_code = authy_code;
-    }
-
-    public ArrayList<Roles> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(ArrayList<Roles> roles) {
-        this.roles = roles;
-    }
-
-    class Roles {
-        int id;
-        String name;
-        String created_at;
-        String updated_at;
-    }
-
-
 }
+

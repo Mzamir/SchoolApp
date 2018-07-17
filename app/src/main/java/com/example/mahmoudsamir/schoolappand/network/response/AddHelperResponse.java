@@ -1,16 +1,16 @@
-package com.example.mahmoudsamir.schoolappand.network;
+package com.example.mahmoudsamir.schoolappand.network.response;
 
-public class BaseResponse {
+public class AddHelperResponse {
 
-    String errors;
-    String success;
+    String erros;
+    String success ;
 
     public String getErros() {
-        return errors;
+        return erros;
     }
 
     public void setErros(String erros) {
-        this.errors = erros;
+        this.erros = erros;
     }
 
     public String getSuccess() {

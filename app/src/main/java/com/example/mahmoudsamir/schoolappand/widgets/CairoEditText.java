@@ -2,7 +2,7 @@ package com.example.mahmoudsamir.schoolappand.widgets;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.design.widget.TextInputEditText;
+import EditText;
 import android.util.AttributeSet;
 
 public class CairoEditText extends TextInputEditText{

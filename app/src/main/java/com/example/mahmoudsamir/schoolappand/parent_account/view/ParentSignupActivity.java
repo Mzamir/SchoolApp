@@ -8,10 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.mahmoudsamir.schoolappand.ParentHomeActivity;
+import com.example.mahmoudsamir.schoolappand.parent_home.ParentHomeActivity;
 import com.example.mahmoudsamir.schoolappand.R;
 import com.example.mahmoudsamir.schoolappand.parent_account.presenter.ParentRegistrationInteractor;
-import com.example.mahmoudsamir.schoolappand.parent_account.presenter.ParentSignInPresenter;
 import com.example.mahmoudsamir.schoolappand.parent_account.presenter.ParentSignupPresenter;
 
 import butterknife.BindView;

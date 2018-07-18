@@ -25,15 +25,12 @@
             android:name=".parent_account.view.ParentSignInActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".VerifyPhoneActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
-            android:name=".verify_code.VerificationCodeActivity"
+            android:name=".verify_code.view.VerificationCodeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".WaitingAcrivity" />
         <activity android:name=".add_helper.view.AddHelperActivity" />
         <activity
-            android:name=".ParentHomeActivity"
+            android:name=".parent_home.ParentHomeActivity"
             android:label="@string/title_activity_parent_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ParentProfileActivity" />

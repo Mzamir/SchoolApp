@@ -1,4 +1,4 @@
-package com.example.mahmoudsamir.schoolappand.helper_account.view;
+package com.example.mahmoudsamir.schoolappand.parent_account.view;
 
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
@@ -10,41 +10,33 @@ import android.widget.EditText;
 
 import com.example.mahmoudsamir.schoolappand.parent_home.ParentHomeActivity;
 import com.example.mahmoudsamir.schoolappand.R;
-import com.example.mahmoudsamir.schoolappand.helper_account.presenter.HelperRegistrationInteractor;
-import com.example.mahmoudsamir.schoolappand.helper_account.presenter.HelperSignupPresenter;
+import com.example.mahmoudsamir.schoolappand.parent_account.presenter.ParentRegistrationInteractor;
+import com.example.mahmoudsamir.schoolappand.parent_account.presenter.ParentSignInPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HelperSignupActivity extends AppCompatActivity implements HelperRegistrationView {
+public class ParentSignInActivity extends AppCompatActivity implements ParentRegistrationView {
 
-    HelperSignupPresenter presenter;
+    ParentSignInPresenter presenter;
+    @BindView(R.id.signin_btn)
+    Button signin_btn;
 
     @BindView(R.id.email_edx)
     EditText email_edx;
-    @BindView(R.id.username_edx)
-    EditText username_edx;
+
     @BindView(R.id.password_edx)
     EditText password_edx;
-    @BindView(R.id.id_number_edx)
-    EditText id_number_edx;
-    @BindView(R.id.phone_edx)
-    EditText phone_edx;
-
-    @BindView(R.id.signup_btn)
-    Button signup_btn;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN) ;
-//        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_helper_signup);
+        setContentView(R.layout.activity_parent_sign_in);
         ButterKnife.bind(this);
+        presenter = new ParentSignInPresenter(this, new ParentRegistrationInteractor());
 
-        presenter = new HelperSignupPresenter(this, new HelperRegistrationInteractor());
-        signup_btn.setOnClickListener(new View.OnClickListener() {
+        signin_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 validateCredentials();
@@ -76,10 +68,6 @@ public class HelperSignupActivity extends AppCompatActivity implements HelperReg
     }
 
     private void validateCredentials() {
-        presenter.validateCredentials(username_edx.getText().toString()
-                , email_edx.getText().toString()
-                , password_edx.getText().toString()
-                , id_number_edx.getText().toString()
-                , phone_edx.getText().toString());
+        presenter.validateCredentials(email_edx.getText().toString(), password_edx.getText().toString());
     }
 }

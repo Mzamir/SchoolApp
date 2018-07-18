@@ -37,4 +37,25 @@ public class VerifyPhoneInteractor {
                     }
                 });
     }
+
+    public void resendVerificationCode(String code, final OnVerifyPhoneFinishedListener listener) {
+
+        ApiService apiService = ApiClient.getClient(MyApplication.getMyApplicationContext())
+                .create(ApiService.class);
+
+        apiService.resendVerificationCode(code)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<BaseResponse>() {
+                    @Override
+                    public void onSuccess(BaseResponse response) {
+                        listener.onSuccess();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        listener.onError();
+                    }
+                });
+    }
 }

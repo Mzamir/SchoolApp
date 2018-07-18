@@ -1,4 +1,4 @@
-package com.example.mahmoudsamir.schoolappand.verify_code;
+package com.example.mahmoudsamir.schoolappand.verify_code.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,9 +8,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.mahmoudsamir.schoolappand.R;
-import com.example.mahmoudsamir.schoolappand.add_helper.presenter.AddHelperInteractor;
-import com.example.mahmoudsamir.schoolappand.add_helper.presenter.AddHelperPresenter;
-import com.example.mahmoudsamir.schoolappand.add_helper.view.AddHelperView;
 import com.example.mahmoudsamir.schoolappand.verify_code.presenter.VerifyPhoneInteractor;
 import com.example.mahmoudsamir.schoolappand.verify_code.presenter.VerifyPhonePresenter;
 
@@ -43,6 +40,12 @@ public class VerificationCodeActivity extends AppCompatActivity implements Verif
                 verifyPhoneNumber();
             }
         });
+        resend_code.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resendVerificationCode();
+            }
+        });
 
     }
 
@@ -50,6 +53,12 @@ public class VerificationCodeActivity extends AppCompatActivity implements Verif
         // TODO get the national_id from sign-up activity intent
         presenter.verifyPhone(verification_code_edx.getText().toString(), "");
     }
+
+    private void resendVerificationCode() {
+        // TODO get the id from sign-up activity intent
+        presenter.resendVerificationCode("");
+    }
+
 
     @Override
     public void showProgress() {

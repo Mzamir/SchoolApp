@@ -7,6 +7,7 @@ import io.reactivex.Single;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ApiService {
 
@@ -34,4 +35,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/verify_code")
     Single<BaseResponse> verifyCode(@Field("code") String code ,  @Field("national_id") String national_id);
+
+    @POST("/resend_verification_code")
+    Single<BaseResponse> resendVerificationCode(@Path("") String id);
+
 }

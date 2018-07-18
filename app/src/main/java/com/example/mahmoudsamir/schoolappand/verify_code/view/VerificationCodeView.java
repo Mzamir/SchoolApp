@@ -1,4 +1,4 @@
-package com.example.mahmoudsamir.schoolappand.verify_code;
+package com.example.mahmoudsamir.schoolappand.verify_code.view;
 
 public interface VerificationCodeView {
 

@@ -1,6 +1,6 @@
 package com.example.mahmoudsamir.schoolappand.verify_code.presenter;
 
-import com.example.mahmoudsamir.schoolappand.verify_code.VerificationCodeView;
+import com.example.mahmoudsamir.schoolappand.verify_code.view.VerificationCodeView;
 
 public class VerifyPhonePresenter implements VerifyPhoneInteractor.OnVerifyPhoneFinishedListener {
 
@@ -17,6 +17,13 @@ public class VerifyPhonePresenter implements VerifyPhoneInteractor.OnVerifyPhone
             view.showProgress();
         }
         interactor.verifyPhone(code, national_id, this);
+    }
+
+    public void resendVerificationCode(String id) {
+        if (view != null) {
+            view.showProgress();
+        }
+        interactor.resendVerificationCode(id, this);
     }
 
     @Override

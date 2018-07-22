@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
-import com.example.mahmoudsamir.schoolappand.parent_home.ParentHomeActivity;
+import com.example.mahmoudsamir.schoolappand.helper_account.view.HelperSignupActivity;
+import com.example.mahmoudsamir.schoolappand.parent_home.view.ParentHomeActivity;
 import com.example.mahmoudsamir.schoolappand.R;
 import com.example.mahmoudsamir.schoolappand.parent_account.presenter.ParentRegistrationInteractor;
 import com.example.mahmoudsamir.schoolappand.parent_account.presenter.ParentSignupPresenter;
@@ -29,6 +31,12 @@ public class ParentSignupActivity extends AppCompatActivity implements ParentReg
     @BindView(R.id.password_edx)
     EditText password_edx;
 
+    @BindView(R.id.signup_as_helper)
+    TextView signup_as_helper;
+
+    @BindView(R.id.signin_btn)
+    TextView signin_btn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +48,18 @@ public class ParentSignupActivity extends AppCompatActivity implements ParentReg
             @Override
             public void onClick(View v) {
                 validateCredentials();
+            }
+        });
+        signup_as_helper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ParentSignupActivity.this, HelperSignupActivity.class));
+            }
+        });
+        signin_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ParentSignupActivity.this, ParentSignInActivity.class));
             }
         });
 
@@ -69,6 +89,16 @@ public class ParentSignupActivity extends AppCompatActivity implements ParentReg
     }
 
     private void validateCredentials() {
-        presenter.validateCredentials(id_number_edx.getText().toString(), password_edx.getText().toString());
+        boolean formComplete = true;
+        if (id_number_edx.getText().toString().isEmpty()) {
+            id_number_edx.setError(getResources().getString(R.string.empty_field));
+            formComplete = false;
+        }
+        if (password_edx.getText().toString().isEmpty()) {
+            password_edx.setError(getResources().getString(R.string.empty_field));
+            formComplete = false;
+        }
+        if (formComplete)
+            presenter.validateCredentials(id_number_edx.getText().toString(), password_edx.getText().toString());
     }
 }

@@ -7,8 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
-import com.example.mahmoudsamir.schoolappand.parent_home.ParentHomeActivity;
+import com.example.mahmoudsamir.schoolappand.parent_home.view.ParentHomeActivity;
 import com.example.mahmoudsamir.schoolappand.R;
 import com.example.mahmoudsamir.schoolappand.parent_account.presenter.ParentRegistrationInteractor;
 import com.example.mahmoudsamir.schoolappand.parent_account.presenter.ParentSignInPresenter;
@@ -28,6 +29,11 @@ public class ParentSignInActivity extends AppCompatActivity implements ParentReg
     @BindView(R.id.password_edx)
     EditText password_edx;
 
+    @BindView(R.id.signup_btn)
+    TextView signup_btn;
+
+    @BindView(R.id.forget_password)
+    TextView forget_password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,12 @@ public class ParentSignInActivity extends AppCompatActivity implements ParentReg
             @Override
             public void onClick(View v) {
                 validateCredentials();
+            }
+        });
+        signup_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ParentSignInActivity.this, ParentSignupActivity.class));
             }
         });
     }
@@ -68,6 +80,16 @@ public class ParentSignInActivity extends AppCompatActivity implements ParentReg
     }
 
     private void validateCredentials() {
-        presenter.validateCredentials(email_edx.getText().toString(), password_edx.getText().toString());
+        boolean formComplete = true;
+        if (email_edx.getText().toString().isEmpty()) {
+            email_edx.setError(getResources().getString(R.string.empty_field));
+            formComplete = false;
+        }
+        if (password_edx.getText().toString().isEmpty()) {
+            password_edx.setError(getResources().getString(R.string.empty_field));
+            formComplete = false;
+        }
+        if (formComplete)
+            presenter.validateCredentials(email_edx.getText().toString(), password_edx.getText().toString());
     }
 }

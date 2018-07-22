@@ -13,10 +13,6 @@
             android:icon="@mipmap/helper_ico"
             android:title="Add helper" />
         <item
-            android:id="@+id/nav_add_student"
-            android:icon="@mipmap/student_ico"
-            android:title="Add student" />
-        <item
             android:id="@+id/nav_setting"
             android:icon="@mipmap/setting_ico"
             android:title="Settings" />

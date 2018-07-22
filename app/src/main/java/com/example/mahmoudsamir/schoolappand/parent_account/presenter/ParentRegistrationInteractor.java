@@ -1,9 +1,13 @@
 package com.example.mahmoudsamir.schoolappand.parent_account.presenter;
 
+import android.util.Log;
+
 import com.example.mahmoudsamir.schoolappand.network.ApiClient;
 import com.example.mahmoudsamir.schoolappand.network.ApiService;
 import com.example.mahmoudsamir.schoolappand.network.BaseResponse;
+import com.example.mahmoudsamir.schoolappand.network.response.LoginResponse;
 import com.example.mahmoudsamir.schoolappand.network.response.ParentSignupResponse;
+import com.example.mahmoudsamir.schoolappand.utils.PrefUtils;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -12,6 +16,8 @@ import io.reactivex.schedulers.Schedulers;
 import static com.example.mahmoudsamir.schoolappand.MyApplication.getMyApplicationContext;
 
 public class ParentRegistrationInteractor {
+
+    String TAG = ParentRegistrationInteractor.class.getSimpleName();
 
     public interface OnParentSignInFinishedListener {
         void onError();
@@ -45,18 +51,28 @@ public class ParentRegistrationInteractor {
         ApiService apiService = ApiClient.getClient(getMyApplicationContext())
                 .create(ApiService.class);
 
+        Log.i(TAG, "parenetSignin");
         apiService.login(email, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<BaseResponse>() {
+                .subscribeWith(new DisposableSingleObserver<LoginResponse>() {
                     @Override
-                    public void onSuccess(BaseResponse parentSignInResponse) {
-                        listener.onSuccess();
+                    public void onSuccess(LoginResponse loginResponse) {
+                        if (loginResponse.getErrors() != null) {
+                            listener.onError();
+                            Log.i(TAG, "Error " + loginResponse.getErrors());
+                        } else if (loginResponse.getEmail() != null) {
+                            Log.i(TAG, "Success " + loginResponse.getEmail());
+                            PrefUtils.storeApiKey(getMyApplicationContext(), loginResponse.getToken());
+                            listener.onSuccess();
+                        }
+                        Log.i(TAG, "Success ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         listener.onError();
+                        Log.i(TAG, "onError " + e.getMessage().toString());
                     }
                 });
     }

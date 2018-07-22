@@ -25,4 +25,5 @@ public class CairoButton extends android.support.v7.widget.AppCompatButton{
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo.ttf");
         setTypeface(tf);
     }
+
 }

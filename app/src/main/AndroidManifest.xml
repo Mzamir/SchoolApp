@@ -2,13 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.mahmoudsamir.schoolappand">
 
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".SplashActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -18,24 +21,39 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".helper_account.view.HelperSignupActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
+            android:name=".helper_account.view.HelperSigninActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
             android:name=".parent_account.view.ParentSignInActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
         <activity
             android:name=".verify_code.view.VerificationCodeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".WaitingAcrivity" />
-        <activity android:name=".add_helper.view.AddHelperActivity" />
+
         <activity
-            android:name=".parent_home.ParentHomeActivity"
+            android:name=".add_helper.view.AddHelperActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".parent_home.view.ParentHomeActivity"
             android:label="@string/title_activity_parent_home"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity android:name=".ParentProfileActivity" />
+
         <activity android:name=".mentor_home.MentorHomeActivity" />
-        <activity android:name=".parent_account.view.ParentSignupActivity"></activity>
+
+        <activity
+            android:name=".parent_account.view.ParentSignupActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>

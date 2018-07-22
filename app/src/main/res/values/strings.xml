@@ -5,7 +5,7 @@
     <string name="welcome_message_splash">description description description description description description description description</string>
     <string name="skip_this">Skip this</string>
     <string name="email_hint">Email</string>
-    <string name="signup">Sign-Up!</string>
+    <string name="signup">Sign Up!</string>
     <string name="mobile_hint">Mobile number</string>
     <string name="id_number_hint">ID number</string>
     <string name="password_hint">Password</string>
@@ -18,7 +18,7 @@
     <string name="received_code_title">Received a Verification Code!</string>
     <string name="received_code_message">we are automatically sent you SMS on your mobile numeber</string>
     <string name="resend_code">Resend code</string>
-    <string name="forget_password">Forget password</string>
+    <string name="forget_password">Forget password?</string>
     <string name="welcome_user">Welcome Ahmed</string>
     <string name="add_first_helper">Please add your first helper to \n fill your profile</string>
     <string name="helper_username_hint">Username</string>
@@ -33,4 +33,12 @@
     <string name="action_settings">Settings</string>
     <string name="password_error">Incorrect password</string>
     <string name="id_number_error">Incorrect ID number</string>
+    <string name="dont_have_account">Don\'t have an account? </string>
+    <string name="create_new_one">Create new one! </string>
+    <string name="empty_field">Empty field</string>
+    <string name="helper">Helper?</string>
+    <string name="signup_here">Sign up here</string>
+    <string name="have_account">Already user?</string>
+    <string name="signup_as_helper">Sign Up as helper!</string>
+    <string name="signup_as_parent">Sign Up as parent!</string>
 </resources>

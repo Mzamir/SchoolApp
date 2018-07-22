@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".parent_home.ParentHomeActivity"
+    tools:context=".parent_home.view.ParentHomeActivity"
     tools:showIn="@layout/app_bar_parent_home">
 
 
@@ -24,13 +24,13 @@
             android:layout_height="wrap_content"
             android:scrollbars="horizontal"></android.support.v7.widget.RecyclerView>
 
-        <view
+        <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:background="@color/gray"
-            android:tint="@color/gray"></view>
+            android:tint="@color/gray"></View>
     </LinearLayout>
 
     <FrameLayout

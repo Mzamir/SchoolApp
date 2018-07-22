@@ -5,6 +5,7 @@ import com.example.mahmoudsamir.schoolappand.network.ApiClient;
 import com.example.mahmoudsamir.schoolappand.network.ApiService;
 import com.example.mahmoudsamir.schoolappand.network.BaseResponse;
 import com.example.mahmoudsamir.schoolappand.network.response.HelperSignupResponse;
+import com.example.mahmoudsamir.schoolappand.network.response.LoginResponse;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -26,9 +27,9 @@ public class HelperRegistrationInteractor {
         apiService.login(email, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<BaseResponse>() {
+                .subscribeWith(new DisposableSingleObserver<LoginResponse>() {
                     @Override
-                    public void onSuccess(BaseResponse baseResponse) {
+                    public void onSuccess(LoginResponse loginResponse) {
                         listener.onSuccess();
                     }
 
@@ -40,7 +41,7 @@ public class HelperRegistrationInteractor {
 
     }
 
-    void helperSignup(String name, String email, String password, String national_id, String phone , final OnRegistrationFinishedListener listener) {
+    void helperSignup(String name, String email, String password, String national_id, String phone, final OnRegistrationFinishedListener listener) {
         ApiService apiService = ApiClient.getClient(MyApplication.getMyApplicationContext())
                 .create(ApiService.class);
 

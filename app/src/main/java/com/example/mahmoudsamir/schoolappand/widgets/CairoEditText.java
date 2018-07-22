@@ -2,10 +2,10 @@ package com.example.mahmoudsamir.schoolappand.widgets;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import EditText;
 import android.util.AttributeSet;
+import android.widget.EditText;
 
-public class CairoEditText extends TextInputEditText{
+public class CairoEditText extends EditText{
 
     public CairoEditText(Context context) {
         super(context);

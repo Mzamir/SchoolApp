@@ -1,11 +1,12 @@
-package com.example.mahmoudsamir.schoolappand.network.response;
+package com.example.mahmoudsamir.schoolappand.parent_account.model;
 
+import android.support.annotation.Nullable;
 
-import com.google.gson.annotations.SerializedName;
+import com.example.mahmoudsamir.schoolappand.network.response.LoginResponse;
 
 import java.util.ArrayList;
 
-public class LoginResponse {
+public class ParentModel {
 
     int id;
     String name;
@@ -14,13 +15,9 @@ public class LoginResponse {
     String phone;
     String created_at;
     String updated_at;
-    // If status is ZERO verify phone first if ONE login.
-    int status;
     String authy_code;
-    String errors;
-    String token;
-
-    ArrayList<Roles> roles = new ArrayList<>();
+    String token ;
+    String role ;
 
     public int getId() {
         return id;
@@ -78,28 +75,12 @@ public class LoginResponse {
         this.updated_at = updated_at;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
     public String getAuthy_code() {
         return authy_code;
     }
 
     public void setAuthy_code(String authy_code) {
         this.authy_code = authy_code;
-    }
-
-    public String getErrors() {
-        return errors;
-    }
-
-    public void setErrors(String errors) {
-        this.errors = errors;
     }
 
     public String getToken() {
@@ -110,12 +91,11 @@ public class LoginResponse {
         this.token = token;
     }
 
-    public ArrayList<Roles> getRoles() {
-        return roles;
+    public String getRole() {
+        return role;
     }
 
-    public void setRoles(ArrayList<Roles> roles) {
-        this.roles = roles;
+    public void setRole(String role) {
+        this.role = role;
     }
-
 }

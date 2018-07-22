@@ -63,12 +63,12 @@
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/id_number">
 
-        <view
+        <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_margin="16dp"
             android:background="@color/gray"
-            android:tint="@color/gray"></view>
+            android:tint="@color/gray"></View>
 
         <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
             android:layout_width="wrap_content"
@@ -94,12 +94,12 @@
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/helpers_layout">
 
-        <view
+        <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_margin="16dp"
             android:background="@color/gray"
-            android:tint="@color/gray"></view>
+            android:tint="@color/gray"></View>
 
         <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
             android:layout_width="wrap_content"

@@ -7,8 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
-import com.example.mahmoudsamir.schoolappand.parent_home.ParentHomeActivity;
+import com.example.mahmoudsamir.schoolappand.parent_account.view.ParentSignupActivity;
+import com.example.mahmoudsamir.schoolappand.parent_home.view.ParentHomeActivity;
 import com.example.mahmoudsamir.schoolappand.R;
 import com.example.mahmoudsamir.schoolappand.helper_account.presenter.HelperRegistrationInteractor;
 import com.example.mahmoudsamir.schoolappand.helper_account.presenter.HelperSigninPresenter;
@@ -27,6 +29,9 @@ public class HelperSigninActivity extends AppCompatActivity implements HelperReg
     @BindView(R.id.password_edx)
     EditText password_edx;
 
+    @BindView(R.id.signup_btn)
+    TextView signup_btn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,13 @@ public class HelperSigninActivity extends AppCompatActivity implements HelperReg
             @Override
             public void onClick(View v) {
                 validateCredentials();
+            }
+        });
+
+        signup_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HelperSigninActivity.this, ParentSignupActivity.class));
             }
         });
     }

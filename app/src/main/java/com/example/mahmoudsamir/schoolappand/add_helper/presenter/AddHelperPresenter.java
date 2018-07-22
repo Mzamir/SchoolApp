@@ -23,14 +23,14 @@ public class AddHelperPresenter implements AddHelperInteractor.OnAddingHelperLis
     public void onError() {
         if (view != null) {
             view.hideProgress();
-            view.onErrorRegistration();
+            view.onErrorAddingHelper();
         }
     }
 
     @Override
     public void onSuccess() {
         if (view != null) {
-            view.navigateToParentHome();
+            view.onSuccessAddingHelper();
         }
     }
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ParentProfileActivity">
+    tools:context=".parent_flow.ParentProfileActivity">
 
     <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
         android:id="@+id/cairoTextView2"

@@ -9,8 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.mahmoudsamir.schoolappand.parent_account.view.ParentSignupActivity;
-import com.example.mahmoudsamir.schoolappand.parent_home.view.ParentHomeActivity;
+import com.example.mahmoudsamir.schoolappand.parent_flow.account.view.ParentSignupActivity;
+import com.example.mahmoudsamir.schoolappand.parent_flow.home.view.ParentHomeActivity;
 import com.example.mahmoudsamir.schoolappand.R;
 import com.example.mahmoudsamir.schoolappand.helper_account.presenter.HelperRegistrationInteractor;
 import com.example.mahmoudsamir.schoolappand.helper_account.presenter.HelperSigninPresenter;

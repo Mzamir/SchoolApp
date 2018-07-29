@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".add_helper.view.AddHelperActivity">
+    tools:context=".parent_flow.add_helper.view.AddHelperActivity">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

@@ -14,6 +14,7 @@ public class ParentSignupResponse {
     int status;
     String authy_code;
     String errors ;
+    String token ;
 
     public String getErrors() {
         return errors;
@@ -112,5 +113,11 @@ public class ParentSignupResponse {
         String updated_at;
     }
 
+    public String getToken() {
+        return token;
+    }
 
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

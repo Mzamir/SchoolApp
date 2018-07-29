@@ -1,20 +1,27 @@
 package com.example.mahmoudsamir.schoolappand.network;
 
+import com.example.mahmoudsamir.schoolappand.network.requests.ParentPickUpRequestModel;
 import com.example.mahmoudsamir.schoolappand.network.response.HelperSignupResponse;
 import com.example.mahmoudsamir.schoolappand.network.response.LoginResponse;
+import com.example.mahmoudsamir.schoolappand.network.response.ParentArrivedResponseModel;
+import com.example.mahmoudsamir.schoolappand.network.response.ParentPickUpResponseModel;
 import com.example.mahmoudsamir.schoolappand.network.response.ParentSignupResponse;
-import com.example.mahmoudsamir.schoolappand.network.response.UserSchoolsResponse;
+import com.example.mahmoudsamir.schoolappand.network.response.ParentSchoolsResponse;
+import com.example.mahmoudsamir.schoolappand.network.response.ParentStudentForASchoolResponse;
+
 
 import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.Single;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 public interface ApiService {
 
@@ -47,6 +54,16 @@ public interface ApiService {
     Single<BaseResponse> resendVerificationCode(@Path("") String id);
 
     @GET("schools")
-    Single<ArrayList<UserSchoolsResponse>> getUserSchools();
+    Single<ArrayList<ParentSchoolsResponse>> getParentSchools();
+
+    @GET
+    Single<ArrayList<ParentStudentForASchoolResponse>> getParentStudentsForASchool(@Url() String schoolID);
+
+    @POST("pick_request")
+    Single<ParentPickUpResponseModel> parentPickUpRequest(@Body ParentPickUpRequestModel pickUpRequestModel);
+
+    @FormUrlEncoded
+    @PUT("parent_arrived")
+    Single<ParentArrivedResponseModel> parentArrived(@Field("request_id") int request_id);
 
 }

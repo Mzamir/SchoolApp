@@ -8,21 +8,33 @@ public class BaseResponse {
     String errors;
     @Nullable
     String success;
+    @Nullable
+    String message;
 
-
-    public String getErros() {
+    @Nullable
+    public String getErrors() {
         return errors;
     }
 
-    public void setErros(String erros) {
-        this.errors = erros;
+    public void setErrors(@Nullable String errors) {
+        this.errors = errors;
     }
 
+    @Nullable
     public String getSuccess() {
         return success;
     }
 
-    public void setSuccess(String success) {
+    public void setSuccess(@Nullable String success) {
         this.success = success;
+    }
+
+    @Nullable
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(@Nullable String message) {
+        this.message = message;
     }
 }

@@ -1,6 +1,8 @@
 package com.example.mahmoudsamir.schoolappand.network.response;
 
-public class ParentArrivedResponseModel {
+import com.example.mahmoudsamir.schoolappand.network.BaseResponse;
+
+public class ParentArrivedResponseModel extends BaseResponse{
 
     int id ;
     int picker_id ;

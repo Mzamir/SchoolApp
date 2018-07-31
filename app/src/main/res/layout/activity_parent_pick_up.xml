@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context=".parent_flow.pick_up.ParentPickUpActivity">
+    tools:context=".parent_flow.pick_up.view.ParentPickUpActivity">
 
     <ImageView
         android:id="@+id/image"
@@ -23,14 +23,14 @@
 
     <Button
         android:id="@+id/pick_up"
-        android:layout_width="223dp"
+        android:layout_width="@dimen/main_button_width"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:backgroundTint="@color/colorPrimaryDark"
         android:background="@drawable/button_main_background"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:enabled="false"
         android:text="Pick Up !"
         android:textAllCaps="false"
-        android:enabled="false"
         android:textColor="@color/main_background_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

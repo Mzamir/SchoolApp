@@ -11,11 +11,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
+import com.example.mahmoudsamir.schoolappand.MyApplication;
 import com.example.mahmoudsamir.schoolappand.R;
+import com.example.mahmoudsamir.schoolappand.parent_flow.profile.ParentProfileActivity;
 import com.example.mahmoudsamir.schoolappand.parent_flow.account.view.ParentSignInActivity;
+import com.example.mahmoudsamir.schoolappand.parent_flow.add_helper.view.AddHelperActivity;
+import com.example.mahmoudsamir.schoolappand.utils.PrefUtils;
+import com.example.mahmoudsamir.schoolappand.utils.UserSettingsPreference;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.PARENT_ACTIVITY;
 
 public class ParentHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -23,21 +32,27 @@ public class ParentHomeActivity extends AppCompatActivity
     String TAG = ParentHomeActivity.class.getSimpleName();
 
     FragmentManager fragmentManager = getSupportFragmentManager();
+    Toolbar toolbar;
+
+    @BindView(R.id.toolbar_subtitle)
+    TextView toolbar_subtitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_home);
         ButterKnife.bind(this);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setIcon(R.mipmap.school_ico);
+//        getSupportActionBar().setIcon(R.mipmap.school_ico);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
+        toggle.setHomeAsUpIndicator(R.drawable.ic_menu);
         toggle.syncState();
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         fragmentManager.beginTransaction().replace(R.id.frameLayout, new ParentHomeFragment()).commit();
@@ -81,15 +96,28 @@ public class ParentHomeActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_home) {
-            startActivity(new Intent(ParentHomeActivity.this, ParentHomeActivity.class));
-        } else if (id == R.id.nav_add_helper) {
-
-        } else if (id == R.id.nav_setting) {
-
-        } else if (id == R.id.nav_logout) {
-            startActivity(new Intent(ParentHomeActivity.this, ParentSignInActivity.class));
+        Intent intent;
+        switch (id) {
+            case R.id.nav_home:
+                fragmentManager.beginTransaction().replace(R.id.frameLayout, new ParentHomeFragment()).commit();
+                break;
+            case R.id.nav_add_helper:
+                intent = new Intent(ParentHomeActivity.this, AddHelperActivity.class);
+                intent.putExtra(PARENT_ACTIVITY, ParentHomeActivity.class.getSimpleName());
+                startActivity(intent);
+                break;
+            case R.id.nav_setting:
+                intent = new Intent(ParentHomeActivity.this, ParentProfileActivity.class);
+                intent.putExtra(PARENT_ACTIVITY, ParentHomeActivity.class.getSimpleName());
+                startActivity(intent);
+                break;
+            case R.id.nav_logout:
+                startActivity(new Intent(ParentHomeActivity.this, ParentSignInActivity.class));
+                UserSettingsPreference.getUserSettingsSharedPreferences(MyApplication.getMyApplicationContext()).edit().clear().commit();
+                PrefUtils.getPrefUtilsSharedPreferences(MyApplication.getMyApplicationContext()).edit().clear().commit();
+                finish();
+                break;
+            default:
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

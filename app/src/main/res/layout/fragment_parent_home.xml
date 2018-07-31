@@ -49,12 +49,14 @@
 
     <Button
         android:id="@+id/startPickup"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/main_button_width"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
-        android:background="@color/green"
+        android:background="@drawable/button_main_background"
+        android:backgroundTint="@color/green"
+        android:elevation="5dp"
         android:text="Start"
         android:textAllCaps="false"
         android:textColor="@color/main_background_color" />

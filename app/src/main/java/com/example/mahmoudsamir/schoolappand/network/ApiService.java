@@ -66,4 +66,12 @@ public interface ApiService {
     @PUT("parent_arrived")
     Single<ParentArrivedResponseModel> parentArrived(@Field("request_id") int request_id);
 
+    @FormUrlEncoded
+    @PUT("report")
+    Single<BaseResponse> report(@Field("request_id") int request_id);
+
+    @FormUrlEncoded
+    @PUT("delivered")
+    Single<BaseResponse> delivered(@Field("request_id") int request_id);
+
 }

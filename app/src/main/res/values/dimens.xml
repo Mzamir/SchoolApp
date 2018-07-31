@@ -9,4 +9,5 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="marked_icon_dimen">30dp</dimen>
     <dimen name="recycler_image_dimen">65dp</dimen>
+    <dimen name="main_button_width">250dp</dimen>
 </resources>

@@ -6,7 +6,7 @@ public interface AddHelperView {
 
     void hideProgress();
 
-    void onErrorAddingHelper() ;
+    void onErrorAddingHelper(String errorMessage) ;
 
     void onSuccessAddingHelper();
 

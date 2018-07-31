@@ -1,0 +1,39 @@
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="@color/colorPrimary">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/media_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="new post image"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/profile_logo"
+            android:visibility="visible"
+            app:actualImageResource="@mipmap/profile_logo"
+            app:actualImageScaleType="centerCrop"
+            app:placeholderImage="@mipmap/profile_logo"
+            app:roundAsCircle="true" />
+
+        <TextView
+            android:id="@+id/toolbar_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="User Name"
+            android:textColor="@color/main_background_color"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+</android.support.v7.widget.Toolbar>

@@ -20,10 +20,10 @@ public class AddHelperPresenter implements AddHelperInteractor.OnAddingHelperLis
     }
 
     @Override
-    public void onError() {
+    public void onError(String errorMessage) {
         if (view != null) {
             view.hideProgress();
-            view.onErrorAddingHelper();
+            view.onErrorAddingHelper(errorMessage);
         }
     }
 

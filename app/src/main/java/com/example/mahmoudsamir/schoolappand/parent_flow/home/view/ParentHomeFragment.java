@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -32,14 +31,13 @@ import com.example.mahmoudsamir.schoolappand.parent_flow.home.model.SchoolModel;
 import com.example.mahmoudsamir.schoolappand.parent_flow.home.model.StudentModel;
 import com.example.mahmoudsamir.schoolappand.parent_flow.home.presenter.ParentHomeInteractor;
 import com.example.mahmoudsamir.schoolappand.parent_flow.home.presenter.ParentHomePresenter;
-import com.example.mahmoudsamir.schoolappand.parent_flow.pick_up.ParentPickUpActivity;
+import com.example.mahmoudsamir.schoolappand.parent_flow.pick_up.view.ParentPickUpActivity;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.content.Context.LOCATION_SERVICE;
 import static com.example.mahmoudsamir.schoolappand.utils.Constants.ERROR;
 import static com.example.mahmoudsamir.schoolappand.utils.Constants.PICK_REQUEST_ID;
 import static com.example.mahmoudsamir.schoolappand.utils.Constants.SELECTED_SCHOOL_MODEL;
@@ -79,7 +77,7 @@ public class ParentHomeFragment extends Fragment implements ParentHomeViewCommun
             @Override
             public void onClick(View v) {
                 if (checkGPSPermission()) {
-navigateToPickingScreen();
+                    navigateToPickingScreen();
                 }
             }
         });

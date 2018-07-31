@@ -3,7 +3,8 @@
     package="com.example.mahmoudsamir.schoolappand">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -33,7 +34,9 @@
         <activity
             android:name=".verify_code.view.VerificationCodeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".parent_flow.WaitingAcrivity" />
+        <activity
+            android:name=".parent_flow.waiting_student.view.ParentWaitingActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".parent_flow.add_helper.view.AddHelperActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
@@ -41,13 +44,16 @@
             android:name=".parent_flow.home.view.ParentHomeActivity"
             android:label="@string/title_activity_parent_home"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".parent_flow.ParentProfileActivity" />
+        <activity
+            android:name=".parent_flow.profile.ParentProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity android:name=".mentor_home.MentorHomeActivity" />
         <activity
             android:name=".parent_flow.account.view.ParentSignupActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".parent_flow.pick_up.ParentPickUpActivity"
+            android:name=".parent_flow.pick_up.view.ParentPickUpActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 

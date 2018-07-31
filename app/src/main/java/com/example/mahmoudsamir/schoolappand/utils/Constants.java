@@ -20,4 +20,14 @@ public class Constants {
     // Extra data
     public static final String PICK_REQUEST_ID = "pickUpRequestID";
     public static final String SELECTED_SCHOOL_MODEL = "selectedSchoolModel";
+    public static final String PARENT_ACTIVITY = "parentActivity";
+
+    // Pick up distance
+    public static final double ALLOWED_DISTANCE = 50.0;
+
+    // notification
+    public static final String NOTIFICATION_MESSAGE = "You are too close, You can now pick up your children";
+    public static final String NOTIFICATION_TITLE = "Pick up your children";
+    public static final String CHANEL_ID = "SchoolChanel";
+    public static final int NOTIFICATION_ID = 0;
 }

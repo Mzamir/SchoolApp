@@ -1,5 +1,7 @@
 package com.example.mahmoudsamir.schoolappand.verify_code.view;
 
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -30,6 +32,9 @@ public class VerificationCodeActivity extends AppCompatActivity implements Verif
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.main_background_color));
+//        }
         setContentView(R.layout.activity_verification_code);
         ButterKnife.bind(this);
         presenter = new VerifyPhonePresenter(this, new VerifyPhoneInteractor());

@@ -1,7 +1,9 @@
 package com.example.mahmoudsamir.schoolappand.parent_flow.add_helper.view;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -38,6 +40,10 @@ public class AddHelperActivity extends AppCompatActivity implements AddHelperVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.main_background_color));
+//        }
+
         setContentView(R.layout.activity_add_helper);
         ButterKnife.bind(this);
         presenter = new AddHelperPresenter(this, new AddHelperInteractor());

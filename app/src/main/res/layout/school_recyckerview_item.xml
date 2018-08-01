@@ -24,6 +24,7 @@
                 android:layout_height="150dp"
                 app:actualImageResource="@mipmap/logo"
                 app:placeholderImage="@mipmap/logo"
+                app:roundedCornerRadius="@dimen/roundedCornerRadius"
                 fresco:viewAspectRatio="1.33" />
 
             <ImageView

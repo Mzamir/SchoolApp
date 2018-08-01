@@ -1,7 +1,9 @@
 package com.example.mahmoudsamir.schoolappand.helper_account.view;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -44,6 +46,9 @@ public class HelperSignupActivity extends AppCompatActivity implements HelperReg
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.main_background_color));
+//        }
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN) ;
 //        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_helper_signup);
@@ -60,12 +65,14 @@ public class HelperSignupActivity extends AppCompatActivity implements HelperReg
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HelperSignupActivity.this, HelperSigninActivity.class));
+                finish();
             }
         });
         signup_as_helper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HelperSignupActivity.this, ParentSignupActivity.class));
+                finish();
             }
         });
     }

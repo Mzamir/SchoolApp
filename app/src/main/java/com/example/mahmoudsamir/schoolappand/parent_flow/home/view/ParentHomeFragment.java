@@ -76,8 +76,12 @@ public class ParentHomeFragment extends Fragment implements ParentHomeViewCommun
         startPickup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkGPSPermission()) {
-                    navigateToPickingScreen();
+                if (schoolsRecyclerAdapter.getSelecteSchoolID() >= 0 && studentRecyclerAdapter.getSelectedStudent().size() >= 0) {
+                    if (checkGPSPermission()) {
+                        navigateToPickingScreen();
+                    }
+                } else {
+                    showSnackBar("Select the school and your students first", false);
                 }
             }
         });
@@ -174,7 +178,7 @@ public class ParentHomeFragment extends Fragment implements ParentHomeViewCommun
                 } else {
                     boolean showRationale = shouldShowRequestPermissionRationale(permissions[0]);
                     if (!showRationale) {
-                        showSnackBar();
+                        showSnackBar("Permission Denied!", true);
                     } else if (Manifest.permission.ACCESS_FINE_LOCATION.equals(permissions[0])) {
                         Toast.makeText(getContext(), "Permission Denied!", Toast.LENGTH_SHORT).show();
                     }
@@ -206,20 +210,25 @@ public class ParentHomeFragment extends Fragment implements ParentHomeViewCommun
         ParentPickUpRequestModel parentPickUpRequestModel = new ParentPickUpRequestModel();
         parentPickUpRequestModel.setSchool_id(schoolsRecyclerAdapter.getSelecteSchoolID());
         parentPickUpRequestModel.setStudent_ids(studentRecyclerAdapter.getSelectedStudent());
+
         presenter.parentPickUpRequest(parentPickUpRequestModel);
     }
 
-    public void showSnackBar() {
+    public void showSnackBar(String message, boolean showAction) {
         Snackbar snackbar = Snackbar
-                .make(getActivity().findViewById(android.R.id.content), "Permission Needed", Snackbar.LENGTH_LONG);
-        snackbar.setAction("Grantee", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                        Uri.fromParts("package", getActivity().getPackageName(), null));
+                .make(getActivity().findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
+        snackbar.show();
+
+        if (showAction) {
+            snackbar.setAction("Grantee", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                            Uri.fromParts("package", getActivity().getPackageName(), null));
 //                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-        }).show();
+                    startActivity(intent);
+                }
+            });
+        }
     }
 }

@@ -2,7 +2,9 @@ package com.example.mahmoudsamir.schoolappand.parent_flow.waiting_student.view;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.CountDownTimer;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -37,6 +39,9 @@ public class ParentWaitingActivity extends AppCompatActivity implements ParentWa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.main_background_color));
+//        }
         setContentView(R.layout.activity_waiting_acrivity);
         ButterKnife.bind(this);
         presenter = new ParentWaitingPresenter(this, new ParentWaitingInteractor());

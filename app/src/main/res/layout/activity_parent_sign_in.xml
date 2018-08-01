@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_background_color"
     tools:context=".parent_flow.account.view.ParentSignInActivity">
 
 
@@ -82,9 +83,9 @@
         android:id="@+id/forget_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
         android:text="@string/forget_password"
         android:textColor="@color/gray"
         app:layout_constraintEnd_toEndOf="parent"
@@ -95,29 +96,30 @@
     <Button
         android:id="@+id/signin_btn"
         android:layout_width="@dimen/main_button_width"
-        android:background="@drawable/button_main_background"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_main_background"
         android:backgroundTint="@color/colorPrimary"
         android:gravity="center"
         android:text="@string/signin"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/forget_password"
         tools:ignore="MissingConstraints" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/signin_btn">
+        app:layout_constraintBottom_toBottomOf="parent" >
 
         <TextView
             android:layout_width="wrap_content"

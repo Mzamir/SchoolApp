@@ -1,4 +1,4 @@
-package com.example.mahmoudsamir.schoolappand.mentor_home;
+package com.example.mahmoudsamir.schoolappand.mentor_home.adapter;
 
 import android.content.Context;
 import android.net.Uri;
@@ -11,10 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mahmoudsamir.schoolappand.R;
+import com.example.mahmoudsamir.schoolappand.mentor_home.model.MentorStudentModel;
+import com.example.mahmoudsamir.schoolappand.mentor_home.view.MentorHomeViewCommunicator;
 import com.example.mahmoudsamir.schoolappand.parent_flow.home.model.StudentModel;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,11 +26,13 @@ import butterknife.ButterKnife;
 public class MentorStudentsRecyclerViewAdapter extends RecyclerView.Adapter<MentorStudentsRecyclerViewAdapter.StudentsViewHolderLayout> {
 
     Context context;
-    ArrayList<StudentModel> students = new ArrayList<>();
+    ArrayList<MentorStudentModel> students = new ArrayList<>();
+    MentorHomeViewCommunicator communicator;
 
-    public MentorStudentsRecyclerViewAdapter(Context context, ArrayList<StudentModel> schools) {
+    public MentorStudentsRecyclerViewAdapter(MentorHomeViewCommunicator communicator, Context context, ArrayList<MentorStudentModel> schools) {
         this.context = context;
         this.students = schools;
+        this.communicator = communicator;
     }
 
     @NonNull
@@ -39,7 +45,7 @@ public class MentorStudentsRecyclerViewAdapter extends RecyclerView.Adapter<Ment
 
     @Override
     public void onBindViewHolder(@NonNull StudentsViewHolderLayout holder, int position) {
-        final StudentModel studentModel = students.get(position);
+        final MentorStudentModel studentModel = students.get(position);
 
         if (studentModel.isMarked())
             holder.marked_icon.setVisibility(View.VISIBLE);
@@ -51,6 +57,7 @@ public class MentorStudentsRecyclerViewAdapter extends RecyclerView.Adapter<Ment
         }
         holder.student_class.setText(String.valueOf(studentModel.getClassID()));
         holder.student_name.setText(studentModel.getStudentName());
+        holder.student_state.setText(studentModel.getRequestState());
     }
 
     @Override
@@ -66,8 +73,9 @@ public class MentorStudentsRecyclerViewAdapter extends RecyclerView.Adapter<Ment
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
-                    StudentModel studentModel = students.get(position);
+                    MentorStudentModel studentModel = students.get(position);
                     studentModel.setMarked(!studentModel.isMarked());
+                    showDeliverAction();
                     notifyItemChanged(position);
                 }
             });
@@ -97,4 +105,24 @@ public class MentorStudentsRecyclerViewAdapter extends RecyclerView.Adapter<Ment
         }
     }
 
+    void showDeliverAction() {
+        for (MentorStudentModel model : students) {
+            if (model.isMarked()) {
+                communicator.showDeliveryAction(true);
+                return;
+            }
+        }
+        communicator.showDeliveryAction(false);
+    }
+
+    public ArrayList<Integer> getselectedRequestList() {
+        Set<Integer> selectedRequestList = new HashSet<>();
+        for (MentorStudentModel studentModel : students) {
+            if (studentModel.isMarked()) {
+                selectedRequestList.add(studentModel.getRequestId());
+            }
+        }
+        ArrayList<Integer> temp = new ArrayList<>(selectedRequestList);
+        return temp;
+    }
 }

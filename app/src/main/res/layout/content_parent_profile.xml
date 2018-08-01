@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".parent_flow.profile.ParentProfileActivity">
+    tools:context=".parent_flow.profile.view.ParentProfileActivity">
 
     <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
         android:id="@+id/cairoTextView2"
@@ -80,6 +80,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/helpers_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -111,6 +112,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/students_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

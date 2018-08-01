@@ -1,9 +1,11 @@
 package com.example.mahmoudsamir.schoolappand.parent_flow.home.view;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,7 +17,7 @@ import android.widget.TextView;
 
 import com.example.mahmoudsamir.schoolappand.MyApplication;
 import com.example.mahmoudsamir.schoolappand.R;
-import com.example.mahmoudsamir.schoolappand.parent_flow.profile.ParentProfileActivity;
+import com.example.mahmoudsamir.schoolappand.parent_flow.profile.view.ParentProfileActivity;
 import com.example.mahmoudsamir.schoolappand.parent_flow.account.view.ParentSignInActivity;
 import com.example.mahmoudsamir.schoolappand.parent_flow.add_helper.view.AddHelperActivity;
 import com.example.mahmoudsamir.schoolappand.utils.PrefUtils;
@@ -34,12 +36,15 @@ public class ParentHomeActivity extends AppCompatActivity
     FragmentManager fragmentManager = getSupportFragmentManager();
     Toolbar toolbar;
 
-    @BindView(R.id.toolbar_subtitle)
-    TextView toolbar_subtitle;
+    @BindView(R.id.toolbar_title)
+    TextView toolbar_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        }
         setContentView(R.layout.activity_parent_home);
         ButterKnife.bind(this);
         toolbar = findViewById(R.id.toolbar);

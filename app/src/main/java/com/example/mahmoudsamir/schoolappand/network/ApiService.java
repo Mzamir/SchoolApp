@@ -3,11 +3,14 @@ package com.example.mahmoudsamir.schoolappand.network;
 import com.example.mahmoudsamir.schoolappand.network.requests.ParentPickUpRequestModel;
 import com.example.mahmoudsamir.schoolappand.network.response.HelperSignupResponse;
 import com.example.mahmoudsamir.schoolappand.network.response.LoginResponse;
+import com.example.mahmoudsamir.schoolappand.network.response.MentorDeliverStudentsResponseModel;
+import com.example.mahmoudsamir.schoolappand.network.response.MentorQueueResponseModel;
 import com.example.mahmoudsamir.schoolappand.network.response.ParentArrivedResponseModel;
 import com.example.mahmoudsamir.schoolappand.network.response.ParentPickUpResponseModel;
 import com.example.mahmoudsamir.schoolappand.network.response.ParentSignupResponse;
 import com.example.mahmoudsamir.schoolappand.network.response.ParentSchoolsResponse;
 import com.example.mahmoudsamir.schoolappand.network.response.ParentStudentForASchoolResponse;
+import com.example.mahmoudsamir.schoolappand.network.response.UserProfileResponseModel;
 
 
 import java.util.ArrayList;
@@ -74,4 +77,13 @@ public interface ApiService {
     @PUT("delivered")
     Single<BaseResponse> delivered(@Field("request_id") int request_id);
 
+    @FormUrlEncoded
+    @PUT("mentor_deliver_students")
+    Single<ArrayList<MentorDeliverStudentsResponseModel>> mentorDliverStudentsAction(@Field("request_id") ArrayList<Integer> students_ids);
+
+    @GET("mentor_queue")
+    Single<ArrayList<MentorQueueResponseModel>> getMentorQueue();
+
+    @GET("user_profile")
+    Single<UserProfileResponseModel> getUserProfile();
 }

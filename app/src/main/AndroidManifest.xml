@@ -45,10 +45,10 @@
             android:label="@string/title_activity_parent_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".parent_flow.profile.ParentProfileActivity"
+            android:name=".parent_flow.profile.view.ParentProfileActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".mentor_home.MentorHomeActivity" />
+        <activity android:name=".mentor_home.view.MentorHomeActivity" />
         <activity
             android:name=".parent_flow.account.view.ParentSignupActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />

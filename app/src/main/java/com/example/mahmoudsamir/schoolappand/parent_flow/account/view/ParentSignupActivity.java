@@ -54,12 +54,14 @@ public class ParentSignupActivity extends AppCompatActivity implements ParentReg
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ParentSignupActivity.this, HelperSignupActivity.class));
+                finish();
             }
         });
         signin_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ParentSignupActivity.this, ParentSignInActivity.class));
+                finish();
             }
         });
 

@@ -42,7 +42,7 @@ public class SchoolsRecyclerAdapter extends RecyclerView.Adapter<SchoolsRecycler
         this.selectedSchoolModel = selectedSchoolModel;
     }
 
-    int selecteSchoolID;
+    int selecteSchoolID =-1;
     SchoolModel selectedSchoolModel;
 
     public SchoolsRecyclerAdapter(ParentHomeViewCommunicator view, Context context, ArrayList<SchoolModel> schools) {

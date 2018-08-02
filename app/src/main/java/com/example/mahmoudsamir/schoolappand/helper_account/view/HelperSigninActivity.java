@@ -9,8 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.mahmoudsamir.schoolappand.MainActivity;
 import com.example.mahmoudsamir.schoolappand.parent_flow.account.view.ParentSignupActivity;
-import com.example.mahmoudsamir.schoolappand.parent_flow.home.view.ParentHomeActivity;
 import com.example.mahmoudsamir.schoolappand.R;
 import com.example.mahmoudsamir.schoolappand.helper_account.presenter.HelperRegistrationInteractor;
 import com.example.mahmoudsamir.schoolappand.helper_account.presenter.HelperSigninPresenter;
@@ -74,7 +74,7 @@ public class HelperSigninActivity extends AppCompatActivity implements HelperReg
 
     @Override
     public void navigateToParentHome() {
-        startActivity(new Intent(this, ParentHomeActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 

@@ -1,6 +1,8 @@
 package com.example.mahmoudsamir.schoolappand.network.response;
 
 
+import java.util.ArrayList;
+
 public class ParentStudentForASchoolResponse {
     int id;
     String name;
@@ -9,7 +11,7 @@ public class ParentStudentForASchoolResponse {
     int class_id;
     String created_at;
     String updated_at;
-
+    ArrayList<ImagesResponseModel> images = new ArrayList<>();
     public int getId() {
         return id;
     }
@@ -64,5 +66,13 @@ public class ParentStudentForASchoolResponse {
 
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public ArrayList<ImagesResponseModel> getImages() {
+        return images;
+    }
+
+    public void setImages(ArrayList<ImagesResponseModel> images) {
+        this.images = images;
     }
 }

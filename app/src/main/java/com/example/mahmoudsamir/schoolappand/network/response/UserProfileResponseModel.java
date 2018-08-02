@@ -14,7 +14,7 @@ public class UserProfileResponseModel extends BaseResponse {
     String updated_at ;
     int status ;
     String authy_code ;
-    ArrayList<Roles> roles = new ArrayList<>() ;
+    ArrayList<RolesResponseModel> roles = new ArrayList<>() ;
     ArrayList<StudentResponseModel> students = new ArrayList<>() ;
     ArrayList<HelperResponseModel> helpers = new ArrayList<>() ;
 
@@ -90,11 +90,11 @@ public class UserProfileResponseModel extends BaseResponse {
         this.authy_code = authy_code;
     }
 
-    public ArrayList<Roles> getRoles() {
+    public ArrayList<RolesResponseModel> getRoles() {
         return roles;
     }
 
-    public void setRoles(ArrayList<Roles> roles) {
+    public void setRoles(ArrayList<RolesResponseModel> roles) {
         this.roles = roles;
     }
 

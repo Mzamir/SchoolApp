@@ -6,5 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".parent_flow.profile.view.ParentProfileActivity">
 
-    <include layout="@layout/app_bar_parent_profile"></include>
+    <!--<include layout="@layout/app_bar_parent_profile"></include>-->
+    <include layout="@layout/content_parent_profile" />
 </LinearLayout>

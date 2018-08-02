@@ -1,15 +1,9 @@
 package com.example.mahmoudsamir.schoolappand.database_mangament.model;
 
-import android.support.annotation.Nullable;
-
-import com.example.mahmoudsamir.schoolappand.network.response.LoginResponse;
-
-import java.util.ArrayList;
-
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class Parent extends RealmObject {
+public class User extends RealmObject {
 
     @PrimaryKey
     int id;
@@ -20,8 +14,9 @@ public class Parent extends RealmObject {
     String created_at;
     String updated_at;
     String authy_code;
-    String token ;
-    String role ;
+    String token;
+    String role;
+    String userType;
 
     public int getId() {
         return id;
@@ -101,5 +96,13 @@ public class Parent extends RealmObject {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 }

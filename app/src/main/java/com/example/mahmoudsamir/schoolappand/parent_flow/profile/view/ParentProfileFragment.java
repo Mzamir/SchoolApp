@@ -1,13 +1,19 @@
 package com.example.mahmoudsamir.schoolappand.parent_flow.profile.view;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,22 +22,19 @@ import com.example.mahmoudsamir.schoolappand.network.response.HelperResponseMode
 import com.example.mahmoudsamir.schoolappand.network.response.StudentResponseModel;
 import com.example.mahmoudsamir.schoolappand.network.response.UserProfileResponseModel;
 import com.example.mahmoudsamir.schoolappand.network.response.UserResponseModel;
-import com.example.mahmoudsamir.schoolappand.parent_flow.home.adapter.SchoolsRecyclerAdapter;
-import com.example.mahmoudsamir.schoolappand.parent_flow.home.adapter.StudentRecyclerAdapter;
 import com.example.mahmoudsamir.schoolappand.parent_flow.profile.adapter.ProfileHelpersRecyclerViewAdapter;
 import com.example.mahmoudsamir.schoolappand.parent_flow.profile.adapter.ProfileStudentRecyclerViewAdapter;
 import com.example.mahmoudsamir.schoolappand.parent_flow.profile.presenter.ParentProfileInteactor;
 import com.example.mahmoudsamir.schoolappand.parent_flow.profile.presenter.ParentProfilePresenter;
 import com.example.mahmoudsamir.schoolappand.utils.UserSettingsPreference;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.google.android.gms.common.data.DataBufferUtils;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ParentProfileActivity extends AppCompatActivity implements ParentProfileViewCommunicator {
+public class ParentProfileFragment extends Fragment implements ParentProfileViewCommunicator {
 
 
     // TODO  start implementation of this class when finishing of the realm scenario
@@ -39,10 +42,7 @@ public class ParentProfileActivity extends AppCompatActivity implements ParentPr
     ParentProfilePresenter prsenter;
     ArrayList<HelperResponseModel> helperList = new ArrayList<>();
     ArrayList<StudentResponseModel> studentsList = new ArrayList<>();
-    @BindView(R.id.user_profile_picture)
-    SimpleDraweeView user_profile_picture;
-    @BindView(R.id.user_profile_name)
-    TextView user_profile_name;
+
 
     @BindView(R.id.email_address)
     TextView email_address;
@@ -65,40 +65,37 @@ public class ParentProfileActivity extends AppCompatActivity implements ParentPr
     ProfileStudentRecyclerViewAdapter studentRecyclerViewAdapter;
     UserResponseModel userProfileModel;
 
+    Activity activity;
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        }
-        setContentView(R.layout.activity_parent_profile);
-        ButterKnife.bind(this);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_parent_profile, container, false);
+        ButterKnife.bind(this, view);
+        activity = getActivity();
         prsenter = new ParentProfilePresenter(this, new ParentProfileInteactor());
         initializeView();
-        userProfileModel = UserSettingsPreference.getSavedUserProfile(this);
+        userProfileModel = UserSettingsPreference.getSavedUserProfile(activity);
         bindBasicDateToViews(userProfileModel);
+
+        return view;
     }
 
     private void bindBasicDateToViews(UserResponseModel userProfileModel) {
-        if (userProfileModel.getImages().get(0) != null) {
-            Uri uri = Uri.parse(userProfileModel.getImages().get(0).getPath());
-            user_profile_picture.setImageURI(uri);
-        }
-        user_profile_name.setText(userProfileModel.getName());
         email_address.setText(userProfileModel.getEmail());
         phone_number.setText(userProfileModel.getPhone());
         id_number.setText(userProfileModel.getNational_id());
     }
 
     private void initializeView() {
-        helpersRecyclerViewAdapter = new ProfileHelpersRecyclerViewAdapter(this, this, helperList);
-        RecyclerView.LayoutManager schools_recyclerView_layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        helpersRecyclerViewAdapter = new ProfileHelpersRecyclerViewAdapter(this, activity, helperList);
+        RecyclerView.LayoutManager schools_recyclerView_layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
         helpers_recyclerView.setLayoutManager(schools_recyclerView_layoutManager);
         helpers_recyclerView.setItemAnimator(new DefaultItemAnimator());
         helpers_recyclerView.setAdapter(helpersRecyclerViewAdapter);
 
-        studentRecyclerViewAdapter = new ProfileStudentRecyclerViewAdapter(this, this, studentsList);
-        RecyclerView.LayoutManager students_recyclerView_layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        studentRecyclerViewAdapter = new ProfileStudentRecyclerViewAdapter(this, activity, studentsList);
+        RecyclerView.LayoutManager students_recyclerView_layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
         students_recyclerView.setLayoutManager(students_recyclerView_layoutManager);
         students_recyclerView.setItemAnimator(new DefaultItemAnimator());
         students_recyclerView.setAdapter(studentRecyclerViewAdapter);
@@ -131,10 +128,10 @@ public class ParentProfileActivity extends AppCompatActivity implements ParentPr
 
         this.studentsList = user.getStudents();
         this.helperList = user.getHelpers();
-        studentRecyclerViewAdapter = new ProfileStudentRecyclerViewAdapter(this, this, studentsList);
+        studentRecyclerViewAdapter = new ProfileStudentRecyclerViewAdapter(this, activity, studentsList);
         students_recyclerView.setAdapter(studentRecyclerViewAdapter);
 
-        helpersRecyclerViewAdapter = new ProfileHelpersRecyclerViewAdapter(this, this, helperList);
+        helpersRecyclerViewAdapter = new ProfileHelpersRecyclerViewAdapter(this, activity, helperList);
         helpers_recyclerView.setAdapter(helpersRecyclerViewAdapter);
 
         helpersRecyclerViewAdapter.notifyDataSetChanged();

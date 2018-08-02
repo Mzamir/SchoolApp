@@ -1,10 +1,7 @@
 package com.example.mahmoudsamir.schoolappand.parent_flow.waiting_student.view;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.os.Build;
 import android.os.CountDownTimer;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mahmoudsamir.schoolappand.R;
-import com.example.mahmoudsamir.schoolappand.parent_flow.home.view.ParentHomeActivity;
+import com.example.mahmoudsamir.schoolappand.MainActivity;
 import com.example.mahmoudsamir.schoolappand.parent_flow.waiting_student.presenter.ParentWaitingInteractor;
 import com.example.mahmoudsamir.schoolappand.parent_flow.waiting_student.presenter.ParentWaitingPresenter;
 
@@ -84,7 +81,7 @@ public class ParentWaitingActivity extends AppCompatActivity implements ParentWa
     @Override
     public void onSuccessDelivery(String successMessage) {
         Toast.makeText(this, successMessage, Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(ParentWaitingActivity.this, ParentHomeActivity.class));
+        startActivity(new Intent(ParentWaitingActivity.this, MainActivity.class));
         finish();
     }
 

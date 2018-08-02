@@ -7,7 +7,7 @@ import com.example.mahmoudsamir.schoolappand.network.ApiClient;
 import com.example.mahmoudsamir.schoolappand.network.ApiService;
 import com.example.mahmoudsamir.schoolappand.network.requests.ParentPickUpRequestModel;
 import com.example.mahmoudsamir.schoolappand.network.response.ParentPickUpResponseModel;
-import com.example.mahmoudsamir.schoolappand.network.response.ParentSchoolsResponse;
+import com.example.mahmoudsamir.schoolappand.network.response.SchoolsResponse;
 import com.example.mahmoudsamir.schoolappand.network.response.ParentStudentForASchoolResponse;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import static com.example.mahmoudsamir.schoolappand.utils.Constants.SERVER_ERROR
 public class ParentHomeInteractor {
 
     public interface OnGettingParentSchoolFinishedListener {
-        void onSuccessGettingParentSchools(ArrayList<ParentSchoolsResponse> parentSchoolsResponse);
+        void onSuccessGettingParentSchools(ArrayList<SchoolsResponse> schoolsResponse);
 
         void onSuccessGettingParentStudentsForASchool(ArrayList<ParentStudentForASchoolResponse> parentStudentForASchoolResponses);
 
@@ -39,9 +39,9 @@ public class ParentHomeInteractor {
         apiService.getParentSchools()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<ArrayList<ParentSchoolsResponse>>() {
+                .subscribe(new DisposableSingleObserver<ArrayList<SchoolsResponse>>() {
                     @Override
-                    public void onSuccess(ArrayList<ParentSchoolsResponse> parentSchoolsRespons) {
+                    public void onSuccess(ArrayList<SchoolsResponse> parentSchoolsRespons) {
                         if (parentSchoolsRespons == null || parentSchoolsRespons.size() == 0) {
                             listener.onError("Unauthenticated");
                         } else {

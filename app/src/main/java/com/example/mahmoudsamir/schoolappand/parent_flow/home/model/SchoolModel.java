@@ -14,6 +14,7 @@ public class SchoolModel implements Serializable {
     private String schoolUpdatedAt;
     private boolean marked ;
 
+
     public String getSchoolCover() {
         return schoolCover;
     }

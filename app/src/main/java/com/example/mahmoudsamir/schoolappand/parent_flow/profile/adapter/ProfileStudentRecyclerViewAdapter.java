@@ -1,6 +1,7 @@
 package com.example.mahmoudsamir.schoolappand.parent_flow.profile.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -41,12 +42,12 @@ public class ProfileStudentRecyclerViewAdapter extends RecyclerView.Adapter<Prof
 
     @Override
     public void onBindViewHolder(@NonNull SchoolsViewHolderLayout holder, int position) {
-        final StudentResponseModel schoolModel = students.get(position);
+        final StudentResponseModel studentModel = students.get(position);
 
-//        if (schoolModel.getSchoolCover() != null) {
-//            Uri uri = Uri.parse(schoolModel.getSchoolCover());
-//            holder.profile_picture.setImageURI(uri);
-//        }
+        if (studentModel.getImages().get(0) != null) {
+            Uri uri = Uri.parse(studentModel.getImages().get(0).getPath());
+            holder.profile_picture.setImageURI(uri);
+        }
     }
 
     @Override

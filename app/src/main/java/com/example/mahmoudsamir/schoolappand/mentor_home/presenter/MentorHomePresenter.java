@@ -68,7 +68,6 @@ public class MentorHomePresenter implements MentorHomeInteractor.onMentorHomeLis
     private ArrayList<MentorStudentModel> convertStudentsResponseToStudentModel(ArrayList<MentorQueueResponseModel> responseModels) {
         ArrayList<MentorStudentModel> studentModels = new ArrayList<>();
         for (MentorQueueResponseModel response : responseModels) {
-            MentorDeliverStudentsResponseModel requestModel = response.getMentorDeliverStudentsResponseModel();
             for (StudentResponseModel studentResponseModel : response.getStudents()) {
                 MentorStudentModel studentModel = new MentorStudentModel();
                 studentModel.setMarked(false);
@@ -79,8 +78,9 @@ public class MentorHomePresenter implements MentorHomeInteractor.onMentorHomeLis
                 studentModel.setClassID(studentResponseModel.getClass_id());
                 studentModel.setStudentCreatedAt(studentResponseModel.getCreated_at());
                 studentModel.setStudentUpdatedAt(studentResponseModel.getUpdated_at());
-                studentModel.setRequestId(requestModel.getId());
-                studentModel.setRequestState(requestModel.getStatus());
+                studentModel.setRequestId(response.getId());
+                studentModel.setRequestState(response.getStatus());
+                studentModel.setStudentPicture(studentResponseModel.getImages().get(0).getPath());
                 studentModels.add(studentModel);
             }
         }

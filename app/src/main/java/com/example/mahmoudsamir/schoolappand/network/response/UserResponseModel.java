@@ -1,12 +1,10 @@
 package com.example.mahmoudsamir.schoolappand.network.response;
 
-
-import com.google.gson.annotations.SerializedName;
+import com.example.mahmoudsamir.schoolappand.network.BaseResponse;
 
 import java.util.ArrayList;
 
-public class LoginResponse {
-
+public class UserResponseModel extends BaseResponse {
     int id;
     String name;
     String email;
@@ -14,13 +12,12 @@ public class LoginResponse {
     String phone;
     String created_at;
     String updated_at;
-    // If status is ZERO verify phone first if ONE login.
     int status;
     String authy_code;
-    String errors;
     String token;
-
-    ArrayList<Roles> roles = new ArrayList<>();
+    ArrayList<RolesResponseModel> roles = new ArrayList<>();
+    ArrayList<SchoolsResponse> schools = new ArrayList<>();
+    ArrayList<ImagesResponseModel> images = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -94,14 +91,6 @@ public class LoginResponse {
         this.authy_code = authy_code;
     }
 
-    public String getErrors() {
-        return errors;
-    }
-
-    public void setErrors(String errors) {
-        this.errors = errors;
-    }
-
     public String getToken() {
         return token;
     }
@@ -110,12 +99,27 @@ public class LoginResponse {
         this.token = token;
     }
 
-    public ArrayList<Roles> getRoles() {
+    public ArrayList<RolesResponseModel> getRoles() {
         return roles;
     }
 
-    public void setRoles(ArrayList<Roles> roles) {
+    public void setRoles(ArrayList<RolesResponseModel> roles) {
         this.roles = roles;
     }
 
+    public ArrayList<SchoolsResponse> getSchools() {
+        return schools;
+    }
+
+    public void setSchools(ArrayList<SchoolsResponse> schools) {
+        this.schools = schools;
+    }
+
+    public ArrayList<ImagesResponseModel> getImages() {
+        return images;
+    }
+
+    public void setImages(ArrayList<ImagesResponseModel> images) {
+        this.images = images;
+    }
 }

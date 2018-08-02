@@ -1,16 +1,14 @@
 package com.example.mahmoudsamir.schoolappand.network;
 
 import com.example.mahmoudsamir.schoolappand.network.requests.ParentPickUpRequestModel;
-import com.example.mahmoudsamir.schoolappand.network.response.HelperSignupResponse;
-import com.example.mahmoudsamir.schoolappand.network.response.LoginResponse;
 import com.example.mahmoudsamir.schoolappand.network.response.MentorDeliverStudentsResponseModel;
 import com.example.mahmoudsamir.schoolappand.network.response.MentorQueueResponseModel;
 import com.example.mahmoudsamir.schoolappand.network.response.ParentArrivedResponseModel;
 import com.example.mahmoudsamir.schoolappand.network.response.ParentPickUpResponseModel;
-import com.example.mahmoudsamir.schoolappand.network.response.ParentSignupResponse;
-import com.example.mahmoudsamir.schoolappand.network.response.ParentSchoolsResponse;
+import com.example.mahmoudsamir.schoolappand.network.response.SchoolsResponse;
 import com.example.mahmoudsamir.schoolappand.network.response.ParentStudentForASchoolResponse;
 import com.example.mahmoudsamir.schoolappand.network.response.UserProfileResponseModel;
+import com.example.mahmoudsamir.schoolappand.network.response.UserResponseModel;
 
 
 import java.util.ArrayList;
@@ -23,14 +21,13 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 import retrofit2.http.Url;
 
 public interface ApiService {
 
     @FormUrlEncoded
     @POST("signup_parent")
-    Single<ParentSignupResponse> signUpParent(@Field("national_id") String national_id, @Field("password") String password);
+    Single<UserResponseModel> signUpParent(@Field("national_id") String national_id, @Field("password") String password);
 
     @FormUrlEncoded
     @POST("add_helper")
@@ -38,7 +35,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("signup_helper")
-    Single<HelperSignupResponse> signupHelper(@Field("name") String name
+    Single<UserResponseModel> signupHelper(@Field("name") String name
             , @Field("email") String email
             , @Field("password") String password
             , @Field("national_id") String national_id
@@ -47,7 +44,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("login")
-    Single<LoginResponse> login(@Field("email") String email, @Field("password") String password);
+    Single<UserResponseModel> login(@Field("email") String email, @Field("password") String password);
 
     @FormUrlEncoded
     @POST("verify_code")
@@ -57,8 +54,9 @@ public interface ApiService {
     Single<BaseResponse> resendVerificationCode(@Path("") String id);
 
     @GET("schools")
-    Single<ArrayList<ParentSchoolsResponse>> getParentSchools();
+    Single<ArrayList<SchoolsResponse>> getParentSchools();
 
+    // Get students for specific school
     @GET
     Single<ArrayList<ParentStudentForASchoolResponse>> getParentStudentsForASchool(@Url() String schoolID);
 

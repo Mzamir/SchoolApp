@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.mahmoudsamir.schoolappand.helper_account.view.HelperSignupActivity;
-import com.example.mahmoudsamir.schoolappand.parent_flow.home.view.ParentHomeActivity;
+import com.example.mahmoudsamir.schoolappand.MainActivity;
 import com.example.mahmoudsamir.schoolappand.R;
 import com.example.mahmoudsamir.schoolappand.parent_flow.account.presenter.ParentRegistrationInteractor;
 import com.example.mahmoudsamir.schoolappand.parent_flow.account.presenter.ParentSignupPresenter;
@@ -86,7 +86,7 @@ public class ParentSignupActivity extends AppCompatActivity implements ParentReg
 
     @Override
     public void navigateToParentHome() {
-        startActivity(new Intent(this, ParentHomeActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 

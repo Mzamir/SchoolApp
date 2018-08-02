@@ -3,12 +3,19 @@ package com.example.mahmoudsamir.schoolappand.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.mahmoudsamir.schoolappand.network.response.UserResponseModel;
+import com.example.mahmoudsamir.schoolappand.parent_flow.profile.model.UserProfileModel;
+import com.google.gson.Gson;
+
+import static com.example.mahmoudsamir.schoolappand.MyApplication.getMyApplicationContext;
 import static com.example.mahmoudsamir.schoolappand.utils.Constants.PARENT_USER_TYPE;
 import static com.example.mahmoudsamir.schoolappand.utils.Constants.SHARED_USER_LOGGING_STATE;
 import static com.example.mahmoudsamir.schoolappand.utils.Constants.SHARED_USER_SETTING;
 import static com.example.mahmoudsamir.schoolappand.utils.Constants.SHARED_USER_TYPE;
 
 public class UserSettingsPreference {
+
+    private static final String SHARED_USER_PROFILE = "userProfile";
 
     public static SharedPreferences getUserSettingsSharedPreferences(Context context) {
         return context.getSharedPreferences(SHARED_USER_SETTING, Context.MODE_PRIVATE);
@@ -34,4 +41,27 @@ public class UserSettingsPreference {
         return getUserSettingsSharedPreferences(context).getString(SHARED_USER_TYPE, PARENT_USER_TYPE);
     }
 
+    public static void saveUserProfile(Context context, UserResponseModel userProfileModel) {
+        try {
+            SharedPreferences.Editor editor = getUserSettingsSharedPreferences(context).edit();
+            Gson gson = new Gson();
+            String json = gson.toJson(userProfileModel);
+            editor.putString(SHARED_USER_PROFILE, json);
+            editor.commit();
+            UserSettingsPreference.setUserType(getMyApplicationContext(), userProfileModel.getRoles().get(0).getName());
+        } catch (Exception e) {
+
+        }
+    }
+
+    public static UserResponseModel getSavedUserProfile(Context context) {
+        try {
+            Gson gson = new Gson();
+            String json = getUserSettingsSharedPreferences(context).getString(SHARED_USER_PROFILE, null);
+            UserResponseModel userProfileModel = gson.fromJson(json, UserResponseModel.class);
+            return userProfileModel;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

@@ -1,11 +1,6 @@
-package com.example.mahmoudsamir.schoolappand.network.response;
+package com.example.mahmoudsamir.schoolappand.parent_flow.profile.model;
 
-import com.example.mahmoudsamir.schoolappand.network.BaseResponse;
-
-import java.util.ArrayList;
-
-public class HelperSignupResponse extends BaseResponse {
-
+public class UserProfileModel {
     int id;
     String name;
     String email;
@@ -13,8 +8,10 @@ public class HelperSignupResponse extends BaseResponse {
     String phone;
     String created_at;
     String updated_at;
-    String token;
-
+    String authy_code;
+    String token ;
+    String role ;
+    String userType ;
 
     public int getId() {
         return id;
@@ -72,6 +69,14 @@ public class HelperSignupResponse extends BaseResponse {
         this.updated_at = updated_at;
     }
 
+    public String getAuthy_code() {
+        return authy_code;
+    }
+
+    public void setAuthy_code(String authy_code) {
+        this.authy_code = authy_code;
+    }
+
     public String getToken() {
         return token;
     }
@@ -79,5 +84,20 @@ public class HelperSignupResponse extends BaseResponse {
     public void setToken(String token) {
         this.token = token;
     }
-}
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+}

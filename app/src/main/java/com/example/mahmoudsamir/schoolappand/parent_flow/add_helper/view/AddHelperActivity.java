@@ -1,9 +1,7 @@
 package com.example.mahmoudsamir.schoolappand.parent_flow.add_helper.view;
 
 import android.content.Intent;
-import android.os.Build;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,10 +10,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mahmoudsamir.schoolappand.MainActivity;
 import com.example.mahmoudsamir.schoolappand.R;
 import com.example.mahmoudsamir.schoolappand.parent_flow.add_helper.presenter.AddHelperInteractor;
 import com.example.mahmoudsamir.schoolappand.parent_flow.add_helper.presenter.AddHelperPresenter;
-import com.example.mahmoudsamir.schoolappand.parent_flow.home.view.ParentHomeActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -94,7 +92,7 @@ public class AddHelperActivity extends AppCompatActivity implements AddHelperVie
     }
 
     private void navigateToHomeActivity() {
-        Intent intent = new Intent(AddHelperActivity.this, ParentHomeActivity.class);
+        Intent intent = new Intent(AddHelperActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();

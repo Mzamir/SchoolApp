@@ -4,8 +4,8 @@ import android.util.Log;
 
 import com.example.mahmoudsamir.schoolappand.network.ApiClient;
 import com.example.mahmoudsamir.schoolappand.network.ApiService;
-import com.example.mahmoudsamir.schoolappand.network.response.LoginResponse;
-import com.example.mahmoudsamir.schoolappand.network.response.ParentSignupResponse;
+import com.example.mahmoudsamir.schoolappand.network.response.UserResponseModel;
+import com.example.mahmoudsamir.schoolappand.parent_flow.profile.model.UserProfileModel;
 import com.example.mahmoudsamir.schoolappand.utils.PrefUtils;
 import com.example.mahmoudsamir.schoolappand.utils.UserSettingsPreference;
 
@@ -14,6 +14,9 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.example.mahmoudsamir.schoolappand.MyApplication.getMyApplicationContext;
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.HELPER_USER_TYPE;
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.MENTOR_USER_TYPE;
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.PARENT_USER_TYPE;
 
 public class ParentRegistrationInteractor {
 
@@ -34,16 +37,17 @@ public class ParentRegistrationInteractor {
         apiService.signUpParent(national_id, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<ParentSignupResponse>() {
+                .subscribe(new DisposableSingleObserver<UserResponseModel>() {
                     @Override
-                    public void onSuccess(ParentSignupResponse parentSignupResponse) {
-                        if (parentSignupResponse.getErrors() != null) {
+                    public void onSuccess(UserResponseModel userResponseModel) {
+                        if (userResponseModel.getErrors() != null) {
                             listener.onError();
-                            Log.i(TAG, "Error " + parentSignupResponse.getErrors());
-                        } else if (parentSignupResponse.getEmail() != null) {
-                            Log.i(TAG, "Success " + parentSignupResponse.getEmail());
-                            PrefUtils.storeApiKey(getMyApplicationContext(), parentSignupResponse.getToken());
+                            Log.i(TAG, "Error " + userResponseModel.getErrors());
+                        } else if (userResponseModel.getEmail() != null) {
+                            Log.i(TAG, "Success " + userResponseModel.getEmail());
+                            PrefUtils.storeApiKey(getMyApplicationContext(), userResponseModel.getToken());
                             UserSettingsPreference.updateLoginState(getMyApplicationContext(), true);
+                            UserSettingsPreference.saveUserProfile(getMyApplicationContext(), userResponseModel);
                             listener.onSuccess();
                         }
                         Log.i(TAG, "Success ");
@@ -64,16 +68,17 @@ public class ParentRegistrationInteractor {
         apiService.login(email, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<LoginResponse>() {
+                .subscribe(new DisposableSingleObserver<UserResponseModel>() {
                     @Override
-                    public void onSuccess(LoginResponse loginResponse) {
-                        if (loginResponse.getErrors() != null) {
+                    public void onSuccess(UserResponseModel userResponseModel) {
+                        if (userResponseModel.getErrors() != null) {
                             listener.onError();
-                            Log.i(TAG, "Error " + loginResponse.getErrors());
-                        } else if (loginResponse.getEmail() != null) {
-                            Log.i(TAG, "Success " + loginResponse.getEmail());
-                            PrefUtils.storeApiKey(getMyApplicationContext(), loginResponse.getToken());
+                            Log.i(TAG, "Error " + userResponseModel.getErrors());
+                        } else if (userResponseModel.getEmail() != null) {
+                            Log.i(TAG, "Success " + userResponseModel.getEmail());
+                            PrefUtils.storeApiKey(getMyApplicationContext(), userResponseModel.getToken());
                             UserSettingsPreference.updateLoginState(getMyApplicationContext(), true);
+                            UserSettingsPreference.saveUserProfile(getMyApplicationContext(), userResponseModel);
                             listener.onSuccess();
                         }
                         Log.i(TAG, "Success ");
@@ -86,4 +91,26 @@ public class ParentRegistrationInteractor {
                     }
                 });
     }
+
+    private UserProfileModel convertResponseToUserProfileObject(UserResponseModel loginResponse) {
+        UserProfileModel user = new UserProfileModel();
+        user.setId(loginResponse.getId());
+        user.setName(loginResponse.getName());
+        user.setEmail(loginResponse.getEmail());
+        user.setNational_id(loginResponse.getNational_id());
+        user.setPhone(loginResponse.getPhone());
+        user.setCreated_at(loginResponse.getCreated_at());
+        user.setUpdated_at(loginResponse.getUpdated_at());
+        user.setAuthy_code(loginResponse.getAuthy_code());
+        user.setToken(loginResponse.getToken());
+        if (loginResponse.getRoles().get(0).getName().equals("parent")) {
+            user.setRole(PARENT_USER_TYPE);
+        } else if (loginResponse.getRoles().get(0).getName().equals("helper")) {
+            user.setRole(HELPER_USER_TYPE);
+        } else if (loginResponse.getRoles().get(0).getName().equals("mentor")) {
+            user.setRole(MENTOR_USER_TYPE);
+        }
+        return user;
+    }
+
 }

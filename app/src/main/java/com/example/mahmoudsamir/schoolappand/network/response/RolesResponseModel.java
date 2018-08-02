@@ -1,6 +1,6 @@
 package com.example.mahmoudsamir.schoolappand.network.response;
 
-public class Roles {
+public class RolesResponseModel {
     int id;
     String name;
     String created_at;

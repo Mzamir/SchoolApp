@@ -2,6 +2,8 @@ package com.example.mahmoudsamir.schoolappand.network.response;
 
 import android.support.annotation.Nullable;
 
+import java.util.ArrayList;
+
 public class StudentResponseModel {
 
     int id;
@@ -12,6 +14,8 @@ public class StudentResponseModel {
     int class_id;
     String created_at;
     String updated_at;
+
+    ArrayList<ImagesResponseModel> images = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -68,5 +72,13 @@ public class StudentResponseModel {
 
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public ArrayList<ImagesResponseModel> getImages() {
+        return images;
+    }
+
+    public void setImages(ArrayList<ImagesResponseModel> images) {
+        this.images = images;
     }
 }

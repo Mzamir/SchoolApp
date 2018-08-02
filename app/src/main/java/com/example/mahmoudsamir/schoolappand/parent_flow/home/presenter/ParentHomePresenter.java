@@ -2,7 +2,7 @@ package com.example.mahmoudsamir.schoolappand.parent_flow.home.presenter;
 
 import com.example.mahmoudsamir.schoolappand.network.requests.ParentPickUpRequestModel;
 import com.example.mahmoudsamir.schoolappand.network.response.ParentPickUpResponseModel;
-import com.example.mahmoudsamir.schoolappand.network.response.ParentSchoolsResponse;
+import com.example.mahmoudsamir.schoolappand.network.response.SchoolsResponse;
 import com.example.mahmoudsamir.schoolappand.network.response.ParentStudentForASchoolResponse;
 import com.example.mahmoudsamir.schoolappand.parent_flow.home.model.SchoolModel;
 import com.example.mahmoudsamir.schoolappand.parent_flow.home.model.StudentModel;
@@ -39,11 +39,11 @@ public class ParentHomePresenter implements ParentHomeInteractor.OnGettingParent
     }
 
     @Override
-    public void onSuccessGettingParentSchools(ArrayList<ParentSchoolsResponse> parentSchoolsResponse) {
+    public void onSuccessGettingParentSchools(ArrayList<SchoolsResponse> schoolsResponse) {
         if (view != null) {
             view.hideProgress();
-            if (parentSchoolsResponse != null && parentSchoolsResponse.size() > 0)
-                view.onSuccessGettingSchool(convertResponseToModel(parentSchoolsResponse));
+            if (schoolsResponse != null && schoolsResponse.size() > 0)
+                view.onSuccessGettingSchool(convertResponseToModel(schoolsResponse));
         }
     }
 
@@ -69,6 +69,11 @@ public class ParentHomePresenter implements ParentHomeInteractor.OnGettingParent
         ArrayList<StudentModel> studentModels = new ArrayList<>();
         for (ParentStudentForASchoolResponse response : parentStudentForASchoolResponses) {
             StudentModel studentModel = new StudentModel();
+            if (response.getImages() != null) {
+                if (response.getImages().size() > 0) {
+                    studentModel.setStudentPicture(response.getImages().get(0).getPath());
+                }
+            }
             studentModel.setMarked(false);
             studentModel.setStudentID(response.getId());
             studentModel.setStudentName(response.getName());
@@ -90,18 +95,23 @@ public class ParentHomePresenter implements ParentHomeInteractor.OnGettingParent
         }
     }
 
-    private ArrayList<SchoolModel> convertResponseToModel(ArrayList<ParentSchoolsResponse> parentSchoolsRespons) {
+    private ArrayList<SchoolModel> convertResponseToModel(ArrayList<SchoolsResponse> schoolsResponseList) {
         ArrayList<SchoolModel> schoolModels = new ArrayList<>();
-        for (ParentSchoolsResponse parentSchoolsResponse : parentSchoolsRespons) {
+        for (SchoolsResponse schoolsResponse : schoolsResponseList) {
             SchoolModel schoolModel = new SchoolModel();
+            if (schoolsResponse.getImages() != null) {
+                if (schoolsResponse.getImages().size() > 0) {
+                    schoolModel.setSchoolCover(schoolsResponse.getImages().get(0).getPath());
+                }
+            }
             schoolModel.setMarked(false);
-            schoolModel.setSchoolTitle(parentSchoolsResponse.getName());
-            schoolModel.setschoolAddress(parentSchoolsResponse.getAddress());
-            schoolModel.setschoolID(parentSchoolsResponse.getId());
-            schoolModel.setschoolCreatedAt(parentSchoolsResponse.getCreated_at());
-            schoolModel.setschoolUpdatedAt(parentSchoolsResponse.getUpdated_at());
-            schoolModel.setschoolLong(parentSchoolsResponse.getLongitude());
-            schoolModel.setschoolLat(parentSchoolsResponse.getLat());
+            schoolModel.setSchoolTitle(schoolsResponse.getName());
+            schoolModel.setschoolAddress(schoolsResponse.getAddress());
+            schoolModel.setschoolID(schoolsResponse.getId());
+            schoolModel.setschoolCreatedAt(schoolsResponse.getCreated_at());
+            schoolModel.setschoolUpdatedAt(schoolsResponse.getUpdated_at());
+            schoolModel.setschoolLong(schoolsResponse.getLongitude());
+            schoolModel.setschoolLat(schoolsResponse.getLat());
             schoolModels.add(schoolModel);
         }
         return schoolModels;

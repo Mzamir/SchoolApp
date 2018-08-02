@@ -2,6 +2,8 @@ package com.example.mahmoudsamir.schoolappand.network.response;
 
 import android.support.annotation.Nullable;
 
+import java.util.ArrayList;
+
 public class HelperResponseModel {
     int id;
     String name;
@@ -14,6 +16,7 @@ public class HelperResponseModel {
     @Nullable
     String authy_code;
 
+    ArrayList<ImagesResponseModel> images = new ArrayList<>();
     public int getId() {
         return id;
     }
@@ -85,5 +88,13 @@ public class HelperResponseModel {
 
     public void setAuthy_code(@Nullable String authy_code) {
         this.authy_code = authy_code;
+    }
+
+    public ArrayList<ImagesResponseModel> getImages() {
+        return images;
+    }
+
+    public void setImages(ArrayList<ImagesResponseModel> images) {
+        this.images = images;
     }
 }

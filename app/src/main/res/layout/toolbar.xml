@@ -7,26 +7,31 @@
     app:navigationIcon="@drawable/ic_menu">
 
     <LinearLayout
+        android:id="@+id/parent_toolbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/media_image"
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/toolbar_logo"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:contentDescription="new post image"
             android:scaleType="centerCrop"
             android:src="@mipmap/school_ico"
-            android:visibility="visible" />
+            android:visibility="visible"
+            app:actualImageScaleType="centerCrop"
+            app:placeholderImage="@mipmap/school_ico" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_gravity="center"
             android:layout_marginEnd="5dp"
+            android:layout_marginStart="10dp"
             android:orientation="vertical">
 
             <TextView
@@ -46,9 +51,89 @@
                 android:layout_marginTop="5dp"
                 android:text="Select the school and students you want to pick up and start"
                 android:textColor="@color/main_background_color"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="visible" />
         </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/profile_toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/user_profile_picture"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:adjustViewBounds="true"
+            android:contentDescription="new post image"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/profile_logo"
+            android:visibility="visible"
+            app:actualImageResource="@mipmap/profile_logo"
+            app:actualImageScaleType="centerCrop"
+            app:placeholderImage="@mipmap/profile_logo"
+            app:roundAsCircle="true" />
+
+        <TextView
+            android:id="@+id/user_profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:gravity="center_vertical"
+            android:text="User Name"
+            android:textColor="@color/main_background_color"
+            android:textSize="16sp" />
+    </LinearLayout>
+    <!--<LinearLayout-->
+    <!--android:id="@+id/mentor_toolbar_layout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/media_image"-->
+    <!--android:layout_width="60dp"-->
+    <!--android:layout_height="60dp"-->
+    <!--android:adjustViewBounds="true"-->
+    <!--android:contentDescription="new post image"-->
+    <!--android:scaleType="centerCrop"-->
+    <!--android:src="@mipmap/school_ico"-->
+    <!--android:visibility="visible" />-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginStart="10dp"-->
+    <!--android:layout_marginEnd="5dp"-->
+    <!--android:orientation="vertical">-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/toolbar_title"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="top"-->
+    <!--android:text="Schools"-->
+    <!--android:textColor="@color/main_background_color"-->
+    <!--android:textSize="18sp" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/toolbar_subtitle"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="top"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:text="Select the school and students you want to pick up and start"-->
+    <!--android:textColor="@color/main_background_color"-->
+    <!--android:textSize="14sp" />-->
+    <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
 
 
 </android.support.v7.widget.Toolbar>

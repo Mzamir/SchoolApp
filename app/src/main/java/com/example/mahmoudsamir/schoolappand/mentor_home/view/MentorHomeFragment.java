@@ -1,14 +1,20 @@
 package com.example.mahmoudsamir.schoolappand.mentor_home.view;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,10 +24,6 @@ import com.example.mahmoudsamir.schoolappand.mentor_home.adapter.MentorStudentsR
 import com.example.mahmoudsamir.schoolappand.mentor_home.model.MentorStudentModel;
 import com.example.mahmoudsamir.schoolappand.mentor_home.presenter.MentorHomeInteractor;
 import com.example.mahmoudsamir.schoolappand.mentor_home.presenter.MentorHomePresenter;
-import com.example.mahmoudsamir.schoolappand.network.response.MentorQueueResponseModel;
-import com.example.mahmoudsamir.schoolappand.parent_flow.home.adapter.SchoolsRecyclerAdapter;
-import com.example.mahmoudsamir.schoolappand.parent_flow.home.adapter.StudentRecyclerAdapter;
-import com.example.mahmoudsamir.schoolappand.parent_flow.home.model.StudentModel;
 import com.google.firebase.messaging.RemoteMessage;
 import com.pusher.pushnotifications.PushNotificationReceivedListener;
 import com.pusher.pushnotifications.PushNotifications;
@@ -32,12 +34,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.example.mahmoudsamir.schoolappand.utils.Constants.ERROR;
-import static com.example.mahmoudsamir.schoolappand.utils.Constants.PUSHER_API_CLUSTER;
-import static com.example.mahmoudsamir.schoolappand.utils.Constants.PUSHER_API_KEY;
 
-public class MentorHomeActivity extends AppCompatActivity implements MentorHomeViewCommunicator {
+public class MentorHomeFragment extends Fragment implements MentorHomeViewCommunicator {
 
-    String TAG = MentorHomeActivity.class.getSimpleName();
+    Activity activity;
+    String TAG = MentorHomeFragment.class.getSimpleName();
     ArrayList<MentorStudentModel> studentList = new ArrayList<>();
     MentorHomePresenter presenter;
     @BindView(R.id.students_recyclerView)
@@ -52,14 +53,16 @@ public class MentorHomeActivity extends AppCompatActivity implements MentorHomeV
 
     MentorStudentsRecyclerViewAdapter studentRecyclerAdapter;
 
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_mentor_home, container, false);
+        activity = getActivity();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            activity.getWindow().setStatusBarColor(ContextCompat.getColor(activity, R.color.colorPrimary));
         }
-        setContentView(R.layout.activity_mentor_home);
-        ButterKnife.bind(this);
+        ButterKnife.bind(this, view);
         presenter = new MentorHomePresenter(this, new MentorHomeInteractor());
         initializeView();
         deliver_students.setOnClickListener(new View.OnClickListener() {
@@ -68,12 +71,13 @@ public class MentorHomeActivity extends AppCompatActivity implements MentorHomeV
                 performDeliverAction();
             }
         });
+        return view;
     }
 
     private void initializeView() {
 
-        studentRecyclerAdapter = new MentorStudentsRecyclerViewAdapter(this, this, studentList);
-        RecyclerView.LayoutManager students_recyclerView_layoutManager = new LinearLayoutManager(this);
+        studentRecyclerAdapter = new MentorStudentsRecyclerViewAdapter(this, activity, studentList);
+        RecyclerView.LayoutManager students_recyclerView_layoutManager = new LinearLayoutManager(activity);
         students_recyclerView.setLayoutManager(students_recyclerView_layoutManager);
         students_recyclerView.setItemAnimator(new DefaultItemAnimator());
         students_recyclerView.setAdapter(studentRecyclerAdapter);
@@ -102,7 +106,7 @@ public class MentorHomeActivity extends AppCompatActivity implements MentorHomeV
     @Override
     public void onSuccessGettingStudents(ArrayList<MentorStudentModel> studentList) {
         this.studentList = studentList;
-        studentRecyclerAdapter = new MentorStudentsRecyclerViewAdapter(this, this, studentList);
+        studentRecyclerAdapter = new MentorStudentsRecyclerViewAdapter(this, activity, studentList);
         students_recyclerView.setAdapter(studentRecyclerAdapter);
     }
 
@@ -113,7 +117,7 @@ public class MentorHomeActivity extends AppCompatActivity implements MentorHomeV
 
     @Override
     public void onError() {
-        Toast.makeText(this, ERROR, Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, ERROR, Toast.LENGTH_SHORT).show();
     }
 
     private void performDeliverAction() {
@@ -125,9 +129,9 @@ public class MentorHomeActivity extends AppCompatActivity implements MentorHomeV
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
-        PushNotifications.setOnMessageReceivedListenerForVisibleActivity(this, new PushNotificationReceivedListener() {
+        PushNotifications.setOnMessageReceivedListenerForVisibleActivity(activity, new PushNotificationReceivedListener() {
             @Override
             public void onMessageReceived(RemoteMessage remoteMessage) {
                 String messagePayload = remoteMessage.getData().get("myMessagePayload");
@@ -141,6 +145,8 @@ public class MentorHomeActivity extends AppCompatActivity implements MentorHomeV
             }
         });
     }
+
+
     //    private void initializePushNotification() {
 //        PusherOptions options = new PusherOptions();
 //        options.setCluster(PUSHER_API_CLUSTER);

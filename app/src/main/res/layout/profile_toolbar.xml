@@ -2,19 +2,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
-    android:background="@color/colorPrimary">
+    android:layout_height="100dp"
+    android:background="@color/colorPrimary"
+    android:gravity="center_vertical">
 
     <LinearLayout
+        android:id="@+id/profile_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/user_profile_picture"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:adjustViewBounds="true"
             android:contentDescription="new post image"
             android:scaleType="centerCrop"
@@ -22,15 +24,18 @@
             android:visibility="visible"
             app:actualImageResource="@mipmap/profile_logo"
             app:actualImageScaleType="centerCrop"
+            android:layout_gravity="center_vertical"
             app:placeholderImage="@mipmap/profile_logo"
             app:roundAsCircle="true" />
 
         <TextView
             android:id="@+id/user_profile_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_marginStart="10dp"
             android:text="User Name"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
             android:textColor="@color/main_background_color"
             android:textSize="16sp" />
     </LinearLayout>

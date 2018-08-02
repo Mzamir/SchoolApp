@@ -3,9 +3,7 @@ package com.example.mahmoudsamir.schoolappand.helper_account.presenter;
 import com.example.mahmoudsamir.schoolappand.MyApplication;
 import com.example.mahmoudsamir.schoolappand.network.ApiClient;
 import com.example.mahmoudsamir.schoolappand.network.ApiService;
-import com.example.mahmoudsamir.schoolappand.network.BaseResponse;
-import com.example.mahmoudsamir.schoolappand.network.response.HelperSignupResponse;
-import com.example.mahmoudsamir.schoolappand.network.response.LoginResponse;
+import com.example.mahmoudsamir.schoolappand.network.response.UserResponseModel;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -27,9 +25,9 @@ public class HelperRegistrationInteractor {
         apiService.login(email, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<LoginResponse>() {
+                .subscribe(new DisposableSingleObserver<UserResponseModel>() {
                     @Override
-                    public void onSuccess(LoginResponse loginResponse) {
+                    public void onSuccess(UserResponseModel loginResponse) {
                         listener.onSuccess();
                     }
 
@@ -48,9 +46,9 @@ public class HelperRegistrationInteractor {
         apiService.signupHelper(name, email, password, national_id, phone)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<HelperSignupResponse>() {
+                .subscribe(new DisposableSingleObserver<UserResponseModel>() {
                     @Override
-                    public void onSuccess(HelperSignupResponse helperSignupResponse) {
+                    public void onSuccess(UserResponseModel helperSignupResponse) {
                         listener.onSuccess();
                     }
 

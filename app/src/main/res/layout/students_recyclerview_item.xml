@@ -17,7 +17,7 @@
             android:id="@+id/student_picture"
             android:layout_width="@dimen/recycler_image_dimen"
             android:layout_height="@dimen/recycler_image_dimen"
-            android:tint="@color/colorPrimary"
+            app:actualImageScaleType="centerCrop"
             app:actualImageResource="@mipmap/school_ico"
             app:placeholderImage="@mipmap/school_ico"
             app:roundedCornerRadius="@dimen/roundedCornerRadius"

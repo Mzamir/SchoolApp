@@ -2,7 +2,9 @@ package com.example.mahmoudsamir.schoolappand.network.response;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ParentSchoolsResponse {
+import java.util.ArrayList;
+
+public class SchoolsResponse {
     int id;
     String name;
     String address;
@@ -12,6 +14,7 @@ public class ParentSchoolsResponse {
     String created_at;
     String updated_at;
     String phone;
+    ArrayList<ImagesResponseModel> images = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -76,5 +79,14 @@ public class ParentSchoolsResponse {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public ArrayList<ImagesResponseModel> getImages() {
+        return images;
+    }
+
+    public void setImages(ArrayList<ImagesResponseModel> images) {
+        this.images = images;
+    }
+
 }
 

@@ -22,6 +22,7 @@
                 android:id="@+id/school_cover"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
+                android:src="@mipmap/logo"
                 app:actualImageResource="@mipmap/logo"
                 app:placeholderImage="@mipmap/logo"
                 app:roundedCornerRadius="@dimen/roundedCornerRadius"
@@ -44,7 +45,7 @@
         android:textColor="@color/black"
         android:textStyle="bold" />
 
-    <TextView
+    <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
         android:id="@+id/school_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,0 +1,12 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:drawable="@drawable/ic_waiting_annimation"
+    tools:targetApi="lollipop">
+    <target
+        android:name="rotationGroup"
+        android:animation="@anim/rotation" />
+    <target
+        android:name="path1"
+        android:animation="@anim/path_morph" />
+
+</animated-vector>

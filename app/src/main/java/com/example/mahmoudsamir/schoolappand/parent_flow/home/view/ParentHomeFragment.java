@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.example.mahmoudsamir.schoolappand.utils.Constants.ERROR;
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.GENERAL_ERROR;
 import static com.example.mahmoudsamir.schoolappand.utils.Constants.PICK_REQUEST_ID;
 import static com.example.mahmoudsamir.schoolappand.utils.Constants.SELECTED_SCHOOL_MODEL;
 
@@ -76,7 +76,7 @@ public class ParentHomeFragment extends Fragment implements ParentHomeViewCommun
         startPickup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (schoolsRecyclerAdapter.getSelecteSchoolID() >= 0 && studentRecyclerAdapter.getSelectedStudent().size() >= 0) {
+                if (schoolsRecyclerAdapter.getSelecteSchoolID() >= 0 && studentRecyclerAdapter.getSelectedStudent().size() > 0) {
                     if (checkGPSPermission()) {
                         navigateToPickingScreen();
                     }
@@ -139,9 +139,10 @@ public class ParentHomeFragment extends Fragment implements ParentHomeViewCommun
             Intent intent = new Intent(getActivity(), ParentPickUpActivity.class);
             intent.putExtra(PICK_REQUEST_ID, responseModel.getid());
             intent.putExtra(SELECTED_SCHOOL_MODEL, schoolsRecyclerAdapter.getSelectedSchoolModel());
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP) ;
             startActivity(intent);
         } else {
-            Toast.makeText(getContext(), ERROR, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), GENERAL_ERROR, Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -155,7 +156,7 @@ public class ParentHomeFragment extends Fragment implements ParentHomeViewCommun
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
-                showExplanation("Permission Needed", "Location", Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_PERMISSION_GPS_STATE);
+                showExplanation("Permission Needed", "In order to continue and start picking your students, We need your permission to access the location service", Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_PERMISSION_GPS_STATE);
             } else {
                 requestPermission(Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_PERMISSION_GPS_STATE);
             }

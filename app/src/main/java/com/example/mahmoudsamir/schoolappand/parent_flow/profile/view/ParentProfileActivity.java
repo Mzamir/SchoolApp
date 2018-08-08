@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,10 +32,10 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.HELPER_USER_TYPE;
+
 public class ParentProfileActivity extends AppCompatActivity implements ParentProfileViewCommunicator {
 
-
-    // TODO  start implementation of this class when finishing of the realm scenario
 
     ParentProfilePresenter prsenter;
     ArrayList<HelperResponseModel> helperList = new ArrayList<>();
@@ -76,6 +77,9 @@ public class ParentProfileActivity extends AppCompatActivity implements ParentPr
         prsenter = new ParentProfilePresenter(this, new ParentProfileInteactor());
         initializeView();
         userProfileModel = UserSettingsPreference.getSavedUserProfile(this);
+        if (userProfileModel.getRoles().get(0).getName().equals(HELPER_USER_TYPE)) {
+            helpers_layout.setVisibility(View.GONE);
+        }
         bindBasicDateToViews(userProfileModel);
     }
 

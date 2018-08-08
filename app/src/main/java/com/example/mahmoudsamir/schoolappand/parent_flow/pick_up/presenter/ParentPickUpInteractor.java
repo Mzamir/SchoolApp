@@ -1,5 +1,7 @@
 package com.example.mahmoudsamir.schoolappand.parent_flow.pick_up.presenter;
 
+import android.util.Log;
+
 import com.example.mahmoudsamir.schoolappand.MyApplication;
 import com.example.mahmoudsamir.schoolappand.network.ApiClient;
 import com.example.mahmoudsamir.schoolappand.network.ApiService;
@@ -10,6 +12,8 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class ParentPickUpInteractor {
+
+    String TAG = ParentPickUpInteractor.class.getSimpleName();
 
     public interface onPickerArrivedListener {
         void onSuccess(ParentArrivedResponseModel parentArrivedResponseModel);
@@ -26,17 +30,18 @@ public class ParentPickUpInteractor {
                 .subscribeOn(Schedulers.io())
                 .subscribe(new DisposableSingleObserver<ParentArrivedResponseModel>() {
                     @Override
-                    public void onSuccess(ParentArrivedResponseModel responseModel) {
-                        if (responseModel.getMessage() != null) {
+                    public void onSuccess(ParentArrivedResponseModel response) {
+                        if (response.getMessage() == null && response.getErrors() == null)
+                            listener.onSuccess(response);
+                        else {
                             listener.onError();
-                        } else {
-                            listener.onSuccess(responseModel);
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         listener.onError();
+                        Log.i(TAG, "onError " + e.getMessage());
                     }
                 });
     }

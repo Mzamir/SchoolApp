@@ -22,7 +22,7 @@ public class CairoButton extends android.support.v7.widget.AppCompatButton{
     }
 
     public void init() {
-        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo.ttf");
+        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo-Regular.ttf");
         setTypeface(tf);
     }
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SchoolAppAnd</string>
+    <string name="app_name">Blue Ride</string>
     <string name="art_work">art_work</string>
     <string name="welcome_to_school">Welcome to school</string>
     <string name="welcome_message_splash">description description description description description description description description</string>
@@ -41,7 +41,8 @@
     <string name="have_account">Already user?</string>
     <string name="signup_as_helper">Sign Up as helper!</string>
     <string name="signup_as_parent">Sign Up as parent!</string>
-
+    <string name="switch_account">Switch account</string>
+    <string name="school_title">Schools\nSelect the school to start picking up your students</string>
 
 
 </resources>

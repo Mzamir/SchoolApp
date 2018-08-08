@@ -13,13 +13,17 @@ import com.example.mahmoudsamir.schoolappand.MainActivity;
 import com.example.mahmoudsamir.schoolappand.parent_flow.account.view.ParentSignupActivity;
 import com.example.mahmoudsamir.schoolappand.R;
 import com.example.mahmoudsamir.schoolappand.helper_account.presenter.HelperRegistrationInteractor;
-import com.example.mahmoudsamir.schoolappand.helper_account.presenter.HelperSigninPresenter;
+import com.example.mahmoudsamir.schoolappand.helper_account.presenter.HelperRegistrationPresenter;
+import com.example.mahmoudsamir.schoolappand.utils.UserSettingsPreference;
+import com.example.mahmoudsamir.schoolappand.verify_code.view.VerificationCodeActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.USER_NATIONAL_ID;
+
 public class HelperSigninActivity extends AppCompatActivity implements HelperRegistrationView {
-    HelperSigninPresenter presenter;
+    HelperRegistrationPresenter presenter;
     @BindView(R.id.signin_btn)
     Button signin_btn;
 
@@ -38,7 +42,7 @@ public class HelperSigninActivity extends AppCompatActivity implements HelperReg
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_sign_in);
         ButterKnife.bind(this);
-        presenter = new HelperSigninPresenter(this, new HelperRegistrationInteractor());
+        presenter = new HelperRegistrationPresenter(this, new HelperRegistrationInteractor());
 
         signin_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,16 +70,24 @@ public class HelperSigninActivity extends AppCompatActivity implements HelperReg
     }
 
     @Override
-    public void onErrorRegistration() {
+    public void onErrorRegistration(String errorMessage) {
         Snackbar snackbar = Snackbar
-                .make(findViewById(android.R.id.content), "Invalid ID-Number or password", Snackbar.LENGTH_LONG);
+                .make(findViewById(android.R.id.content), errorMessage, Snackbar.LENGTH_LONG);
         snackbar.show();
     }
 
     @Override
-    public void navigateToParentHome() {
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
+    public void navigateToParentHome(int status) {
+        if (status == 0) {
+            Intent intent = new Intent(this, VerificationCodeActivity.class);
+            intent.putExtra(USER_NATIONAL_ID, UserSettingsPreference.getSavedUserProfile(this).getNational_id());
+            startActivity(intent);
+            finish();
+        } else {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void validateCredentials() {

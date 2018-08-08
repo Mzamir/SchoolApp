@@ -8,52 +8,70 @@
     tools:context=".mentor_home.view.MentorHomeActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="start"
-            android:text="Student requests" />
-
-        <TextView
-            android:id="@+id/number_of_student_requests"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="end"
-            android:text="24" />
-    </LinearLayout>
-
-    <FrameLayout
+        android:id="@+id/mentor_students_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="16dp"
-        android:layout_weight="1">
+        android:orientation="vertical"
+        android:visibility="visible">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/students_recyclerView"
+        <LinearLayout
+            android:id="@+id/number_of_student_requests_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:orientation="horizontal">
+
+            <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="Student requests" />
+
+            <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
+                android:id="@+id/number_of_student_requests"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="0" />
+        </LinearLayout>
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/schools_layout"></android.support.v7.widget.RecyclerView>
+            android:layout_margin="16dp"
+            android:layout_weight="1">
 
-        <Button
-            android:id="@+id/deliver_students"
-            android:layout_width="@dimen/main_button_width"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            android:background="@drawable/button_main_background"
-            android:backgroundTint="@color/green"
-            android:text="Deliver"
-            android:textAllCaps="false"
-            android:textColor="@color/main_background_color"
-            android:visibility="invisible" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/students_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/schools_layout"></android.support.v7.widget.RecyclerView>
 
-    </FrameLayout>
+            <com.example.mahmoudsamir.schoolappand.widgets.CairoButton
+                android:id="@+id/deliver_students"
+                android:layout_width="@dimen/main_button_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:background="@drawable/button_main_background"
+                android:backgroundTint="@color/green"
+                android:text="Deliver"
+                android:textAllCaps="false"
+                android:textColor="@color/main_background_color"
+                android:visibility="invisible" />
+
+        </FrameLayout>
+    </LinearLayout>
+
+    <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
+        android:id="@+id/no_students_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="There is no pending students right now"
+        android:textSize="20dp"
+        android:visibility="gone" />
 </LinearLayout>

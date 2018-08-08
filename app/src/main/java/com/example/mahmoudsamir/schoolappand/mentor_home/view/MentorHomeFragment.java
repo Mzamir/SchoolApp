@@ -1,6 +1,5 @@
 package com.example.mahmoudsamir.schoolappand.mentor_home.view;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.example.mahmoudsamir.schoolappand.utils.Constants.ERROR;
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.GENERAL_ERROR;
 
 public class MentorHomeFragment extends Fragment implements MentorHomeViewCommunicator {
 
@@ -53,6 +53,14 @@ public class MentorHomeFragment extends Fragment implements MentorHomeViewCommun
 
     MentorStudentsRecyclerViewAdapter studentRecyclerAdapter;
 
+    @BindView(R.id.mentor_students_layout)
+    LinearLayout mentor_students_layout;
+
+    @BindView(R.id.number_of_student_requests_layout)
+    LinearLayout number_of_student_requests_layout;
+
+    @BindView(R.id.no_students_tv)
+    TextView no_students_tv;
 
     @Nullable
     @Override
@@ -85,6 +93,16 @@ public class MentorHomeFragment extends Fragment implements MentorHomeViewCommun
 
     }
 
+    private void showStudentRecyclerView(boolean show) {
+        if (show) {
+            mentor_students_layout.setVisibility(View.VISIBLE);
+            no_students_tv.setVisibility(View.GONE);
+        } else {
+            mentor_students_layout.setVisibility(View.GONE);
+            no_students_tv.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
     public void showProgress() {
 
@@ -104,20 +122,27 @@ public class MentorHomeFragment extends Fragment implements MentorHomeViewCommun
     }
 
     @Override
-    public void onSuccessGettingStudents(ArrayList<MentorStudentModel> studentList) {
-        this.studentList = studentList;
-        studentRecyclerAdapter = new MentorStudentsRecyclerViewAdapter(this, activity, studentList);
-        students_recyclerView.setAdapter(studentRecyclerAdapter);
+    public void onSuccessGettingStudents(ArrayList<MentorStudentModel> studentList, int requestsCounter) {
+        if (studentList.size() > 0) {
+            showStudentRecyclerView(true);
+            this.studentList = studentList;
+            studentRecyclerAdapter = new MentorStudentsRecyclerViewAdapter(this, activity, studentList);
+            students_recyclerView.setAdapter(studentRecyclerAdapter);
+            setStudentList(studentList);
+            number_of_student_requests.setText(String.valueOf(requestsCounter));
+        } else {
+            showStudentRecyclerView(false);
+        }
     }
 
     @Override
     public void onSuccessDeliverAction() {
-
+        removeDeliveredStudents();
     }
 
     @Override
     public void onError() {
-        Toast.makeText(activity, ERROR, Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
     }
 
     private void performDeliverAction() {
@@ -125,7 +150,7 @@ public class MentorHomeFragment extends Fragment implements MentorHomeViewCommun
     }
 
     private void removeDeliveredStudents() {
-
+        presenter.getMentorStudent();
     }
 
     @Override
@@ -142,24 +167,16 @@ public class MentorHomeFragment extends Fragment implements MentorHomeViewCommun
                     Log.i(TAG, messagePayload);
                     // Now update the UI based on your message payload!
                 }
+                removeDeliveredStudents();
             }
         });
     }
 
+    public ArrayList<MentorStudentModel> getStudentList() {
+        return studentList;
+    }
 
-    //    private void initializePushNotification() {
-//        PusherOptions options = new PusherOptions();
-//        options.setCluster(PUSHER_API_CLUSTER);
-//        Pusher pusher = new Pusher(PUSHER_API_KEY, options);
-//        Channel channel = pusher.subscribe("my-channel");
-//
-//        channel.bind("my-event", new SubscriptionEventListener() {
-//            @Override
-//            public void onEvent(String channelName, String eventName, final String data) {
-////                System.out.println(data);
-//            }
-//        });
-//        pusher.connect();
-//    }
-
+    public void setStudentList(ArrayList<MentorStudentModel> studentList) {
+        this.studentList = studentList;
+    }
 }

@@ -10,9 +10,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
         android:background="@color/main_background_color"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/student_picture"
@@ -38,7 +38,7 @@
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
-            <TextView
+            <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
                 android:id="@+id/student_class"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,13 +52,12 @@
             android:layout_height="match_parent"
             android:gravity="right|center_vertical">
 
-            <TextView
+            <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
                 android:id="@+id/student_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:gravity="center"
+                android:layout_marginEnd="10dp"
                 android:text="Pending"
                 android:textColor="@color/green"
                 android:textSize="16sp"
@@ -68,7 +67,6 @@
                 android:id="@+id/marked_icon"
                 android:layout_width="@dimen/marked_icon_dimen"
                 android:layout_height="@dimen/marked_icon_dimen"
-                android:layout_weight="1"
                 android:src="@mipmap/marked_blue" />
         </LinearLayout>
     </LinearLayout>

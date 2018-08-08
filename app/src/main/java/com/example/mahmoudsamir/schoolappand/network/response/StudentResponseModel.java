@@ -10,7 +10,6 @@ public class StudentResponseModel {
     String name;
     String national_id;
     int school_id;
-    @Nullable
     int class_id;
     String created_at;
     String updated_at;

@@ -2,6 +2,7 @@ package com.example.mahmoudsamir.schoolappand;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -19,10 +20,14 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mahmoudsamir.schoolappand.mentor_home.view.MentorHomeFragment;
+import com.example.mahmoudsamir.schoolappand.mentor_home.view.MentorPendingFragment;
 import com.example.mahmoudsamir.schoolappand.network.response.UserResponseModel;
 import com.example.mahmoudsamir.schoolappand.parent_flow.home.view.ParentHomeFragment;
 import com.example.mahmoudsamir.schoolappand.parent_flow.profile.model.UserProfileModel;
@@ -44,6 +49,7 @@ import static com.example.mahmoudsamir.schoolappand.utils.Constants.PARENT_ACTIV
 import static com.example.mahmoudsamir.schoolappand.utils.Constants.PARENT_USER_TYPE;
 import static com.example.mahmoudsamir.schoolappand.utils.Constants.USER_TYPE;
 import static com.example.mahmoudsamir.schoolappand.utils.UserSettingsPreference.getUserType;
+import static com.example.mahmoudsamir.schoolappand.utils.UserSettingsPreference.setUserType;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -51,6 +57,7 @@ public class MainActivity extends AppCompatActivity
     String TAG = MainActivity.class.getSimpleName();
 
     FragmentManager fragmentManager = getSupportFragmentManager();
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
 
     @BindView(R.id.user_profile_picture)
@@ -73,6 +80,11 @@ public class MainActivity extends AppCompatActivity
 
     UserResponseModel userProfileModel;
 
+    TextView nav_header_username;
+    TextView nav_header_email;
+    SimpleDraweeView nav_header_icon;
+    Button nav_header_switchaccount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +93,7 @@ public class MainActivity extends AppCompatActivity
         }
         setContentView(R.layout.activity_parent_home);
         ButterKnife.bind(this);
-        toolbar = findViewById(R.id.toolbar);
+//        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 //        getSupportActionBar().setIcon(R.mipmap.school_ico);
@@ -96,17 +108,52 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         userType = getUserType(this);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        nav_header_switchaccount = navigationView.getHeaderView(0).findViewById(R.id.switch_account);
+        nav_header_email = navigationView.getHeaderView(0).findViewById(R.id.nav_header_email);
+        nav_header_username = navigationView.getHeaderView(0).findViewById(R.id.nav_header_username);
+        nav_header_icon = navigationView.getHeaderView(0).findViewById(R.id.nav_header_icon);
+        nav_header_email.setText(userProfileModel.getEmail());
+        nav_header_username.setText(userProfileModel.getName());
+        if (userProfileModel.getImages().size() > 0) {
+            nav_header_icon.setImageURI(Uri.parse(userProfileModel.getImages().get(0).getPath()));
+        }
+        nav_header_switchaccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i = 0; i < userProfileModel.getRoles().size(); i++) {
+                    String type = userProfileModel.getRoles().get(i).getName();
+                    if (userType.equals(PARENT_USER_TYPE))
+                        if (type.equals(MENTOR_USER_TYPE)) {
+                            setUserType(MainActivity.this, MENTOR_USER_TYPE);
+                            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            return;
+                        }
+                    if (userType.equals(MENTOR_USER_TYPE))
+                        if (type.equals(PARENT_USER_TYPE)) {
+                            setUserType(MainActivity.this, PARENT_USER_TYPE);
+                            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            return;
+                        }
+                }
+                Toast.makeText(MainActivity.this, "You don't have another account to switch", Toast.LENGTH_SHORT).show();
+            }
+        });
         navigationView.setNavigationItemSelectedListener(this);
         controlTheNavigationViewItems(navigationView.getMenu());
         showInitialFragment();
         customizeToolbarBasedOnUserType(userType);
+        Log.i("TOKEN", "User token " + PrefUtils.getApiKey(this));
     }
 
+    Fragment fragment = null;
 
     private void showInitialFragment() {
         parent_toolbar_layout.setVisibility(View.VISIBLE);
         profile_toolbar_layout.setVisibility(View.GONE);
-        Fragment fragment = null;
         if (userType.equals(PARENT_USER_TYPE) || userType.equals(HELPER_USER_TYPE)) {
             fragment = new ParentHomeFragment();
         } else if (userType.equals(MENTOR_USER_TYPE)) {
@@ -135,7 +182,11 @@ public class MainActivity extends AppCompatActivity
 
     private void controlTheNavigationViewItems(Menu menu) {
         MenuItem add_helper = menu.findItem(R.id.nav_add_helper);
-        if (userType.equals(MENTOR_USER_TYPE) || userType.equals(PARENT_USER_TYPE)) {
+        MenuItem pendingStudents = menu.findItem(R.id.nav_pending_students);
+        if (!userType.equals(PARENT_USER_TYPE)) {
+            if (userType.equals(MENTOR_USER_TYPE)) {
+                pendingStudents.setVisible(true);
+            }
             add_helper.setVisible(false);
         }
     }
@@ -196,10 +247,11 @@ public class MainActivity extends AppCompatActivity
                 parent_toolbar_layout.setVisibility(View.GONE);
                 profile_toolbar_layout.setVisibility(View.VISIBLE);
                 fragmentManager.beginTransaction().replace(R.id.frameLayout, new ParentProfileFragment()).commit();
-//                intent = new Intent(MainActivity.this, ParentProfileActivity.class);
-//                intent.putExtra(PARENT_ACTIVITY, MainActivity.class.getSimpleName());
-//                intent.putExtra(USER_TYPE, userType);
-//                startActivity(intent);
+                break;
+            case R.id.nav_pending_students:
+                MentorPendingFragment mentorPendingFragment = new MentorPendingFragment();
+                mentorPendingFragment.setStudentList(((MentorHomeFragment) fragment).getStudentList());
+                fragmentManager.beginTransaction().replace(R.id.frameLayout, mentorPendingFragment).commit();
                 break;
             case R.id.nav_logout:
                 startActivity(new Intent(MainActivity.this, ParentSignInActivity.class));

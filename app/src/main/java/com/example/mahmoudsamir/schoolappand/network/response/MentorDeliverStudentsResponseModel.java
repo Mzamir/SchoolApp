@@ -1,5 +1,7 @@
 package com.example.mahmoudsamir.schoolappand.network.response;
 
+import android.support.annotation.Nullable;
+
 import com.example.mahmoudsamir.schoolappand.network.BaseResponse;
 
 public class MentorDeliverStudentsResponseModel extends BaseResponse {
@@ -12,7 +14,6 @@ public class MentorDeliverStudentsResponseModel extends BaseResponse {
     String created_at;
     String updated_at;
     String status ;
-
 
     public int getId() {
         return id;

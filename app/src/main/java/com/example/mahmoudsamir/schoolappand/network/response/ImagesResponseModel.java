@@ -2,6 +2,9 @@ package com.example.mahmoudsamir.schoolappand.network.response;
 
 import android.support.annotation.Nullable;
 
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.BASE_IMAGES_URL;
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.BASE_URL;
+
 public class ImagesResponseModel {
 
     int id;
@@ -23,10 +26,11 @@ public class ImagesResponseModel {
     }
 
     public String getPath() {
-        return path;
+        return BASE_IMAGES_URL + path;
     }
 
     public void setPath(String path) {
+
         this.path = path;
     }
 

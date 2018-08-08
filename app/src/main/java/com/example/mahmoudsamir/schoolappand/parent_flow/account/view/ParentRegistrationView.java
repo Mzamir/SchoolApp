@@ -6,7 +6,7 @@ public interface ParentRegistrationView {
 
     void hideProgress();
 
-    void onErrorRegistration() ;
+    void onErrorRegistration(String errorMessage) ;
 
     void navigateToParentHome();
 

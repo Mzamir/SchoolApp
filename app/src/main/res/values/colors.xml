@@ -12,5 +12,6 @@
     <color name="yellow">#F8E81C</color>
     <color name="main_background_color">#FDFEFF</color>
     <color name="map_border_color">#F6A623</color>
+    <color name="transparency">#40000000</color>
 
 </resources>

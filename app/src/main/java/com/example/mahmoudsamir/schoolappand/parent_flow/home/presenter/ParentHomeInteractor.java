@@ -17,7 +17,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.example.mahmoudsamir.schoolappand.utils.Constants.BASE_URL;
-import static com.example.mahmoudsamir.schoolappand.utils.Constants.ERROR;
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.GENERAL_ERROR;
 import static com.example.mahmoudsamir.schoolappand.utils.Constants.SERVER_ERROR;
 
 public class ParentHomeInteractor {
@@ -95,10 +95,10 @@ public class ParentHomeInteractor {
                     @Override
                     public void onSuccess(ParentPickUpResponseModel parentSchoolsResponse) {
                         if (parentSchoolsResponse == null) {
-                            listener.onError(ERROR);
+                            listener.onError(GENERAL_ERROR);
                         } else {
                             if (parentSchoolsResponse.getMessage() != null) {
-                                listener.onError(ERROR);
+                                listener.onError(GENERAL_ERROR);
                             } else {
                                 listener.onSuccessPickUpRequest(parentSchoolsResponse);
                             }

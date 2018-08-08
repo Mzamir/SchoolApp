@@ -10,6 +10,9 @@ import com.example.mahmoudsamir.schoolappand.parent_flow.home.model.StudentModel
 
 import java.util.ArrayList;
 
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.PARENT_ARRIVED_STATE;
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.PENDING_STATE;
+
 public class MentorHomePresenter implements MentorHomeInteractor.onMentorHomeListener {
 
     MentorHomeViewCommunicator view;
@@ -36,7 +39,7 @@ public class MentorHomePresenter implements MentorHomeInteractor.onMentorHomeLis
     public void onSuccessGettingStudents(ArrayList<MentorQueueResponseModel> mentorQueueResponseModels) {
         if (view != null) {
             view.hideProgress();
-            view.onSuccessGettingStudents(convertStudentsResponseToStudentModel(mentorQueueResponseModels));
+            view.onSuccessGettingStudents(convertStudentsResponseToStudentModel(mentorQueueResponseModels), mentorQueueResponseModels.size());
         }
 
     }
@@ -84,6 +87,27 @@ public class MentorHomePresenter implements MentorHomeInteractor.onMentorHomeLis
                 studentModels.add(studentModel);
             }
         }
-        return studentModels;
+        return sortStudentsBasedOnPriority(studentModels);
+    }
+
+    private ArrayList<MentorStudentModel> sortStudentsBasedOnPriority(ArrayList<MentorStudentModel> studentModels) {
+        ArrayList<MentorStudentModel> sortedList = new ArrayList<>();
+        ArrayList<MentorStudentModel> pendingList = new ArrayList<>();
+        ArrayList<MentorStudentModel> reportedList = new ArrayList<>();
+        ArrayList<MentorStudentModel> parentArrivedList = new ArrayList<>();
+
+        for (MentorStudentModel studentModel : studentModels) {
+            if (studentModel.getRequestState().equals(PENDING_STATE)) {
+                pendingList.add(studentModel);
+            } else if (studentModel.getRequestState().equals(PARENT_ARRIVED_STATE)) {
+                parentArrivedList.add(studentModel);
+            } else {
+                reportedList.add(studentModel);
+            }
+        }
+        sortedList.addAll(reportedList);
+        sortedList.addAll(parentArrivedList);
+        sortedList.addAll(pendingList);
+        return sortedList;
     }
 }

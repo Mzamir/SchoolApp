@@ -22,11 +22,13 @@
         android:id="@+id/email_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:drawablePadding="@dimen/icons_padding"
         android:drawableStart="@drawable/ic_mail_ico"
         android:text="@string/email_hint"
+        app:layout_constraintBottom_toTopOf="@+id/phone_number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cairoTextView2" />
 
@@ -34,11 +36,13 @@
         android:id="@+id/phone_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:drawablePadding="@dimen/icons_padding"
         android:drawableStart="@drawable/ic_mobile_ico"
         android:text="@string/mobile_hint"
+        app:layout_constraintBottom_toTopOf="@+id/id_number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email_address" />
 
@@ -61,7 +65,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/id_number">
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/students_layout">
 
         <View
             android:layout_width="match_parent"
@@ -93,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/helpers_layout">
+        app:layout_constraintTop_toBottomOf="@+id/id_number">
 
         <View
             android:layout_width="match_parent"

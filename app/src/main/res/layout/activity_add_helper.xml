@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_background_color"
@@ -26,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.057" />
 
-        <TextView
+        <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,7 +43,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
-        <TextView
+        <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
             android:id="@+id/textView4"
             android:layout_width="297dp"
             android:layout_height="wrap_content"
@@ -58,30 +59,45 @@
             app:layout_constraintTop_toBottomOf="@+id/username" />
 
 
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
             android:id="@+id/phone_edx_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="124dp"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4">
 
-            <EditText
-                android:id="@+id/phone_edx"
-                android:layout_width="match_parent"
+            <com.example.mahmoudsamir.schoolappand.widgets.CairoEditText
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:drawablePadding="@dimen/icons_padding"
                 android:drawableStart="@drawable/ic_mobile_ico"
-                android:hint="@string/mobile_hint"
-                android:inputType="phone" />
-        </android.support.design.widget.TextInputLayout>
+                android:enabled="false"
+                android:gravity="bottom"
+                android:text="+966" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.example.mahmoudsamir.schoolappand.widgets.CairoEditText
+                    android:id="@+id/phone_edx"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/mobile_hint"
+                    android:inputType="phone" />
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
 
 
-        <Button
+        <com.example.mahmoudsamir.schoolappand.widgets.CairoButton
             android:id="@+id/add_helper"
             android:layout_width="@dimen/main_button_width"
             android:layout_height="wrap_content"
@@ -97,7 +113,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/phone_edx_layout" />
 
-        <TextView
+        <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
             android:id="@+id/later_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

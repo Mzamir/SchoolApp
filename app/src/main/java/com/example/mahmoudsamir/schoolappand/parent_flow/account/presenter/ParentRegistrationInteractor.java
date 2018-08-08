@@ -17,13 +17,14 @@ import static com.example.mahmoudsamir.schoolappand.MyApplication.getMyApplicati
 import static com.example.mahmoudsamir.schoolappand.utils.Constants.HELPER_USER_TYPE;
 import static com.example.mahmoudsamir.schoolappand.utils.Constants.MENTOR_USER_TYPE;
 import static com.example.mahmoudsamir.schoolappand.utils.Constants.PARENT_USER_TYPE;
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.SERVER_ERROR;
 
 public class ParentRegistrationInteractor {
 
     String TAG = ParentRegistrationInteractor.class.getSimpleName();
 
     public interface OnParentSignInFinishedListener {
-        void onError();
+        void onError(String errorMessage);
 
         void onSuccess();
     }
@@ -41,7 +42,7 @@ public class ParentRegistrationInteractor {
                     @Override
                     public void onSuccess(UserResponseModel userResponseModel) {
                         if (userResponseModel.getErrors() != null) {
-                            listener.onError();
+                            listener.onError(userResponseModel.getErrors());
                             Log.i(TAG, "Error " + userResponseModel.getErrors());
                         } else if (userResponseModel.getEmail() != null) {
                             Log.i(TAG, "Success " + userResponseModel.getEmail());
@@ -55,7 +56,7 @@ public class ParentRegistrationInteractor {
 
                     @Override
                     public void onError(Throwable e) {
-                        listener.onError();
+                        listener.onError(SERVER_ERROR);
                     }
                 });
     }
@@ -72,7 +73,7 @@ public class ParentRegistrationInteractor {
                     @Override
                     public void onSuccess(UserResponseModel userResponseModel) {
                         if (userResponseModel.getErrors() != null) {
-                            listener.onError();
+                            listener.onError(userResponseModel.getErrors());
                             Log.i(TAG, "Error " + userResponseModel.getErrors());
                         } else if (userResponseModel.getEmail() != null) {
                             Log.i(TAG, "Success " + userResponseModel.getEmail());
@@ -86,7 +87,7 @@ public class ParentRegistrationInteractor {
 
                     @Override
                     public void onError(Throwable e) {
-                        listener.onError();
+                        listener.onError(SERVER_ERROR);
                         Log.i(TAG, "onError " + e.getMessage().toString());
                     }
                 });

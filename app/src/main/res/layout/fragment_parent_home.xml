@@ -47,7 +47,7 @@
     </LinearLayout>
 
 
-    <Button
+    <com.example.mahmoudsamir.schoolappand.widgets.CairoButton
         android:id="@+id/startPickup"
         android:layout_width="@dimen/main_button_width"
         android:layout_height="wrap_content"

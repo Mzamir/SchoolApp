@@ -5,7 +5,10 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +32,8 @@ public class ParentWaitingActivity extends AppCompatActivity implements ParentWa
 
     @BindView(R.id.waiting_timer)
     TextView waiting_timer;
+    @BindView(R.id.waiting_animation)
+    ImageView waiting_animation;
 
     ParentWaitingPresenter presenter;
     int request_id = -1;
@@ -41,6 +46,8 @@ public class ParentWaitingActivity extends AppCompatActivity implements ParentWa
 //        }
         setContentView(R.layout.activity_waiting_acrivity);
         ButterKnife.bind(this);
+        Animation startRotateAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_animation);
+        waiting_animation.startAnimation(startRotateAnimation);
         presenter = new ParentWaitingPresenter(this, new ParentWaitingInteractor());
         startCountDownTimer();
         request_id = getIntent().getIntExtra(PICK_REQUEST_ID, -1);
@@ -96,6 +103,7 @@ public class ParentWaitingActivity extends AppCompatActivity implements ParentWa
     }
 
     private void startCountDownTimer() {
+        report_btn.setEnabled(false);
         new CountDownTimer(1000 * 60 * 2, 1000) {
             public void onTick(long millisUntilFinished) {
                 int seconds = (int) (millisUntilFinished / 1000) % 60;
@@ -107,6 +115,9 @@ public class ParentWaitingActivity extends AppCompatActivity implements ParentWa
 
             public void onFinish() {
                 waiting_timer.setText("00:00");
+                report_btn.setEnabled(true);
+                Toast.makeText(ParentWaitingActivity.this, "Report now if your children is not here.", Toast.LENGTH_SHORT).show();
+                waiting_animation.setAnimation(null);
             }
         }.start();
     }

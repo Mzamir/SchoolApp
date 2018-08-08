@@ -1,6 +1,8 @@
 package com.example.mahmoudsamir.schoolappand.verify_code.view;
 
+import android.content.Intent;
 import android.os.Build;
+import android.support.annotation.MainThread;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,14 +11,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.mahmoudsamir.schoolappand.MainActivity;
+import com.example.mahmoudsamir.schoolappand.MyActivity;
 import com.example.mahmoudsamir.schoolappand.R;
+import com.example.mahmoudsamir.schoolappand.utils.UserSettingsPreference;
 import com.example.mahmoudsamir.schoolappand.verify_code.presenter.VerifyPhoneInteractor;
 import com.example.mahmoudsamir.schoolappand.verify_code.presenter.VerifyPhonePresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class VerificationCodeActivity extends AppCompatActivity implements VerificationCodeView {
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.USER_NATIONAL_ID;
+
+public class VerificationCodeActivity extends MyActivity implements VerificationCodeView {
 
     @BindView(R.id.verification_code_edx)
     EditText verification_code_edx;
@@ -28,6 +35,7 @@ public class VerificationCodeActivity extends AppCompatActivity implements Verif
     TextView resend_code;
 
     VerifyPhonePresenter presenter;
+    String national_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +46,7 @@ public class VerificationCodeActivity extends AppCompatActivity implements Verif
         setContentView(R.layout.activity_verification_code);
         ButterKnife.bind(this);
         presenter = new VerifyPhonePresenter(this, new VerifyPhoneInteractor());
-
+        national_id = getIntent().getStringExtra(USER_NATIONAL_ID);
         verify_code_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,13 +63,11 @@ public class VerificationCodeActivity extends AppCompatActivity implements Verif
     }
 
     private void verifyPhoneNumber() {
-        // TODO get the national_id from sign-up activity intent
-        presenter.verifyPhone(verification_code_edx.getText().toString(), "");
+        presenter.verifyPhone(verification_code_edx.getText().toString(), national_id);
     }
 
     private void resendVerificationCode() {
-        // TODO get the id from sign-up activity intent
-        presenter.resendVerificationCode("");
+        presenter.resendVerificationCode(national_id);
     }
 
 
@@ -82,6 +88,13 @@ public class VerificationCodeActivity extends AppCompatActivity implements Verif
 
     @Override
     public void navigateToParentHome() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

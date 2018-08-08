@@ -31,7 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.example.mahmoudsamir.schoolappand.utils.Constants.ALLOWED_DISTANCE;
-import static com.example.mahmoudsamir.schoolappand.utils.Constants.ERROR;
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.GENERAL_ERROR;
 import static com.example.mahmoudsamir.schoolappand.utils.Constants.PICK_REQUEST_ID;
 import static com.example.mahmoudsamir.schoolappand.utils.Constants.SELECTED_SCHOOL_MODEL;
 
@@ -47,6 +47,7 @@ public class ParentPickUpActivity extends AppCompatActivity implements LocationL
     private String provider;
 
     ParentPickUpPresenter presenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,6 +188,6 @@ public class ParentPickUpActivity extends AppCompatActivity implements LocationL
 
     @Override
     public void onError() {
-        Toast.makeText(this, ERROR, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
     }
 }

@@ -11,8 +11,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.example.mahmoudsamir.schoolappand.utils.Constants.BASE_URL;
-import static com.example.mahmoudsamir.schoolappand.utils.Constants.ERROR;
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.GENERAL_ERROR;
 
 public class AddHelperInteractor {
     String TAG = AddHelperInteractor.class.getSimpleName();
@@ -37,13 +36,19 @@ public class AddHelperInteractor {
                         if (response.getMessage() == null && response.getErrors() == null)
                             listener.onSuccess();
                         else {
-                            listener.onError("Enter a valid phone number.");
+                            String errorMessage = "Enter a valid phone number.";
+                            if (response.getMessage() != null) {
+                                errorMessage = response.getMessage();
+                            } else if (response.getErrors() != null) {
+                                errorMessage = response.getErrors();
+                            }
+                            listener.onError(errorMessage);
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        listener.onError(ERROR);
+                        listener.onError(GENERAL_ERROR);
                         Log.i(TAG, "onError " + e.getMessage());
                     }
                 });

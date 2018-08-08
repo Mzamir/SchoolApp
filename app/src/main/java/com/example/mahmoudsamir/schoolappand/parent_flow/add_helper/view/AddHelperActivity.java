@@ -2,7 +2,6 @@ package com.example.mahmoudsamir.schoolappand.parent_flow.add_helper.view;
 
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,16 +10,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mahmoudsamir.schoolappand.MainActivity;
+import com.example.mahmoudsamir.schoolappand.MyActivity;
 import com.example.mahmoudsamir.schoolappand.R;
 import com.example.mahmoudsamir.schoolappand.parent_flow.add_helper.presenter.AddHelperInteractor;
 import com.example.mahmoudsamir.schoolappand.parent_flow.add_helper.presenter.AddHelperPresenter;
+import com.example.mahmoudsamir.schoolappand.utils.UserSettingsPreference;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.example.mahmoudsamir.schoolappand.utils.Constants.ERROR;
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.GENERAL_ERROR;
 
-public class AddHelperActivity extends AppCompatActivity implements AddHelperView {
+public class AddHelperActivity extends MyActivity implements AddHelperView {
 
     AddHelperPresenter presenter;
     @BindView(R.id.phone_edx)
@@ -45,8 +46,7 @@ public class AddHelperActivity extends AppCompatActivity implements AddHelperVie
         setContentView(R.layout.activity_add_helper);
         ButterKnife.bind(this);
         presenter = new AddHelperPresenter(this, new AddHelperInteractor());
-        // TODO get username when finish realm scenario
-        username.setText("Welcome " + "username");
+        username.setText("Welcome " + UserSettingsPreference.getSavedUserProfile(this).getName());
         add_helper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,6 +59,7 @@ public class AddHelperActivity extends AppCompatActivity implements AddHelperVie
                 navigateToHomeActivity();
             }
         });
+
     }
 
     private void addHelper() {
@@ -77,7 +78,7 @@ public class AddHelperActivity extends AppCompatActivity implements AddHelperVie
 
     @Override
     public void onErrorAddingHelper(String errorMessage) {
-        if (errorMessage.equals(ERROR))
+        if (errorMessage.equals(GENERAL_ERROR))
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
         else {
             Snackbar snackbar = Snackbar
@@ -96,5 +97,10 @@ public class AddHelperActivity extends AppCompatActivity implements AddHelperVie
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

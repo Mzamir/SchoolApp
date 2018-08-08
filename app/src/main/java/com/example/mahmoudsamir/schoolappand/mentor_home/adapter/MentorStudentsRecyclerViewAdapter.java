@@ -23,6 +23,9 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.PARENT_ARRIVED_STATE;
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.PENDING_STATE;
+
 public class MentorStudentsRecyclerViewAdapter extends RecyclerView.Adapter<MentorStudentsRecyclerViewAdapter.StudentsViewHolderLayout> {
 
     Context context;
@@ -57,6 +60,13 @@ public class MentorStudentsRecyclerViewAdapter extends RecyclerView.Adapter<Ment
         }
         holder.student_class.setText(String.valueOf(studentModel.getClassID()));
         holder.student_name.setText(studentModel.getStudentName());
+        if (studentModel.getRequestState().equals(PENDING_STATE)) {
+            holder.student_state.setTextColor(context.getResources().getColor(R.color.gray));
+        } else if (studentModel.getRequestState().equals(PARENT_ARRIVED_STATE)) {
+            holder.student_state.setTextColor(context.getResources().getColor(R.color.green));
+        } else {
+            holder.student_state.setTextColor(context.getResources().getColor(R.color.red));
+        }
         holder.student_state.setText(studentModel.getRequestState());
     }
 

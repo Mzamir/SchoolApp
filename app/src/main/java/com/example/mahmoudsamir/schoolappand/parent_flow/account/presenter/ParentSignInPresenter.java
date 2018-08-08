@@ -20,10 +20,10 @@ public class ParentSignInPresenter implements ParentRegistrationInteractor.OnPar
     }
 
     @Override
-    public void onError() {
+    public void onError(String errorMessage) {
         if (view != null) {
             view.hideProgress();
-            view.onErrorRegistration();
+            view.onErrorRegistration(errorMessage);
         }
     }
 

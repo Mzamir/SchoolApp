@@ -18,10 +18,6 @@ import com.example.mahmoudsamir.schoolappand.mentor_home.adapter.MentorStudentsR
 import com.example.mahmoudsamir.schoolappand.mentor_home.model.MentorStudentModel;
 import com.example.mahmoudsamir.schoolappand.mentor_home.presenter.MentorHomeInteractor;
 import com.example.mahmoudsamir.schoolappand.mentor_home.presenter.MentorHomePresenter;
-import com.example.mahmoudsamir.schoolappand.network.response.MentorQueueResponseModel;
-import com.example.mahmoudsamir.schoolappand.parent_flow.home.adapter.SchoolsRecyclerAdapter;
-import com.example.mahmoudsamir.schoolappand.parent_flow.home.adapter.StudentRecyclerAdapter;
-import com.example.mahmoudsamir.schoolappand.parent_flow.home.model.StudentModel;
 import com.google.firebase.messaging.RemoteMessage;
 import com.pusher.pushnotifications.PushNotificationReceivedListener;
 import com.pusher.pushnotifications.PushNotifications;
@@ -31,9 +27,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.example.mahmoudsamir.schoolappand.utils.Constants.ERROR;
-import static com.example.mahmoudsamir.schoolappand.utils.Constants.PUSHER_API_CLUSTER;
-import static com.example.mahmoudsamir.schoolappand.utils.Constants.PUSHER_API_KEY;
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.GENERAL_ERROR;
 
 public class MentorHomeActivity extends AppCompatActivity implements MentorHomeViewCommunicator {
 
@@ -100,10 +94,11 @@ public class MentorHomeActivity extends AppCompatActivity implements MentorHomeV
     }
 
     @Override
-    public void onSuccessGettingStudents(ArrayList<MentorStudentModel> studentList) {
+    public void onSuccessGettingStudents(ArrayList<MentorStudentModel> studentList, int requestsCounter) {
         this.studentList = studentList;
         studentRecyclerAdapter = new MentorStudentsRecyclerViewAdapter(this, this, studentList);
         students_recyclerView.setAdapter(studentRecyclerAdapter);
+        number_of_student_requests.setText(String.valueOf(requestsCounter));
     }
 
     @Override
@@ -113,7 +108,7 @@ public class MentorHomeActivity extends AppCompatActivity implements MentorHomeV
 
     @Override
     public void onError() {
-        Toast.makeText(this, ERROR, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
     }
 
     private void performDeliverAction() {

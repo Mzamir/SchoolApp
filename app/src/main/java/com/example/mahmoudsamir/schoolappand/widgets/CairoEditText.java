@@ -23,7 +23,7 @@ public class CairoEditText extends EditText{
     }
 
     public void init() {
-        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo.ttf");
+        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo-Regular.ttf");
         setTypeface(tf);
     }
 

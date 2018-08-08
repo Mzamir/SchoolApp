@@ -2,9 +2,12 @@ package com.example.mahmoudsamir.schoolappand.network;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.example.mahmoudsamir.schoolappand.utils.Constants;
 import com.example.mahmoudsamir.schoolappand.utils.PrefUtils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.IOException;
@@ -25,15 +28,17 @@ public class ApiClient {
 
     public static Retrofit getClient(Context context) {
 
-        if (okHttpClient == null)
-            initOkHttp(context);
 
+        initOkHttp(context);
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(Constants.BASE_URL)
                     .client(okHttpClient)
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
         return retrofit;
@@ -62,6 +67,7 @@ public class ApiClient {
                 // Requests will be denied without API key
                 if (!TextUtils.isEmpty(PrefUtils.getApiKey(context))) {
                     requestBuilder.addHeader("Authorization", "Bearer " + PrefUtils.getApiKey(context));
+//                    Toast.makeText(context, "Authorization Bearer " + PrefUtils.getApiKey(context), Toast.LENGTH_SHORT).show();
                 }
 
                 Request request = requestBuilder.build();

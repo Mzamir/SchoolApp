@@ -1,6 +1,7 @@
 package com.example.mahmoudsamir.schoolappand.network;
 
 import com.example.mahmoudsamir.schoolappand.network.requests.ParentPickUpRequestModel;
+import com.example.mahmoudsamir.schoolappand.network.requests.UserRequestModel;
 import com.example.mahmoudsamir.schoolappand.network.response.MentorDeliverStudentsResponseModel;
 import com.example.mahmoudsamir.schoolappand.network.response.MentorQueueResponseModel;
 import com.example.mahmoudsamir.schoolappand.network.response.ParentArrivedResponseModel;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import io.reactivex.Single;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -33,13 +35,8 @@ public interface ApiService {
     @POST("add_helper")
     Single<BaseResponse> addHelper(@Field("phone") String phone);
 
-    @FormUrlEncoded
     @POST("signup_helper")
-    Single<UserResponseModel> signupHelper(@Field("name") String name
-            , @Field("email") String email
-            , @Field("password") String password
-            , @Field("national_id") String national_id
-            , @Field("phone") String phone);
+    Single<UserResponseModel> signupHelper(@Body UserRequestModel userRequestModel);
 
 
     @FormUrlEncoded
@@ -69,7 +66,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @PUT("report")
-    Single<BaseResponse> report(@Field("request_id") int request_id);
+    Single<ParentArrivedResponseModel> report(@Field("request_id") int request_id);
 
     @FormUrlEncoded
     @PUT("delivered")
@@ -77,7 +74,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @PUT("mentor_deliver_students")
-    Single<ArrayList<MentorDeliverStudentsResponseModel>> mentorDliverStudentsAction(@Field("request_id") ArrayList<Integer> students_ids);
+    Single<ArrayList<MentorDeliverStudentsResponseModel>> mentorDeliverStudentsAction(@Field("requests_id[]") ArrayList<Integer> students_ids);
 
     @GET("mentor_queue")
     Single<ArrayList<MentorQueueResponseModel>> getMentorQueue();

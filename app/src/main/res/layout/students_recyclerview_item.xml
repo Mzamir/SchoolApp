@@ -18,6 +18,7 @@
             android:layout_width="@dimen/recycler_image_dimen"
             android:layout_height="@dimen/recycler_image_dimen"
             app:actualImageScaleType="centerCrop"
+            android:src="@mipmap/profile_logo"
             app:actualImageResource="@mipmap/school_ico"
             app:placeholderImage="@mipmap/school_ico"
             app:roundedCornerRadius="@dimen/roundedCornerRadius"
@@ -38,7 +39,7 @@
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
-            <TextView
+            <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
                 android:id="@+id/student_class"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

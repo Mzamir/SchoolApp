@@ -5,7 +5,7 @@ public interface HelperRegistrationView {
 
     void hideProgress();
 
-    void onErrorRegistration() ;
+    void onErrorRegistration(String errorMessage) ;
 
-    void navigateToParentHome();
+    void navigateToParentHome(int status);
 }

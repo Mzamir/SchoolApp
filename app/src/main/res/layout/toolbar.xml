@@ -4,20 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:background="@color/colorPrimary"
+    android:gravity="center_vertical"
     app:navigationIcon="@drawable/ic_menu">
 
     <LinearLayout
         android:id="@+id/parent_toolbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="visible">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/toolbar_logo"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:adjustViewBounds="true"
             android:contentDescription="new post image"
             android:scaleType="centerCrop"
@@ -29,29 +30,27 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
             android:layout_marginEnd="5dp"
             android:layout_marginStart="10dp"
+            android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <TextView
+            <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top"
                 android:text="Schools"
                 android:textColor="@color/main_background_color"
                 android:textSize="18sp" />
 
-            <TextView
+            <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
                 android:id="@+id/toolbar_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:layout_marginTop="5dp"
-                android:text="Select the school and students you want to pick up and start"
+                android:text="Select the school to start picking up your students"
                 android:textColor="@color/main_background_color"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:visibility="visible" />
         </LinearLayout>
     </LinearLayout>
@@ -59,7 +58,7 @@
     <LinearLayout
         android:id="@+id/profile_toolbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:visibility="gone">
@@ -68,27 +67,35 @@
             android:id="@+id/user_profile_picture"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_gravity="center_vertical"
             android:adjustViewBounds="true"
             android:contentDescription="new post image"
             android:scaleType="centerCrop"
             android:src="@mipmap/profile_logo"
             android:visibility="visible"
-            app:actualImageResource="@mipmap/profile_logo"
             app:actualImageScaleType="centerCrop"
             app:placeholderImage="@mipmap/profile_logo"
             app:roundAsCircle="true" />
 
-        <TextView
-            android:id="@+id/user_profile_name"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="5dp"
             android:layout_marginStart="10dp"
             android:gravity="center_vertical"
-            android:text="User Name"
-            android:textColor="@color/main_background_color"
-            android:textSize="16sp" />
+            android:orientation="vertical">
+
+            <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
+                android:id="@+id/user_profile_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:text="Schools"
+                android:textColor="@color/main_background_color"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
     </LinearLayout>
     <!--<LinearLayout-->
     <!--android:id="@+id/mentor_toolbar_layout"-->
@@ -114,7 +121,7 @@
     <!--android:layout_marginEnd="5dp"-->
     <!--android:orientation="vertical">-->
 
-    <!--<TextView-->
+    <!--<com.example.mahmoudsamir.schoolappand.widgets.CairoTextView-->
     <!--android:id="@+id/toolbar_title"-->
     <!--android:layout_width="wrap_content"-->
     <!--android:layout_height="wrap_content"-->
@@ -123,7 +130,7 @@
     <!--android:textColor="@color/main_background_color"-->
     <!--android:textSize="18sp" />-->
 
-    <!--<TextView-->
+    <!--<com.example.mahmoudsamir.schoolappand.widgets.CairoTextView-->
     <!--android:id="@+id/toolbar_subtitle"-->
     <!--android:layout_width="wrap_content"-->
     <!--android:layout_height="wrap_content"-->

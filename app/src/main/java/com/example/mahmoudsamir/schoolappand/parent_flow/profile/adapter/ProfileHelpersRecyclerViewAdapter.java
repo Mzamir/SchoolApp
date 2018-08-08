@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.mahmoudsamir.schoolappand.R;
 import com.example.mahmoudsamir.schoolappand.network.response.HelperResponseModel;
@@ -43,10 +44,17 @@ public class ProfileHelpersRecyclerViewAdapter extends RecyclerView.Adapter<Prof
     public void onBindViewHolder(@NonNull SchoolsViewHolderLayout holder, int position) {
         final HelperResponseModel responseModel = helpers.get(position);
 
+//        if (responseModel.getName().contains(" ")) {
+//            holder.student_name.setText(responseModel.getName().substring(0, responseModel.getName().indexOf(" ")));
+//        } else {
+//        }
+        holder.student_name.setText(responseModel.getName());
         try {
             if (responseModel.getImages() != null) {
-                Uri uri = Uri.parse(responseModel.getImages().get(0).getPath());
-                holder.profile_picture.setImageURI(uri);
+                if (responseModel.getImages().size() > 0) {
+                    Uri uri = Uri.parse(responseModel.getImages().get(0).getPath());
+                    holder.profile_picture.setImageURI(uri);
+                }
             }
         } catch (NullPointerException npe) {
 
@@ -75,6 +83,9 @@ public class ProfileHelpersRecyclerViewAdapter extends RecyclerView.Adapter<Prof
 
         @BindView(R.id.profile_picture)
         SimpleDraweeView profile_picture;
+
+        @BindView(R.id.student_name)
+        TextView student_name;
 
         public SchoolsViewHolderLayout(View itemView) {
             super(itemView);

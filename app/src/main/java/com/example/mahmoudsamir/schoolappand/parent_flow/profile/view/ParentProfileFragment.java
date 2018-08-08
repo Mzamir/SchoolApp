@@ -37,7 +37,6 @@ import butterknife.ButterKnife;
 public class ParentProfileFragment extends Fragment implements ParentProfileViewCommunicator {
 
 
-    // TODO  start implementation of this class when finishing of the realm scenario
 
     ParentProfilePresenter prsenter;
     ArrayList<HelperResponseModel> helperList = new ArrayList<>();

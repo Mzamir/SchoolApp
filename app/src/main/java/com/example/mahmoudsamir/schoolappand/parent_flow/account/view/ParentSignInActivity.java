@@ -2,7 +2,6 @@ package com.example.mahmoudsamir.schoolappand.parent_flow.account.view;
 
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.mahmoudsamir.schoolappand.MainActivity;
+import com.example.mahmoudsamir.schoolappand.MyActivity;
 import com.example.mahmoudsamir.schoolappand.R;
 import com.example.mahmoudsamir.schoolappand.parent_flow.account.presenter.ParentRegistrationInteractor;
 import com.example.mahmoudsamir.schoolappand.parent_flow.account.presenter.ParentSignInPresenter;
@@ -18,7 +18,7 @@ import com.example.mahmoudsamir.schoolappand.utils.PrefUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ParentSignInActivity extends AppCompatActivity implements ParentRegistrationView {
+public class ParentSignInActivity extends MyActivity implements ParentRegistrationView {
 
     ParentSignInPresenter presenter;
     @BindView(R.id.signin_btn)
@@ -73,9 +73,9 @@ public class ParentSignInActivity extends AppCompatActivity implements ParentReg
     }
 
     @Override
-    public void onErrorRegistration() {
+    public void onErrorRegistration(String errorMessage) {
         Snackbar snackbar = Snackbar
-                .make(findViewById(android.R.id.content), "Invalid ID-Number or password", Snackbar.LENGTH_LONG);
+                .make(findViewById(android.R.id.content), errorMessage, Snackbar.LENGTH_LONG);
         snackbar.show();
     }
 
@@ -97,5 +97,10 @@ public class ParentSignInActivity extends AppCompatActivity implements ParentReg
         }
         if (formComplete)
             presenter.validateCredentials(email_edx.getText().toString(), password_edx.getText().toString());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

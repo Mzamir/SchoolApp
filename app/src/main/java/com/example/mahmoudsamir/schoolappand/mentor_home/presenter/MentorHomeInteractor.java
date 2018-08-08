@@ -47,6 +47,7 @@ public class MentorHomeInteractor {
                         }
                         listener.onErrorGettingStudents();
                         Log.i(TAG, "onSuccess getMentorQueue Exception ");
+
                     }
 
                     @Override
@@ -61,17 +62,17 @@ public class MentorHomeInteractor {
         ApiService apiService = ApiClient.getClient(MyApplication.getMyApplicationContext())
                 .create(ApiService.class);
 
-        apiService.mentorDliverStudentsAction(studentsIDs)
+        apiService.mentorDeliverStudentsAction(studentsIDs)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<ArrayList<MentorDeliverStudentsResponseModel>>() {
                     @Override
                     public void onSuccess(ArrayList<MentorDeliverStudentsResponseModel> mentorQueueResponseModels) {
                         if (mentorQueueResponseModels != null) {
-                            if (mentorQueueResponseModels.size() > 0) {
-                                listener.onSuccessDeliverAction();
-                                return;
-                            }
+//                            if (mentorQueueResponseModels.size() > 0) {
+                            listener.onSuccessDeliverAction();
+                            return;
+//                            }
                         }
                         listener.onErrorDeliverAction();
                         Log.i(TAG, "onSuccess deliverStudents Exception ");

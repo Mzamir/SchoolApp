@@ -2,7 +2,6 @@ package com.example.mahmoudsamir.schoolappand.helper_account.view;
 
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,17 +9,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.mahmoudsamir.schoolappand.MainActivity;
+import com.example.mahmoudsamir.schoolappand.MyActivity;
+import com.example.mahmoudsamir.schoolappand.helper_account.presenter.HelperRegistrationPresenter;
 import com.example.mahmoudsamir.schoolappand.parent_flow.account.view.ParentSignupActivity;
 import com.example.mahmoudsamir.schoolappand.R;
 import com.example.mahmoudsamir.schoolappand.helper_account.presenter.HelperRegistrationInteractor;
-import com.example.mahmoudsamir.schoolappand.helper_account.presenter.HelperSignupPresenter;
+import com.example.mahmoudsamir.schoolappand.utils.UserSettingsPreference;
+import com.example.mahmoudsamir.schoolappand.verify_code.view.VerificationCodeActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HelperSignupActivity extends AppCompatActivity implements HelperRegistrationView {
+import static com.example.mahmoudsamir.schoolappand.utils.Constants.USER_NATIONAL_ID;
 
-    HelperSignupPresenter presenter;
+public class HelperSignupActivity extends MyActivity implements HelperRegistrationView {
+
+    HelperRegistrationPresenter presenter;
 
     @BindView(R.id.email_edx)
     EditText email_edx;
@@ -52,7 +56,7 @@ public class HelperSignupActivity extends AppCompatActivity implements HelperReg
         setContentView(R.layout.activity_helper_signup);
         ButterKnife.bind(this);
 
-        presenter = new HelperSignupPresenter(this, new HelperRegistrationInteractor());
+        presenter = new HelperRegistrationPresenter(this, new HelperRegistrationInteractor());
         signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,16 +90,24 @@ public class HelperSignupActivity extends AppCompatActivity implements HelperReg
     }
 
     @Override
-    public void onErrorRegistration() {
+    public void onErrorRegistration(String errorMessage) {
         Snackbar snackbar = Snackbar
-                .make(findViewById(android.R.id.content), "Invalid ID-Number or password", Snackbar.LENGTH_LONG);
+                .make(findViewById(android.R.id.content), errorMessage, Snackbar.LENGTH_LONG);
         snackbar.show();
     }
 
     @Override
-    public void navigateToParentHome() {
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
+    public void navigateToParentHome(int status) {
+        if (status == 0) {
+            Intent intent = new Intent(this, VerificationCodeActivity.class);
+            intent.putExtra(USER_NATIONAL_ID, UserSettingsPreference.getSavedUserProfile(this).getNational_id());
+            startActivity(intent);
+            finish();
+        } else {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void validateCredentials() {
@@ -104,5 +116,10 @@ public class HelperSignupActivity extends AppCompatActivity implements HelperReg
                 , password_edx.getText().toString()
                 , id_number_edx.getText().toString()
                 , phone_edx.getText().toString());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

@@ -36,6 +36,50 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134809205410:android:6078f784885d6345",
+        "android_client_info": {
+          "package_name": "com.seamlabs.BlueRide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "134809205410-3pk88qlumpgdso58gtn02q4fm8pb168f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.seamlabs.BlueRide",
+            "certificate_hash": "35ba42a8d84cb427e8dba5c274839a305af2aaba"
+          }
+        },
+        {
+          "client_id": "134809205410-g5bdgto184n41kktfuj46c6mfrig544r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwdOAxRCgW_sCkG540jH-dRJs_QbYWqjs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "134809205410-g5bdgto184n41kktfuj46c6mfrig544r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"

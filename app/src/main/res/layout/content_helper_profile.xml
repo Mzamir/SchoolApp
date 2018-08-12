@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginEnd="16dp"
+    android:layout_marginStart="16dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".parent_flow.helper_profile.HelperProfileActivity"
+    tools:showIn="@layout/activity_helper_profile">
+
+
+    <com.seamlabs.BlueRide.widgets.CairoBoldTextView
+        android:id="@+id/cairoTextView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Basic information"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.seamlabs.BlueRide.widgets.CairoTextView
+        android:id="@+id/email_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="8dp"
+        android:drawablePadding="@dimen/icons_padding"
+        android:drawableStart="@drawable/ic_mail_ico"
+        android:text="@string/email_hint"
+        app:layout_constraintBottom_toTopOf="@+id/phone_number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cairoTextView2" />
+
+    <com.seamlabs.BlueRide.widgets.CairoTextView
+        android:id="@+id/phone_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="8dp"
+        android:drawablePadding="@dimen/icons_padding"
+        android:drawableStart="@drawable/ic_mobile_ico"
+        android:text="@string/mobile_hint"
+        app:layout_constraintBottom_toTopOf="@+id/id_number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email_address" />
+
+    <com.seamlabs.BlueRide.widgets.CairoTextView
+        android:id="@+id/id_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:drawablePadding="@dimen/icons_padding"
+        android:drawableStart="@drawable/ic_id_ico"
+        android:text="@string/id_number_hint"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phone_number" />
+
+    <LinearLayout
+        android:id="@+id/students_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/id_number">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="16dp"
+            android:background="@color/gray"
+            android:tint="@color/gray"></View>
+
+        <com.seamlabs.BlueRide.widgets.CairoBoldTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Students"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/students_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:scrollbars="horizontal"></android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/permissions_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@id/students_layout">
+
+        <LinearLayout
+            android:id="@+id/allow_pickingUp_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.seamlabs.BlueRide.widgets.CairoSemiBoldTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_weight="1"
+                android:text="@string/allow_to_pick_this_students"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <Switch
+                android:id="@+id/allowPickUpSwitcher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/permission_type_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/allow_pickingUp_layout">
+
+            <com.seamlabs.BlueRide.widgets.CairoSemiBoldTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_weight="2"
+                android:text="@string/permission_tv"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <RadioGroup
+                android:id="@+id/permission_type_radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/oneTimeRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:checked="true"
+                    android:text="@string/one_time" />
+
+                <RadioButton
+                    android:id="@+id/alwaysRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/always" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <com.seamlabs.BlueRide.widgets.CairoButton
+            android:id="@+id/save"
+            android:layout_width="@dimen/main_button_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_margin="16dp"
+            android:background="@drawable/button_main_background"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="@string/Save"
+            android:textAllCaps="false"
+            android:textColor="@color/main_background_color"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/permission_type_layout" />
+    </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>

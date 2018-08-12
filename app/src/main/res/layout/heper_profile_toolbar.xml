@@ -1,0 +1,59 @@
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/helper_profile_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@color/colorPrimary"
+    android:gravity="center_vertical">
+
+    <LinearLayout
+        android:id="@+id/profile_toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/user_profile_picture"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="new post image"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/profile_logo"
+            android:visibility="visible"
+            app:actualImageScaleType="centerCrop"
+            app:placeholderImage="@mipmap/profile_logo"
+            app:roundAsCircle="true" />
+
+
+        <com.seamlabs.BlueRide.widgets.CairoTextView
+            android:id="@+id/user_profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="10dp"
+            android:gravity="center_vertical"
+            android:text="Schools"
+            android:textColor="@color/main_background_color"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:gravity="end|center_vertical"
+            android:layout_width="match_parent"
+            android:layout_marginEnd="10dp"
+            android:layout_height="60dp">
+
+            <Switch
+                android:id="@+id/helper_state_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:checked="true" />
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.v7.widget.Toolbar>

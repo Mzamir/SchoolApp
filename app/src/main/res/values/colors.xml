@@ -4,12 +4,15 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="green">#3ACA69</color>
+    <color name="green">#3aca69</color>
     <color name="black">#202641</color>
     <color name="gray">#727998</color>
+    <color name="gray_opacity">#E6727998</color>
     <color name="red">#D0011B</color>
     <!--opacity 20%-->
-    <color name="yellow">#F8E81C</color>
+    <color name="yellow">#33F8E81C</color>
+    <color name="map_yellow">#33F8E81C</color>
+    <color name="map_green">#333aca69</color>
     <color name="main_background_color">#FDFEFF</color>
     <color name="map_border_color">#F6A623</color>
     <color name="transparency">#40000000</color>

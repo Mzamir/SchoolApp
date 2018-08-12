@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.example.mahmoudsamir.schoolappand.widgets.CairoButton
+    <com.seamlabs.BlueRide.widgets.CairoButton
         android:id="@+id/pick_up"
         android:layout_width="@dimen/main_button_width"
         android:layout_height="wrap_content"

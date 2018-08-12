@@ -37,7 +37,7 @@
 
     </LinearLayout>
 
-    <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
+    <com.seamlabs.BlueRide.widgets.CairoTextView
         android:id="@+id/school_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         android:textColor="@color/black"
         android:textStyle="bold" />
 
-    <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
+    <com.seamlabs.BlueRide.widgets.CairoTextView
         android:id="@+id/school_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

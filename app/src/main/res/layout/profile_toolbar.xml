@@ -28,7 +28,7 @@
             app:placeholderImage="@mipmap/profile_logo"
             app:roundAsCircle="true" />
 
-        <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
+        <com.seamlabs.BlueRide.widgets.CairoTextView
             android:id="@+id/user_profile_name"
             android:layout_width="wrap_content"
             android:layout_height="60dp"

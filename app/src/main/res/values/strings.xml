@@ -43,6 +43,15 @@
     <string name="signup_as_parent">Sign Up as parent!</string>
     <string name="switch_account">Switch account</string>
     <string name="school_title">Schools\nSelect the school to start picking up your students</string>
+    <string name="title_activity_helper_profile">HelperProfileActivity</string>
+    <string name="allow_to_pick_this_students">Allow to pick this students</string>
+    <string name="permission_tv">Permission</string>
+    <string name="one_time">One time</string>
+    <string name="always">Always</string>
+    <string name="Save">Save</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="pick_up">Pick Up</string>
+    <string name="cancel">Cancel</string>
 
 
 </resources>

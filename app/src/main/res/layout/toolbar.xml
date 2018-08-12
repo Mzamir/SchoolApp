@@ -36,7 +36,7 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
+            <com.seamlabs.BlueRide.widgets.CairoTextView
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                 android:textColor="@color/main_background_color"
                 android:textSize="18sp" />
 
-            <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
+            <com.seamlabs.BlueRide.widgets.CairoTextView
                 android:id="@+id/toolbar_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
+            <com.seamlabs.BlueRide.widgets.CairoTextView
                 android:id="@+id/user_profile_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

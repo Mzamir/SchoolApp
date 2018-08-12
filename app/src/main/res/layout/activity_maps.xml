@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".parent_flow.pick_up.view.MapsActivity">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".parent_flow.pick_up.view.MapsActivity"></fragment>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="30dp"
+        android:gravity="end|center_vertical"
+        android:orientation="horizontal">
+
+        <com.seamlabs.BlueRide.widgets.CairoBoldTextView
+            android:id="@+id/school_notified"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/round_bg_with_stoke"
+            android:gravity="center"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="5dp"
+            android:text="School has been notified"
+            android:textColor="@color/black"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/notification" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/main_button_width"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <com.seamlabs.BlueRide.widgets.CairoButton
+            android:id="@+id/temp_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/button_main_background"
+            android:enabled="true"
+            android:text="@string/pick_up"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
+
+        <com.seamlabs.BlueRide.widgets.CairoButton
+            android:id="@+id/pick_up"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/button_main_background"
+            android:backgroundTint="@color/green"
+            android:enabled="true"
+            android:text="@string/pick_up"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+        <com.seamlabs.BlueRide.widgets.CairoButton
+            android:id="@+id/cancel_request"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/button_main_background"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="@string/cancel"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
+    </LinearLayout>
+</FrameLayout>

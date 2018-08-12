@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/main_background_color">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/profile_picture"
+                android:layout_width="@dimen/recycler_image_dimen"
+                android:layout_height="@dimen/recycler_image_dimen"
+                android:src="@mipmap/logo"
+                app:actualImageResource="@mipmap/logo"
+                app:placeholderImage="@mipmap/logo"
+                app:roundedCornerRadius="@dimen/roundedCornerRadius"
+                fresco:viewAspectRatio="1.33" />
+
+            <ImageView
+                android:id="@+id/marked_icon"
+                android:layout_width="@dimen/marked_icon_dimen"
+                android:layout_height="@dimen/marked_icon_dimen"
+                android:src="@mipmap/marked_green" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/student_name"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="@string/username_hint"
+        android:textColor="@color/black" />
+
+</LinearLayout>

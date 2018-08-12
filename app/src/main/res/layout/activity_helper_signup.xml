@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
+    <com.seamlabs.BlueRide.widgets.CairoTextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -60,7 +60,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp">
 
-                <com.example.mahmoudsamir.schoolappand.widgets.CairoEditText
+                <com.seamlabs.BlueRide.widgets.CairoEditText
                     android:id="@+id/email_edx"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/email_layout">
 
-                <com.example.mahmoudsamir.schoolappand.widgets.CairoEditText
+                <com.seamlabs.BlueRide.widgets.CairoEditText
                     android:id="@+id/username_edx"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/username_layout">
 
-                <com.example.mahmoudsamir.schoolappand.widgets.CairoEditText
+                <com.seamlabs.BlueRide.widgets.CairoEditText
                     android:id="@+id/password_edx"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -120,7 +120,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/password_layout">
 
-                <com.example.mahmoudsamir.schoolappand.widgets.CairoEditText
+                <com.seamlabs.BlueRide.widgets.CairoEditText
                     android:id="@+id/id_number_edx"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/id_number_layout">
 
-                <com.example.mahmoudsamir.schoolappand.widgets.CairoEditText
+                <com.seamlabs.BlueRide.widgets.CairoEditText
                     android:id="@+id/phone_edx"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -152,7 +152,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <com.example.mahmoudsamir.schoolappand.widgets.CairoButton
+    <com.seamlabs.BlueRide.widgets.CairoButton
         android:id="@+id/signup_btn"
         android:layout_width="@dimen/main_button_width"
         android:layout_height="wrap_content"
@@ -181,7 +181,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signup_btn">
 
-        <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
+        <com.seamlabs.BlueRide.widgets.CairoTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
@@ -192,7 +192,7 @@
             app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
+        <com.seamlabs.BlueRide.widgets.CairoTextView
             android:id="@+id/signin_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -205,7 +205,7 @@
     </LinearLayout>
 
 
-    <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
+    <com.seamlabs.BlueRide.widgets.CairoTextView
         android:id="@+id/signup_as_helper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.205" />
 
-    <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
+    <com.seamlabs.BlueRide.widgets.CairoTextView
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
-    <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
+    <com.seamlabs.BlueRide.widgets.CairoTextView
         android:id="@+id/textView4"
         android:layout_width="297dp"
         android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
 
-    <com.example.mahmoudsamir.schoolappand.widgets.CairoEditText
+    <com.seamlabs.BlueRide.widgets.CairoEditText
 
         android:id="@+id/verification_code_edx"
         android:layout_width="match_parent"
@@ -70,7 +70,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 
-    <com.example.mahmoudsamir.schoolappand.widgets.CairoButton
+    <com.seamlabs.BlueRide.widgets.CairoButton
         android:id="@+id/verify_code_btn"
         android:layout_width="@dimen/main_button_width"
         android:background="@drawable/button_main_background"
@@ -88,7 +88,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 
-    <com.example.mahmoudsamir.schoolappand.widgets.CairoTextView
+    <com.seamlabs.BlueRide.widgets.CairoTextView
         android:id="@+id/resend_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

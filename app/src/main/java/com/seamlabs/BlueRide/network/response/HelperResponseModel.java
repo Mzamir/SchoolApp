@@ -18,10 +18,17 @@ public class HelperResponseModel implements Serializable {
     int status;
     @Nullable
     String authy_code;
-
+    @Nullable
     @SerializedName("pivot")
     HelperPivotResponseModel pivot = new HelperPivotResponseModel();
+    @Nullable
     ArrayList<ImagesResponseModel> images = new ArrayList<>();
+    double lat;
+    @SerializedName("long")
+    double lon;
+    @Nullable
+    String address;
+
     public int getId() {
         return id;
     }
@@ -109,5 +116,29 @@ public class HelperResponseModel implements Serializable {
 
     public void setPivot(HelperPivotResponseModel pivot) {
         this.pivot = pivot;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

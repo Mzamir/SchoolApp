@@ -1,12 +1,16 @@
 package com.seamlabs.BlueRide.parent_flow.waiting_student.presenter;
 
 import android.util.Log;
+import android.widget.BaseAdapter;
 
 import com.seamlabs.BlueRide.MyApplication;
 import com.seamlabs.BlueRide.network.ApiClient;
 import com.seamlabs.BlueRide.network.ApiService;
 import com.seamlabs.BlueRide.network.BaseResponse;
+import com.seamlabs.BlueRide.network.requests.UpdateLocationRequestModel;
 import com.seamlabs.BlueRide.network.response.ParentArrivedResponseModel;
+import com.seamlabs.BlueRide.network.response.UpdateLocationResponseModel;
+import com.seamlabs.BlueRide.parent_flow.pick_up.presenter.ParentPickUpInteractor;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -91,4 +95,26 @@ public class ParentWaitingInteractor {
                 });
     }
 
+    public void updateLocation(double lat, double longitude, final OnParentWaitingInteractorListener listener) {
+        ApiService apiService = ApiClient.getClient(MyApplication.getMyApplicationContext())
+                .create(ApiService.class);
+        UpdateLocationRequestModel locationRequestModel = new UpdateLocationRequestModel(lat, longitude);
+
+        apiService.updateLocation(locationRequestModel)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<BaseResponse>() {
+
+                    @Override
+                    public void onSuccess(BaseResponse response) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+
+    }
 }

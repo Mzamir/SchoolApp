@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 
+import com.seamlabs.BlueRide.MyApplication;
 import com.seamlabs.BlueRide.R;
 
 public class Utility {
@@ -24,7 +25,7 @@ public class Utility {
     }
 
     public static void showProgressDialog(Context context) {
-        progressDialog = new ProgressDialog(context , R.style.progressDialog);
+        progressDialog = new ProgressDialog(context, R.style.progressDialog);
         progressDialog.setCancelable(false); // disable dismiss by tapping outside of the dialog
         progressDialog.show();
     }

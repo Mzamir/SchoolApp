@@ -77,7 +77,7 @@ public class HelperRegistrationInteractor {
         userRequestModel.setName(name);
         userRequestModel.setNational_id(national_id);
         userRequestModel.setPassword(password);
-        userRequestModel.setPhone(PHONE_NUMBER_CODE + phone);
+        userRequestModel.setPhone(phone);
         apiService.signupHelper(userRequestModel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

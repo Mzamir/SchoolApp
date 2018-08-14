@@ -2,7 +2,6 @@
     <string name="app_name">Blue Ride</string>
     <string name="art_work">art_work</string>
     <string name="welcome_to_school">Welcome to school</string>
-    <string name="welcome_message_splash">description description description description description description description description</string>
     <string name="skip_this">Skip this</string>
     <string name="email_hint">Email</string>
     <string name="signup">Sign Up!</string>
@@ -52,6 +51,15 @@
     <string name="title_activity_maps">Map</string>
     <string name="pick_up">Pick Up</string>
     <string name="cancel">Cancel</string>
+
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBVEBhWuQ2lAcRkazdAGxWqmLIDcSUdHdI</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_tracking_helper_map">Map</string>
+    <string name="address">Address</string>
+    <string name="change_your_photo">Change your photo</string>
 
 
 </resources>

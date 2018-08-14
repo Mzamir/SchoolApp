@@ -36,6 +36,9 @@ public class Constants {
     public static final String HELPER_ACCOUNT = "HELPER_ACCOUNT";
     public static final String STUDENTS_LIST = "STUDENTS_LIST";
     public static final String PICK_UP_REQUEST_MODEL = "PICK_UP_REQUEST_MODEL";
+    public static final String HELPER_LATITUDE = "HELPER_LATITUDE";
+    public static final String HELPER_LONGITUDE = "HELPER_LONGITUDE";
+    public static final String TRACKED_HELPER_ID = "TRACKED_HELPER_ID";
 
 
     // Pick up distance
@@ -43,17 +46,22 @@ public class Constants {
     public static final double SMALL_DISTANCE = 30.0;
 
     // notification
+    // local notification
     public static final String NOTIFICATION_MESSAGE = "You are too close, You can now pick up your children";
     public static final String NOTIFICATION_TITLE = "Pick up your children";
     public static final String CHANEL_ID = "SchoolChanel";
     public static final int NOTIFICATION_ID = 0;
+
+    // pusher notification
     public static final String PUSHER_API_ID = "554913";
     public static final String PUSHER_API_KEY = "c9b4f87836c5d3ad204a";
     public static final String PUSHER_APP_SECRET = "f924a41bf95e93dace41";
     public static final String PUSHER_API_CLUSTER = "eu";
-
+    public static final String PUSHER_CHANEL_NAME = "updateCoordinate";
+    public static final String PUSHER_EVENT_NAME = "App\\Events\\TrackUser";
 
     //Saudi code
     public static final String PHONE_NUMBER_CODE = "+966";
+
 
 }

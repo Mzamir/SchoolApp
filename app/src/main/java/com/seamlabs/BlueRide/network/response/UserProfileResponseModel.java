@@ -1,22 +1,31 @@
 package com.seamlabs.BlueRide.network.response;
 
+import android.support.annotation.Nullable;
+
+import com.google.gson.annotations.SerializedName;
 import com.seamlabs.BlueRide.network.BaseResponse;
 
 import java.util.ArrayList;
 
 public class UserProfileResponseModel extends BaseResponse {
-    int id ;
-    String name ;
-    String email ;
-    String national_id ;
-    String phone ;
-    String created_at ;
-    String updated_at ;
-    int status ;
-    String authy_code ;
-    ArrayList<RolesResponseModel> roles = new ArrayList<>() ;
-    ArrayList<StudentResponseModel> students = new ArrayList<>() ;
-    ArrayList<HelperResponseModel> helpers = new ArrayList<>() ;
+    int id;
+    String name;
+    String email;
+    String national_id;
+    String phone;
+    String created_at;
+    String updated_at;
+    int status;
+    String authy_code;
+    @Nullable
+    String address;
+    double lat;
+    @SerializedName("long")
+    double lon;
+    ArrayList<ImagesResponseModel> images = new ArrayList<>();
+    ArrayList<RolesResponseModel> roles = new ArrayList<>();
+    ArrayList<StudentResponseModel> students = new ArrayList<>();
+    ArrayList<HelperResponseModel> helpers = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -112,5 +121,37 @@ public class UserProfileResponseModel extends BaseResponse {
 
     public void setHelpers(ArrayList<HelperResponseModel> helpers) {
         this.helpers = helpers;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
+    }
+
+    public ArrayList<ImagesResponseModel> getImages() {
+        return images;
+    }
+
+    public void setImages(ArrayList<ImagesResponseModel> images) {
+        this.images = images;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

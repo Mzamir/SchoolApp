@@ -10,12 +10,10 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v4.widget.CompoundButtonCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
@@ -31,6 +29,10 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
+import com.pusher.client.Pusher;
+import com.pusher.client.PusherOptions;
+import com.pusher.client.channel.Channel;
+import com.pusher.client.channel.SubscriptionEventListener;
 import com.seamlabs.BlueRide.MainActivity;
 import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.maps_directions.DrawMarker;
@@ -43,12 +45,19 @@ import com.seamlabs.BlueRide.parent_flow.pick_up.presenter.ParentPickUpInteracto
 import com.seamlabs.BlueRide.parent_flow.pick_up.presenter.ParentPickUpPresenter;
 import com.seamlabs.BlueRide.parent_flow.waiting_student.view.ParentWaitingActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.seamlabs.BlueRide.utils.Constants.HELPER_LATITUDE;
+import static com.seamlabs.BlueRide.utils.Constants.HELPER_LONGITUDE;
 import static com.seamlabs.BlueRide.utils.Constants.LARGE_DISTANCE;
 import static com.seamlabs.BlueRide.utils.Constants.PICK_REQUEST_ID;
 import static com.seamlabs.BlueRide.utils.Constants.PICK_UP_REQUEST_MODEL;
+import static com.seamlabs.BlueRide.utils.Constants.PUSHER_API_CLUSTER;
+import static com.seamlabs.BlueRide.utils.Constants.PUSHER_API_KEY;
 import static com.seamlabs.BlueRide.utils.Constants.SELECTED_SCHOOL_MODEL;
 import static com.seamlabs.BlueRide.utils.Constants.SMALL_DISTANCE;
 
@@ -71,7 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationManager locationManager;
     private String provider;
     LatLng currentLocation = null;
-    LatLng schoolLocation = null;
+    LatLng destinationLocation = null;
 
     int request_id = -1;
     SchoolModel schoolModel;
@@ -87,7 +96,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         presenter = new ParentPickUpPresenter(this, new ParentPickUpInteractor());
         schoolModel = (SchoolModel) getIntent().getSerializableExtra(SELECTED_SCHOOL_MODEL);
         parentPickUpRequestModel = (ParentPickUpRequestModel) getIntent().getSerializableExtra(PICK_UP_REQUEST_MODEL);
-        schoolLocation = new LatLng(Double.parseDouble(schoolModel.getschoolLat()), Double.parseDouble(schoolModel.getschoolLong()));
+        destinationLocation = new LatLng(Double.parseDouble(schoolModel.getschoolLat()), Double.parseDouble(schoolModel.getschoolLong()));
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -167,7 +176,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 //            CircleOptions circleOptions = new CircleOptions();
-//            circleOptions.center(schoolLocation);
+//            circleOptions.center(destinationLocation);
 //            mMap.addCircle(circleOptions);
 //            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 17));
             double remainingDistance = distance(
@@ -254,13 +263,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void DrawDirection() {
         DrawRouteMaps.getInstance(this)
-                .draw(currentLocation, schoolLocation, mMap);
+                .draw(currentLocation, destinationLocation, mMap);
         DrawMarker.getInstance(this).draw(mMap, currentLocation, R.drawable.map_car_top_view, "Origin Location");
-        DrawMarker.getInstance(this).draw(mMap, schoolLocation, R.drawable.map_destination, "Destination Location");
+        DrawMarker.getInstance(this).draw(mMap, destinationLocation, R.drawable.map_destination, "Destination Location");
 
         LatLngBounds bounds = new LatLngBounds.Builder()
                 .include(currentLocation)
-                .include(schoolLocation).build();
+                .include(destinationLocation).build();
         Point displaySize = new Point();
         getWindowManager().getDefaultDisplay().getSize(displaySize);
         mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, displaySize.x, displaySize.y / 2, 30));
@@ -268,13 +277,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void drawCircles() {
-        mMap.addCircle(new CircleOptions().center(schoolLocation)
+        mMap.addCircle(new CircleOptions().center(destinationLocation)
                 .fillColor(getResources().getColor(R.color.map_yellow))
                 .radius(LARGE_RADIUSE)
                 .strokeColor(Color.BLACK)
                 .strokeWidth(5));
 
-        mMap.addCircle(new CircleOptions().center(schoolLocation)
+        mMap.addCircle(new CircleOptions().center(destinationLocation)
                 .fillColor(getResources().getColor(R.color.map_green))
                 .radius(SMALL_RADIUSE)
                 .strokeColor(Color.BLACK)
@@ -297,6 +306,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onSuccess(ParentArrivedResponseModel parentArrivedResponseModel) {
         Intent intent = new Intent(MapsActivity.this, ParentWaitingActivity.class);
         intent.putExtra(PICK_REQUEST_ID, request_id);
+        intent.putExtra(HELPER_LATITUDE, currentLocation.latitude);
+        intent.putExtra(HELPER_LONGITUDE, currentLocation.longitude);
         startActivity(intent);
     }
 
@@ -324,4 +335,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onBackPressed() {
 //        super.onBackPressed();
     }
+
 }

@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.seamlabs.BlueRide.MyApplication;
 import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.MainActivity;
 import com.seamlabs.BlueRide.parent_flow.waiting_student.presenter.ParentWaitingInteractor;
@@ -22,7 +21,11 @@ import com.seamlabs.BlueRide.utils.Utility;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.seamlabs.BlueRide.utils.Constants.HELPER_LATITUDE;
+import static com.seamlabs.BlueRide.utils.Constants.HELPER_LONGITUDE;
+import static com.seamlabs.BlueRide.utils.Constants.HELPER_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.Constants.PICK_REQUEST_ID;
+import static com.seamlabs.BlueRide.utils.UserSettingsPreference.getUserType;
 
 public class ParentWaitingActivity extends AppCompatActivity implements ParentWaitingView {
 
@@ -40,16 +43,19 @@ public class ParentWaitingActivity extends AppCompatActivity implements ParentWa
     ParentWaitingPresenter presenter;
     int request_id = -1;
 
+    double latitude, longitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.main_background_color));
-//        }
         setContentView(R.layout.activity_waiting_acrivity);
         ButterKnife.bind(this);
         Animation startRotateAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_animation);
         waiting_animation.startAnimation(startRotateAnimation);
+
+        latitude = getIntent().getDoubleExtra(HELPER_LATITUDE, 0.0);
+        longitude = getIntent().getDoubleExtra(HELPER_LONGITUDE, 0.0);
+
         presenter = new ParentWaitingPresenter(this, new ParentWaitingInteractor());
         startCountDownTimer();
         request_id = getIntent().getIntExtra(PICK_REQUEST_ID, -1);
@@ -92,6 +98,9 @@ public class ParentWaitingActivity extends AppCompatActivity implements ParentWa
     @Override
     public void onSuccessDelivery(String successMessage) {
         Toast.makeText(this, successMessage, Toast.LENGTH_SHORT).show();
+        if (getUserType(this).equals(HELPER_USER_TYPE)) {
+            updateHelperLocation(latitude, longitude);
+        }
         startActivity(new Intent(ParentWaitingActivity.this, MainActivity.class));
         finish();
     }
@@ -134,4 +143,9 @@ public class ParentWaitingActivity extends AppCompatActivity implements ParentWa
             finish();
         }
     }
+
+    private void updateHelperLocation(double lan, double longi) {
+        presenter.updateHelperLocation(lan, longi);
+    }
+
 }

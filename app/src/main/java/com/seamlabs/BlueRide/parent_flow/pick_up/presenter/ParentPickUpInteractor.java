@@ -7,18 +7,15 @@ import com.seamlabs.BlueRide.network.ApiClient;
 import com.seamlabs.BlueRide.network.ApiService;
 import com.seamlabs.BlueRide.network.BaseResponse;
 import com.seamlabs.BlueRide.network.requests.ParentPickUpRequestModel;
+import com.seamlabs.BlueRide.network.requests.UpdateLocationRequestModel;
 import com.seamlabs.BlueRide.network.response.ParentArrivedResponseModel;
 import com.seamlabs.BlueRide.network.response.ParentPickUpResponseModel;
-import com.seamlabs.BlueRide.network.response.ParentStudentForASchoolResponse;
-import com.seamlabs.BlueRide.parent_flow.home.presenter.ParentHomeInteractor;
-
-import java.util.ArrayList;
+import com.seamlabs.BlueRide.network.response.UpdateLocationResponseModel;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.seamlabs.BlueRide.utils.Constants.BASE_URL;
 import static com.seamlabs.BlueRide.utils.Constants.GENERAL_ERROR;
 import static com.seamlabs.BlueRide.utils.Constants.SERVER_ERROR;
 
@@ -34,7 +31,7 @@ public class ParentPickUpInteractor {
 
         void onError(String errorMessage);
 
-        void onSucessCanclingRequest();
+        void onSuccessCancelingRequest();
     }
 
     public void parent_arrived(int request_id, final onPickerArrivedListener listener) {
@@ -101,7 +98,7 @@ public class ParentPickUpInteractor {
                     @Override
                     public void onSuccess(BaseResponse baseResponse) {
                         if (baseResponse.getSuccess() != null)
-                            listener.onSucessCanclingRequest();
+                            listener.onSuccessCancelingRequest();
                         else {
                             if (baseResponse.getErrors() != null) {
                                 listener.onError(baseResponse.getErrors());
@@ -120,5 +117,7 @@ public class ParentPickUpInteractor {
                     }
                 });
     }
+
+
 
 }

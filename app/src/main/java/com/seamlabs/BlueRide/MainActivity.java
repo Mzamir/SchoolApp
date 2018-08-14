@@ -2,7 +2,6 @@ package com.seamlabs.BlueRide;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.opengl.Visibility;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -11,12 +10,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,11 +27,11 @@ import com.seamlabs.BlueRide.mentor_home.view.MentorHomeFragment;
 import com.seamlabs.BlueRide.mentor_home.view.MentorPendingFragment;
 import com.seamlabs.BlueRide.network.response.UserResponseModel;
 import com.seamlabs.BlueRide.parent_flow.home.view.ParentHomeFragment;
-import com.seamlabs.BlueRide.parent_flow.profile.model.UserProfileModel;
-import com.seamlabs.BlueRide.parent_flow.profile.view.ParentProfileActivity;
 import com.seamlabs.BlueRide.parent_flow.account.view.ParentSignInActivity;
 import com.seamlabs.BlueRide.parent_flow.add_helper.view.AddHelperActivity;
+import com.seamlabs.BlueRide.parent_flow.profile.view.EditProfileFragment;
 import com.seamlabs.BlueRide.parent_flow.profile.view.ParentProfileFragment;
+import com.seamlabs.BlueRide.parent_flow.tracking_helper.view.TrackingHelpersFragment;
 import com.seamlabs.BlueRide.utils.PrefUtils;
 import com.seamlabs.BlueRide.utils.UserSettingsPreference;
 import com.facebook.drawee.generic.RoundingParams;
@@ -47,7 +44,6 @@ import static com.seamlabs.BlueRide.utils.Constants.HELPER_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.Constants.MENTOR_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.Constants.PARENT_ACTIVITY;
 import static com.seamlabs.BlueRide.utils.Constants.PARENT_USER_TYPE;
-import static com.seamlabs.BlueRide.utils.Constants.USER_TYPE;
 import static com.seamlabs.BlueRide.utils.UserSettingsPreference.getUserType;
 import static com.seamlabs.BlueRide.utils.UserSettingsPreference.setUserType;
 
@@ -64,11 +60,15 @@ public class MainActivity extends AppCompatActivity
     SimpleDraweeView user_profile_picture;
     @BindView(R.id.user_profile_name)
     TextView user_profile_name;
+    @BindView(R.id.edit_profile)
+    ImageView edit_profile;
 
     @BindView(R.id.parent_toolbar_layout)
     LinearLayout parent_toolbar_layout;
     @BindView(R.id.profile_toolbar_layout)
     LinearLayout profile_toolbar_layout;
+    @BindView(R.id.track_helper_toolbar_layout)
+    LinearLayout track_helper_toolbar_layout;
 
     @BindView(R.id.toolbar_title)
     TextView toolbar_title;
@@ -146,6 +146,12 @@ public class MainActivity extends AppCompatActivity
         controlTheNavigationViewItems(navigationView.getMenu());
         showInitialFragment();
         customizeToolbarBasedOnUserType(userType);
+        edit_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showEditProfileFragment();
+            }
+        });
         Log.i("TOKEN", "User token " + PrefUtils.getApiKey(this));
     }
 
@@ -153,6 +159,7 @@ public class MainActivity extends AppCompatActivity
 
     private void showInitialFragment() {
         parent_toolbar_layout.setVisibility(View.VISIBLE);
+        track_helper_toolbar_layout.setVisibility(View.GONE);
         profile_toolbar_layout.setVisibility(View.GONE);
         if (userType.equals(PARENT_USER_TYPE) || userType.equals(HELPER_USER_TYPE)) {
             fragment = new ParentHomeFragment();
@@ -161,7 +168,41 @@ public class MainActivity extends AppCompatActivity
         }
         Log.i(TAG, userType);
         if (fragment != null)
-            fragmentManager.beginTransaction().replace(R.id.frameLayout, fragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.frameLayout, fragment).addToBackStack(null).commit();
+    }
+
+    private void showTrackingHelperFragment() {
+        parent_toolbar_layout.setVisibility(View.GONE);
+        profile_toolbar_layout.setVisibility(View.GONE);
+        track_helper_toolbar_layout.setVisibility(View.VISIBLE);
+        Log.i(TAG, userType);
+        fragmentManager.beginTransaction().replace(R.id.frameLayout, new TrackingHelpersFragment()).addToBackStack(null).commit();
+    }
+
+    private void showSettingFragment() {
+        if (userProfileModel.getImages().get(0) != null) {
+            Uri uri = Uri.parse(userProfileModel.getImages().get(0).getPath());
+            user_profile_picture.setImageURI(uri);
+        }
+        user_profile_name.setText(userProfileModel.getName());
+        edit_profile.setVisibility(View.VISIBLE);
+        parent_toolbar_layout.setVisibility(View.GONE);
+        track_helper_toolbar_layout.setVisibility(View.GONE);
+        profile_toolbar_layout.setVisibility(View.VISIBLE);
+        fragmentManager.beginTransaction().replace(R.id.frameLayout, new ParentProfileFragment()).addToBackStack(null).commit();
+    }
+
+    private void showEditProfileFragment() {
+        if (userProfileModel.getImages().get(0) != null) {
+            Uri uri = Uri.parse(userProfileModel.getImages().get(0).getPath());
+            user_profile_picture.setImageURI(uri);
+        }
+        user_profile_name.setText(userProfileModel.getName());
+        edit_profile.setVisibility(View.INVISIBLE);
+        parent_toolbar_layout.setVisibility(View.GONE);
+        track_helper_toolbar_layout.setVisibility(View.GONE);
+        profile_toolbar_layout.setVisibility(View.VISIBLE);
+        fragmentManager.beginTransaction().replace(R.id.frameLayout, new EditProfileFragment()).addToBackStack(null).commit();
     }
 
     private void customizeToolbarBasedOnUserType(String currentUserType) {
@@ -183,11 +224,13 @@ public class MainActivity extends AppCompatActivity
     private void controlTheNavigationViewItems(Menu menu) {
         MenuItem add_helper = menu.findItem(R.id.nav_add_helper);
         MenuItem pendingStudents = menu.findItem(R.id.nav_pending_students);
+        MenuItem trackingHelper = menu.findItem(R.id.nav_tracking);
         if (!userType.equals(PARENT_USER_TYPE)) {
             if (userType.equals(MENTOR_USER_TYPE)) {
                 pendingStudents.setVisible(true);
             }
             add_helper.setVisible(false);
+            trackingHelper.setVisible(false);
         }
     }
 
@@ -197,7 +240,11 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (fragmentManager.getBackStackEntryCount() > 0) {
+                fragmentManager.popBackStack();
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -238,20 +285,16 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra(PARENT_ACTIVITY, MainActivity.class.getSimpleName());
                 startActivity(intent);
                 break;
+            case R.id.nav_tracking:
+                showTrackingHelperFragment();
+                break;
             case R.id.nav_setting:
-                if (userProfileModel.getImages().get(0) != null) {
-                    Uri uri = Uri.parse(userProfileModel.getImages().get(0).getPath());
-                    user_profile_picture.setImageURI(uri);
-                }
-                user_profile_name.setText(userProfileModel.getName());
-                parent_toolbar_layout.setVisibility(View.GONE);
-                profile_toolbar_layout.setVisibility(View.VISIBLE);
-                fragmentManager.beginTransaction().replace(R.id.frameLayout, new ParentProfileFragment()).commit();
+                showSettingFragment();
                 break;
             case R.id.nav_pending_students:
                 MentorPendingFragment mentorPendingFragment = new MentorPendingFragment();
                 mentorPendingFragment.setStudentList(((MentorHomeFragment) fragment).getStudentList());
-                fragmentManager.beginTransaction().replace(R.id.frameLayout, mentorPendingFragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.frameLayout, mentorPendingFragment).addToBackStack(null).commit();
                 break;
             case R.id.nav_logout:
                 startActivity(new Intent(MainActivity.this, ParentSignInActivity.class));
@@ -266,5 +309,6 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
 }

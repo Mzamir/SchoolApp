@@ -26,6 +26,12 @@ public class ParentWaitingPresenter implements ParentWaitingInteractor.OnParentW
         interactor.delivered(request_id, this);
     }
 
+    public void updateHelperLocation(double lat , double longitude) {
+        if (view!=null){
+            view.showProgress();
+        }
+        interactor.updateLocation(lat , longitude , this);
+    }
     @Override
     public void onSuccessReport(String successMessage) {
         if (view != null) {

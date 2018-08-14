@@ -22,6 +22,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.pusher.client.Pusher;
+import com.pusher.client.PusherOptions;
+import com.pusher.client.channel.Channel;
+import com.pusher.client.channel.SubscriptionEventListener;
 import com.seamlabs.BlueRide.parent_flow.pick_up.view.MapsActivity;
 import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.network.requests.ParentPickUpRequestModel;
@@ -33,12 +37,17 @@ import com.seamlabs.BlueRide.parent_flow.home.presenter.ParentHomeInteractor;
 import com.seamlabs.BlueRide.parent_flow.home.presenter.ParentHomePresenter;
 import com.seamlabs.BlueRide.utils.Utility;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.seamlabs.BlueRide.utils.Constants.PICK_UP_REQUEST_MODEL;
+import static com.seamlabs.BlueRide.utils.Constants.PUSHER_API_CLUSTER;
+import static com.seamlabs.BlueRide.utils.Constants.PUSHER_API_KEY;
 import static com.seamlabs.BlueRide.utils.Constants.SELECTED_SCHOOL_MODEL;
 
 public class ParentHomeFragment extends Fragment implements ParentHomeViewCommunicator {
@@ -220,4 +229,6 @@ public class ParentHomeFragment extends Fragment implements ParentHomeViewCommun
             });
         }
     }
+
+
 }

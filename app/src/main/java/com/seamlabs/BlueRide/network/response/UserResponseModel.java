@@ -1,23 +1,30 @@
 package com.seamlabs.BlueRide.network.response;
 
+import com.google.gson.annotations.SerializedName;
 import com.seamlabs.BlueRide.network.BaseResponse;
 
 import java.util.ArrayList;
 
 public class UserResponseModel extends BaseResponse {
-    int id;
-    String name;
-    String email;
-    String national_id;
-    String phone;
-    String created_at;
-    String updated_at;
-    int status;
-    String authy_code;
-    String token;
-    ArrayList<RolesResponseModel> roles = new ArrayList<>();
-    ArrayList<SchoolsResponse> schools = new ArrayList<>();
-    ArrayList<ImagesResponseModel> images = new ArrayList<>();
+    private int id;
+    private String name;
+    private String email;
+    private String national_id;
+    private String phone;
+    private String created_at;
+    private String updated_at;
+    private int status;
+    private String authy_code;
+    private String token;
+
+    private String address;
+    private double lat;
+    @SerializedName("long")
+    private double lon;
+
+    private ArrayList<RolesResponseModel> roles = new ArrayList<>();
+    private ArrayList<SchoolsResponse> schools = new ArrayList<>();
+    private ArrayList<ImagesResponseModel> images = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -121,5 +128,29 @@ public class UserResponseModel extends BaseResponse {
 
     public void setImages(ArrayList<ImagesResponseModel> images) {
         this.images = images;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
     }
 }

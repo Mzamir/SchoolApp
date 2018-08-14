@@ -37,6 +37,12 @@ public class ParentPickUpPresenter implements ParentPickUpInteractor.onPickerArr
             view.onError();
         }
     }
+
+    @Override
+    public void onSuccessCancelingRequest() {
+
+    }
+
     public void parentPickUpRequest(ParentPickUpRequestModel pickUpRequestModel) {
         if (view != null)
             view.showProgress();

@@ -17,4 +17,6 @@
     <color name="map_border_color">#F6A623</color>
     <color name="transparency">#40000000</color>
 
+    <color name="black_overlay">#66000000</color>
+
 </resources>

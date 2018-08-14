@@ -2,15 +2,51 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
     android:gravity="center_vertical"
     app:navigationIcon="@drawable/ic_menu">
 
     <LinearLayout
+        android:id="@+id/track_helper_toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="new post image"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/helper_ico"
+            android:tint="@android:color/white"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="10dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <com.seamlabs.BlueRide.widgets.CairoTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Helpers"
+                android:textColor="@color/main_background_color"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/parent_toolbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="100dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:visibility="visible">
@@ -51,14 +87,14 @@
                 android:text="Select the school to start picking up your students"
                 android:textColor="@color/main_background_color"
                 android:textSize="12sp"
-                android:visibility="visible" />
+                android:visibility="invisible" />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/profile_toolbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="100dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:visibility="gone">
@@ -82,18 +118,29 @@
             android:layout_marginEnd="5dp"
             android:layout_marginStart="10dp"
             android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <com.seamlabs.BlueRide.widgets.CairoTextView
                 android:id="@+id/user_profile_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="Schools"
                 android:textColor="@color/main_background_color"
                 android:textSize="18sp" />
 
+            <ImageView
+                android:id="@+id/edit_profile"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="5dp"
+                android:backgroundTint="@color/main_background_color"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/profile_logo" />
         </LinearLayout>
 
     </LinearLayout>

@@ -1,13 +1,17 @@
 package com.seamlabs.BlueRide.network;
 
+import com.seamlabs.BlueRide.network.requests.EditProfileRequestModel;
 import com.seamlabs.BlueRide.network.requests.ParentPickUpRequestModel;
+import com.seamlabs.BlueRide.network.requests.UpdateLocationRequestModel;
 import com.seamlabs.BlueRide.network.requests.UserRequestModel;
+import com.seamlabs.BlueRide.network.response.HelperResponseModel;
 import com.seamlabs.BlueRide.network.response.MentorDeliverStudentsResponseModel;
 import com.seamlabs.BlueRide.network.response.MentorQueueResponseModel;
 import com.seamlabs.BlueRide.network.response.ParentArrivedResponseModel;
 import com.seamlabs.BlueRide.network.response.ParentPickUpResponseModel;
 import com.seamlabs.BlueRide.network.response.SchoolsResponse;
 import com.seamlabs.BlueRide.network.response.ParentStudentForASchoolResponse;
+import com.seamlabs.BlueRide.network.response.UpdateLocationResponseModel;
 import com.seamlabs.BlueRide.network.response.UserProfileResponseModel;
 import com.seamlabs.BlueRide.network.response.UserResponseModel;
 
@@ -15,6 +19,7 @@ import com.seamlabs.BlueRide.network.response.UserResponseModel;
 import java.util.ArrayList;
 
 import io.reactivex.Single;
+import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
@@ -84,6 +89,20 @@ public interface ApiService {
     Single<UserProfileResponseModel> getUserProfile();
 
     @FormUrlEncoded
+    @POST("user_profile")
+    Single<UserProfileResponseModel> editProfile(@Body EditProfileRequestModel editProfileRequestModel);
+
+    @FormUrlEncoded
     @DELETE
-    Single<BaseResponse> cancelPickUpRequest(@Field("request_id") int request_id) ;
+    Single<BaseResponse> cancelPickUpRequest(@Field("request_id") int request_id);
+
+    @POST("/simulate")
+    Single<String> sendCoordinates(@Body RequestBody coordinates);
+
+    @FormUrlEncoded
+    @POST("update_location")
+    Single<BaseResponse> updateLocation(@Body UpdateLocationRequestModel locationRequestModel);
+
+    @GET("get_helpers")
+    Single<ArrayList<HelperResponseModel>> getParentHelpers();
 }

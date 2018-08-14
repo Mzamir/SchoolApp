@@ -12,6 +12,12 @@
             android:id="@+id/nav_add_helper"
             android:icon="@mipmap/helper_ico"
             android:title="Add helper" />
+
+        <item
+            android:id="@+id/nav_tracking"
+            android:icon="@mipmap/helper_ico"
+            android:title="Tracking" />
+
         <item
             android:id="@+id/nav_pending_students"
             android:icon="@mipmap/student_ico"

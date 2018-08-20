@@ -19,12 +19,28 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
+import com.pusher.client.Pusher;
+import com.pusher.client.PusherOptions;
+import com.pusher.client.channel.Channel;
+import com.pusher.client.channel.SubscriptionEventListener;
+import com.pusher.client.channel.User;
 import com.seamlabs.BlueRide.MyApplication;
 import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.mentor_home.adapter.MentorStudentsRecyclerViewAdapter;
 import com.seamlabs.BlueRide.mentor_home.model.MentorStudentModel;
 import com.seamlabs.BlueRide.mentor_home.presenter.MentorHomeInteractor;
 import com.seamlabs.BlueRide.mentor_home.presenter.MentorHomePresenter;
+import com.seamlabs.BlueRide.network.requests.UpdateLocationRequestModel;
+import com.seamlabs.BlueRide.network.response.MentorPusherMainResponseModel;
+import com.seamlabs.BlueRide.network.response.MentorQueueResponseModel;
+import com.seamlabs.BlueRide.network.response.StudentResponseModel;
+import com.seamlabs.BlueRide.network.response.UpdateLocationResponseModel;
+import com.seamlabs.BlueRide.parent_flow.home.model.StudentModel;
+import com.seamlabs.BlueRide.utils.UserSettingsPreference;
 import com.seamlabs.BlueRide.utils.Utility;
 import com.google.firebase.messaging.RemoteMessage;
 import com.pusher.pushnotifications.PushNotificationReceivedListener;
@@ -36,9 +52,20 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.seamlabs.BlueRide.utils.Constants.GENERAL_ERROR;
+import static com.seamlabs.BlueRide.utils.Constants.MENTOR_USER_TYPE;
+import static com.seamlabs.BlueRide.utils.Constants.PARENT_ARRIVED_STATE;
+import static com.seamlabs.BlueRide.utils.Constants.PENDING_STATE;
+import static com.seamlabs.BlueRide.utils.Constants.PUSHER_API_CLUSTER;
+import static com.seamlabs.BlueRide.utils.Constants.PUSHER_API_KEY;
+import static com.seamlabs.BlueRide.utils.Constants.PUSHER_CHANEL_NAME;
+import static com.seamlabs.BlueRide.utils.Constants.PUSHER_EVENT_NAME;
+import static com.seamlabs.BlueRide.utils.Constants.PUSHER_MENTOR_CHANEL_NAME;
+import static com.seamlabs.BlueRide.utils.Constants.PUSHER_MENTOR_EVENT_NAME;
+import static com.seamlabs.BlueRide.utils.Constants.TEACHER_USER_TYPE;
 
 public class MentorHomeFragment extends Fragment implements MentorHomeViewCommunicator {
 
+    Pusher pusher;
     Activity activity;
     String TAG = MentorHomeFragment.class.getSimpleName();
     ArrayList<MentorStudentModel> studentList = new ArrayList<>();
@@ -81,18 +108,26 @@ public class MentorHomeFragment extends Fragment implements MentorHomeViewCommun
                 performDeliverAction();
             }
         });
+        initializePushNotification();
         return view;
     }
 
     private void initializeView() {
 
+        initializeAdapter();
+        if (UserSettingsPreference.getUserType(activity).equals(TEACHER_USER_TYPE))
+            presenter.getTeacherStudents();
+        else if (UserSettingsPreference.getUserType(activity).equals(MENTOR_USER_TYPE))
+            presenter.getMentorStudent();
+
+    }
+
+    private void initializeAdapter() {
         studentRecyclerAdapter = new MentorStudentsRecyclerViewAdapter(this, activity, studentList);
         RecyclerView.LayoutManager students_recyclerView_layoutManager = new LinearLayoutManager(activity);
         students_recyclerView.setLayoutManager(students_recyclerView_layoutManager);
         students_recyclerView.setItemAnimator(new DefaultItemAnimator());
         students_recyclerView.setAdapter(studentRecyclerAdapter);
-        presenter.getMentorStudent();
-
     }
 
     private void showStudentRecyclerView(boolean show) {
@@ -148,7 +183,12 @@ public class MentorHomeFragment extends Fragment implements MentorHomeViewCommun
     }
 
     private void performDeliverAction() {
-        presenter.deliverStudents(studentRecyclerAdapter.getselectedRequestList());
+        if (UserSettingsPreference.getUserType(activity).equals(TEACHER_USER_TYPE))
+            presenter.deliverStudents(studentRecyclerAdapter.getselectedRequestList());
+        else if (UserSettingsPreference.getUserType(activity).equals(MENTOR_USER_TYPE))
+            presenter.deliverStudents(studentRecyclerAdapter.getselectedRequestList());
+
+
     }
 
     private void removeDeliveredStudents() {
@@ -158,20 +198,7 @@ public class MentorHomeFragment extends Fragment implements MentorHomeViewCommun
     @Override
     public void onResume() {
         super.onResume();
-        PushNotifications.setOnMessageReceivedListenerForVisibleActivity(activity, new PushNotificationReceivedListener() {
-            @Override
-            public void onMessageReceived(RemoteMessage remoteMessage) {
-                String messagePayload = remoteMessage.getData().get("myMessagePayload");
-                if (messagePayload == null) {
-                    // Message payload was not set for this notification
-                    Log.i(TAG, "Payload was missing");
-                } else {
-                    Log.i(TAG, messagePayload);
-                    // Now update the UI based on your message payload!
-                }
-                removeDeliveredStudents();
-            }
-        });
+        pusher.connect();
     }
 
     public ArrayList<MentorStudentModel> getStudentList() {
@@ -181,4 +208,70 @@ public class MentorHomeFragment extends Fragment implements MentorHomeViewCommun
     public void setStudentList(ArrayList<MentorStudentModel> studentList) {
         this.studentList = studentList;
     }
+
+    private void initializePushNotification() {
+        PusherOptions options = new PusherOptions();
+        options.setCluster(PUSHER_API_CLUSTER);
+        pusher = new Pusher(PUSHER_API_KEY, options);
+        Channel channel = pusher.subscribe(PUSHER_MENTOR_CHANEL_NAME + UserSettingsPreference.getSavedUserProfile(activity).getId());
+        channel.bind(PUSHER_MENTOR_EVENT_NAME, new SubscriptionEventListener() {
+            @Override
+            public void onEvent(String channelName, String eventName, final String data) {
+                try {
+                    Gson gson = new Gson();
+                    MentorPusherMainResponseModel responseModel = gson.fromJson(data, MentorPusherMainResponseModel.class);
+                    updateList(responseModel);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        pusher.connect();
+    }
+
+    private void updateList(MentorPusherMainResponseModel responseModel) {
+        boolean found = false;
+        for (MentorStudentModel studentModel : studentList) {
+            if (studentModel.getRequestId() == responseModel.getMentorPusherEventResponseModel().getMentorPusherDetailsResponseModel().getId()) {
+                studentModel.setRequestState(responseModel.getMentorPusherEventResponseModel().getMentorPusherDetailsResponseModel().getStatus());
+                found = true;
+            }
+        }
+        if (!found) {
+            convertStudentsResponseToStudentModel(responseModel);
+            studentRecyclerAdapter.notifyDataSetChanged();
+        } else {
+            this.studentList = presenter.sortStudentsBasedOnPriority(studentList);
+            studentRecyclerAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        pusher.disconnect();
+    }
+
+    public ArrayList<MentorStudentModel> convertStudentsResponseToStudentModel(MentorPusherMainResponseModel responseModel) {
+        ArrayList<MentorStudentModel> studentModels = new ArrayList<>();
+        for (StudentResponseModel studentResponseModel : responseModel.getMentorPusherEventResponseModel().getStudents()) {
+            MentorStudentModel studentModel = new MentorStudentModel();
+            studentModel.setMarked(false);
+            studentModel.setMentorCanDeliver(responseModel.isMentor_can_deliver());
+            studentModel.setStudentID(studentResponseModel.getId());
+            studentModel.setStudentName(studentResponseModel.getName());
+            studentModel.setStudentNationalID(studentResponseModel.getNational_id());
+            studentModel.setSchoolID(studentResponseModel.getSchool_id());
+            studentModel.setClassID(studentResponseModel.getClass_id());
+            studentModel.setStudentCreatedAt(studentResponseModel.getCreated_at());
+            studentModel.setStudentUpdatedAt(studentResponseModel.getUpdated_at());
+            studentModel.setRequestId(responseModel.getMentorPusherEventResponseModel().getMentorPusherDetailsResponseModel().getId());
+            studentModel.setRequestState(responseModel.getMentorPusherEventResponseModel().getMentorPusherDetailsResponseModel().getStatus());
+            studentModel.setStudentPicture(studentResponseModel.getImages().get(0).getPath());
+            studentModels.add(studentModel);
+        }
+        this.studentList.addAll(studentModels);
+        return presenter.sortStudentsBasedOnPriority(studentList);
+    }
+
 }

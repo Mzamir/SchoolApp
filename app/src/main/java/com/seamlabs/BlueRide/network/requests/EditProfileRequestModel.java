@@ -3,47 +3,24 @@ package com.seamlabs.BlueRide.network.requests;
 
 import android.support.annotation.Nullable;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.seamlabs.BlueRide.network.BaseResponse;
 
+import butterknife.Optional;
+import okhttp3.MultipartBody;
+
 
 public class EditProfileRequestModel extends BaseResponse {
-    private int user_id;
-    private String name;
-    private String phone;
+
     private  String email;
-    private  String address;
-    private  String image;
-    private  double lat;
-    @SerializedName("long")
-    private  double lon;
+    private String phone;
     private String current_password;
     private String new_password;
     private  String confirm_password;
+    private  String address;
+    private  String image;
 
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
 
     public String getEmail() {
         return email;
@@ -53,36 +30,12 @@ public class EditProfileRequestModel extends BaseResponse {
         this.email = email;
     }
 
-    public String getAddress() {
-        return address;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public double getLat() {
-        return lat;
-    }
-
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
-    public double getLon() {
-        return lon;
-    }
-
-    public void setLon(double lon) {
-        this.lon = lon;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getCurrent_password() {
@@ -107,5 +60,22 @@ public class EditProfileRequestModel extends BaseResponse {
 
     public void setConfirm_password(String confirm_password) {
         this.confirm_password = confirm_password;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getImage() {
+
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

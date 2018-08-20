@@ -1,7 +1,9 @@
 package com.seamlabs.BlueRide.network;
 
+import com.seamlabs.BlueRide.network.requests.AssignStudentsToHelperRequestModel;
 import com.seamlabs.BlueRide.network.requests.EditProfileRequestModel;
 import com.seamlabs.BlueRide.network.requests.ParentPickUpRequestModel;
+import com.seamlabs.BlueRide.network.requests.TeacherDeliverStudentsRequestModel;
 import com.seamlabs.BlueRide.network.requests.UpdateLocationRequestModel;
 import com.seamlabs.BlueRide.network.requests.UserRequestModel;
 import com.seamlabs.BlueRide.network.response.HelperResponseModel;
@@ -19,6 +21,7 @@ import com.seamlabs.BlueRide.network.response.UserResponseModel;
 import java.util.ArrayList;
 
 import io.reactivex.Single;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -26,8 +29,10 @@ import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Url;
 
@@ -82,15 +87,15 @@ public interface ApiService {
     @PUT("mentor_deliver_students")
     Single<ArrayList<MentorDeliverStudentsResponseModel>> mentorDeliverStudentsAction(@Field("requests_id[]") ArrayList<Integer> students_ids);
 
+    @PUT("teacher_deliver_students")
+    Single<ArrayList<MentorDeliverStudentsResponseModel>> teacherDeliverStudentsAction(@Body ArrayList<TeacherDeliverStudentsRequestModel> requestModels);
+
+
     @GET("mentor_queue")
     Single<ArrayList<MentorQueueResponseModel>> getMentorQueue();
 
-    @GET("user_profile")
-    Single<UserProfileResponseModel> getUserProfile();
-
-    @FormUrlEncoded
-    @POST("user_profile")
-    Single<UserProfileResponseModel> editProfile(@Body EditProfileRequestModel editProfileRequestModel);
+    @GET("teacher_queue")
+    Single<ArrayList<MentorQueueResponseModel>> getTeacherQueue();
 
     @FormUrlEncoded
     @DELETE
@@ -105,4 +110,44 @@ public interface ApiService {
 
     @GET("get_helpers")
     Single<ArrayList<HelperResponseModel>> getParentHelpers();
+
+    @GET("user_profile")
+    Single<UserProfileResponseModel> getUserProfile();
+
+    @POST("user_profile")
+    Single<UserResponseModel> editProfile(@Body EditProfileRequestModel editProfileRequestModel);
+
+
+    @Multipart
+    @POST("user_profile")
+    Single<UserResponseModel> editProfile(@Part MultipartBody.Part image, @Part EditProfileRequestModel editProfileRequestModel);
+
+    @Multipart
+    @POST("user_profile")
+    Single<UserResponseModel> editProfile(@Part MultipartBody.Part image);
+
+    @Multipart
+    @POST("user_profile")
+    Single<UserResponseModel> editProfile(
+            @Part("email") RequestBody email,
+            @Part("phone") RequestBody phone,
+            @Part("current_password") RequestBody current_password,
+            @Part("new_password") RequestBody new_password,
+            @Part("confirm_password") RequestBody confirm_password,
+            @Part("address") RequestBody address,
+            @Part MultipartBody.Part image);
+
+    @Multipart
+    @POST("user_profile")
+    Single<UserResponseModel> editProfile(
+            @Part("address") RequestBody address);
+
+
+    @POST("assign_students_to_helper")
+    Single<BaseResponse> assignStudentsToHelper(@Body AssignStudentsToHelperRequestModel requestModel);
+
+    @FormUrlEncoded
+    @PUT("change_helper_status")
+    Single<BaseResponse> changeHelperState(@Field("helper_id") int helper_id);
+
 }

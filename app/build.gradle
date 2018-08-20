@@ -55,6 +55,9 @@ android {
             implementation 'com.google.firebase:firebase-core:16.0.1'
             implementation 'com.google.firebase:firebase-messaging:17.1.0'
             implementation 'com.pusher:push-notifications-android:1.0.0'
+
+            //Animation
+            implementation "com.andkulikov:transitionseverywhere:1.8.0"
         }
         release {
             minifyEnabled false

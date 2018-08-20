@@ -1,8 +1,8 @@
 package com.seamlabs.BlueRide.utils;
 
 public class Constants {
-    public static final String BASE_URL = "http://206.189.211.46/api/";
-    public static final String BASE_IMAGES_URL = "http://206.189.211.46/";
+    public static final String BASE_URL = "https://blueride.app:555/api/";
+    public static final String BASE_IMAGES_URL = "https://blueride.app:555";
     public static final String MAPS_SERVER_KEY = "AIzaSyBVEBhWuQ2lAcRkazdAGxWqmLIDcSUdHdI";
     public static final int REALM_DATABASE_VERSION = 1;
 
@@ -10,7 +10,7 @@ public class Constants {
     public static final String SERVER_ERROR = "It's not your fault, It's our";
     public static final String GENERAL_ERROR = "Error occurred, try again later";
     public static final String ADMIN_LOGIN_ERROR = "Admins NOT allowed to log in here";
-
+    public static CharSequence EMPTY_FIELD_ERROR = "Empty field";
 
     // Shared preference for the user
     public static final String SHARED_USER_SETTING = "SHARED_USER_SETTING";
@@ -21,6 +21,7 @@ public class Constants {
     public static final String PARENT_USER_TYPE = "parent";
     public static final String HELPER_USER_TYPE = "helper";
     public static final String MENTOR_USER_TYPE = "mentor";
+    public static final String TEACHER_USER_TYPE = "teacher";
 
     //Students states
     public static final String PENDING_STATE = "pending";
@@ -39,7 +40,13 @@ public class Constants {
     public static final String HELPER_LATITUDE = "HELPER_LATITUDE";
     public static final String HELPER_LONGITUDE = "HELPER_LONGITUDE";
     public static final String TRACKED_HELPER_ID = "TRACKED_HELPER_ID";
+    public static final String FRAGMENT_TO_SHOW = "FragmentToShow";
 
+    // side menu fragments names
+    public static final String PROFILE_FRAGMENT = "PROFILE_FRAGMENT";
+    public static final String EDIT_PROFILE_FRAGMENT = "EDIT_PROFILE_FRAGMENT";
+    public static final String HOME_FRAGMENT = "HOME_FRAGMENT";
+    public static final String TRACKING_FRAGMENT = "TRACKING_FRAGMENT";
 
     // Pick up distance
     public static final double LARGE_DISTANCE = 50.0;
@@ -59,6 +66,9 @@ public class Constants {
     public static final String PUSHER_API_CLUSTER = "eu";
     public static final String PUSHER_CHANEL_NAME = "updateCoordinate";
     public static final String PUSHER_EVENT_NAME = "App\\Events\\TrackUser";
+
+    public static final String PUSHER_MENTOR_CHANEL_NAME = "mentorQueue";
+    public static final String PUSHER_MENTOR_EVENT_NAME = "App\\Events\\MentorRequest";
 
     //Saudi code
     public static final String PHONE_NUMBER_CODE = "+966";

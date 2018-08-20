@@ -2,6 +2,7 @@ package com.seamlabs.BlueRide.mentor_home.presenter;
 
 import com.seamlabs.BlueRide.mentor_home.model.MentorStudentModel;
 import com.seamlabs.BlueRide.mentor_home.view.MentorHomeViewCommunicator;
+import com.seamlabs.BlueRide.network.requests.TeacherDeliverStudentsRequestModel;
 import com.seamlabs.BlueRide.network.response.MentorDeliverStudentsResponseModel;
 import com.seamlabs.BlueRide.network.response.MentorQueueResponseModel;
 import com.seamlabs.BlueRide.network.response.ParentStudentForASchoolResponse;
@@ -29,10 +30,22 @@ public class MentorHomePresenter implements MentorHomeInteractor.onMentorHomeLis
         interactor.getMentorQueue(this);
     }
 
+    public void getTeacherStudents() {
+        if (view != null)
+            view.showProgress();
+        interactor.getTeacherQueue(this);
+    }
+
     public void deliverStudents(ArrayList<Integer> studentIDs) {
         if (view != null)
             view.showProgress();
         interactor.deliverStudents(studentIDs, this);
+    }
+
+    public void teachDeliverStudents(ArrayList<TeacherDeliverStudentsRequestModel> requestModels) {
+        if (view != null)
+            view.showProgress();
+        interactor.teacherDeliverStudents(requestModels, this);
     }
 
     @Override
@@ -68,12 +81,13 @@ public class MentorHomePresenter implements MentorHomeInteractor.onMentorHomeLis
         }
     }
 
-    private ArrayList<MentorStudentModel> convertStudentsResponseToStudentModel(ArrayList<MentorQueueResponseModel> responseModels) {
+    public ArrayList<MentorStudentModel> convertStudentsResponseToStudentModel(ArrayList<MentorQueueResponseModel> responseModels) {
         ArrayList<MentorStudentModel> studentModels = new ArrayList<>();
         for (MentorQueueResponseModel response : responseModels) {
             for (StudentResponseModel studentResponseModel : response.getStudents()) {
                 MentorStudentModel studentModel = new MentorStudentModel();
                 studentModel.setMarked(false);
+                studentModel.setMentorCanDeliver(response.isMentor_can_deliver());
                 studentModel.setStudentID(studentResponseModel.getId());
                 studentModel.setStudentName(studentResponseModel.getName());
                 studentModel.setStudentNationalID(studentResponseModel.getNational_id());
@@ -90,7 +104,7 @@ public class MentorHomePresenter implements MentorHomeInteractor.onMentorHomeLis
         return sortStudentsBasedOnPriority(studentModels);
     }
 
-    private ArrayList<MentorStudentModel> sortStudentsBasedOnPriority(ArrayList<MentorStudentModel> studentModels) {
+    public ArrayList<MentorStudentModel> sortStudentsBasedOnPriority(ArrayList<MentorStudentModel> studentModels) {
         ArrayList<MentorStudentModel> sortedList = new ArrayList<>();
         ArrayList<MentorStudentModel> pendingList = new ArrayList<>();
         ArrayList<MentorStudentModel> reportedList = new ArrayList<>();

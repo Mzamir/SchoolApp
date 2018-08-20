@@ -25,6 +25,7 @@ import com.seamlabs.BlueRide.mentor_home.adapter.MentorStudentsRecyclerViewAdapt
 import com.seamlabs.BlueRide.mentor_home.model.MentorStudentModel;
 import com.seamlabs.BlueRide.mentor_home.presenter.MentorHomeInteractor;
 import com.seamlabs.BlueRide.mentor_home.presenter.MentorHomePresenter;
+import com.seamlabs.BlueRide.utils.UserSettingsPreference;
 import com.seamlabs.BlueRide.utils.Utility;
 import com.google.firebase.messaging.RemoteMessage;
 import com.pusher.pushnotifications.PushNotificationReceivedListener;
@@ -36,6 +37,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.seamlabs.BlueRide.utils.Constants.GENERAL_ERROR;
+import static com.seamlabs.BlueRide.utils.Constants.MENTOR_USER_TYPE;
+import static com.seamlabs.BlueRide.utils.Constants.TEACHER_USER_TYPE;
+import static com.seamlabs.BlueRide.utils.UserSettingsPreference.getUserType;
 
 public class MentorPendingFragment extends Fragment implements MentorHomeViewCommunicator {
 
@@ -156,7 +160,11 @@ public class MentorPendingFragment extends Fragment implements MentorHomeViewCom
     }
 
     private void performDeliverAction() {
-        presenter.deliverStudents(studentRecyclerAdapter.getselectedRequestList());
+        if (getUserType(activity).equals(MENTOR_USER_TYPE))
+            presenter.deliverStudents(studentRecyclerAdapter.getselectedRequestList());
+        else if (getUserType(activity).equals(TEACHER_USER_TYPE))
+            presenter.teachDeliverStudents(studentRecyclerAdapter.getselectedTeacherRequestList());
+
     }
 
     private void removeDeliveredStudents() {

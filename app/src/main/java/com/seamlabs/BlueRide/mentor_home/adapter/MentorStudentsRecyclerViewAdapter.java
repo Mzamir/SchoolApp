@@ -9,12 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.seamlabs.BlueRide.MyApplication;
 import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.mentor_home.model.MentorStudentModel;
 import com.seamlabs.BlueRide.mentor_home.view.MentorHomeViewCommunicator;
+import com.seamlabs.BlueRide.network.requests.TeacherDeliverStudentsRequestModel;
 import com.seamlabs.BlueRide.parent_flow.home.model.StudentModel;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.seamlabs.BlueRide.utils.UserSettingsPreference;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,8 +27,10 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.seamlabs.BlueRide.utils.Constants.MENTOR_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.Constants.PARENT_ARRIVED_STATE;
 import static com.seamlabs.BlueRide.utils.Constants.PENDING_STATE;
+import static com.seamlabs.BlueRide.utils.Constants.TEACHER_USER_TYPE;
 
 public class MentorStudentsRecyclerViewAdapter extends RecyclerView.Adapter<MentorStudentsRecyclerViewAdapter.StudentsViewHolderLayout> {
 
@@ -84,9 +90,23 @@ public class MentorStudentsRecyclerViewAdapter extends RecyclerView.Adapter<Ment
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     MentorStudentModel studentModel = students.get(position);
-                    studentModel.setMarked(!studentModel.isMarked());
-                    showDeliverAction();
-                    notifyItemChanged(position);
+                    if (UserSettingsPreference.getUserType(MyApplication.getMyApplicationContext()).equals(MENTOR_USER_TYPE)) {
+                        if (studentModel.isMentorCanDeliver()) {
+                            studentModel.setMarked(!studentModel.isMarked());
+                            showDeliverAction();
+                            notifyItemChanged(position);
+                        } else {
+                            Toast.makeText(MyApplication.getMyApplicationContext(), "You can't deliver this student", Toast.LENGTH_SHORT).show();
+                        }
+                    } else if (UserSettingsPreference.getUserType(MyApplication.getMyApplicationContext()).equals(TEACHER_USER_TYPE)) {
+                        if (studentModel.getRequestState().equals(PARENT_ARRIVED_STATE)) {
+                            studentModel.setMarked(!studentModel.isMarked());
+                            showDeliverAction();
+                            notifyItemChanged(position);
+                        } else {
+                            Toast.makeText(MyApplication.getMyApplicationContext(), "You can't deliver this student", Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
             });
         }
@@ -134,5 +154,19 @@ public class MentorStudentsRecyclerViewAdapter extends RecyclerView.Adapter<Ment
         }
         ArrayList<Integer> temp = new ArrayList<>(selectedRequestList);
         return temp;
+    }
+
+    public ArrayList<TeacherDeliverStudentsRequestModel> getselectedTeacherRequestList() {
+        ArrayList<TeacherDeliverStudentsRequestModel> selectedTeacherRequestList = new ArrayList<>();
+        for (MentorStudentModel studentModel : students) {
+            if (studentModel.isMarked()) {
+                TeacherDeliverStudentsRequestModel requestModel = new TeacherDeliverStudentsRequestModel();
+                requestModel.setRequest_id(studentModel.getRequestId());
+                requestModel.setStudent_id(studentModel.getStudentID());
+                selectedTeacherRequestList.add(requestModel);
+            }
+        }
+
+        return selectedTeacherRequestList;
     }
 }

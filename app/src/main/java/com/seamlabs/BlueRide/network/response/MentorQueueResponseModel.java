@@ -15,6 +15,7 @@ public class MentorQueueResponseModel extends BaseResponse {
     String created_at;
     String updated_at;
     String status ;
+    boolean mentor_can_deliver ;
 
     @SerializedName("students")
     ArrayList<StudentResponseModel> students = new ArrayList<>();
@@ -89,5 +90,13 @@ public class MentorQueueResponseModel extends BaseResponse {
 
     public void setStudents(ArrayList<StudentResponseModel> students) {
         this.students = students;
+    }
+
+    public boolean isMentor_can_deliver() {
+        return mentor_can_deliver;
+    }
+
+    public void setMentor_can_deliver(boolean mentor_can_deliver) {
+        this.mentor_can_deliver = mentor_can_deliver;
     }
 }

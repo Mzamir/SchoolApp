@@ -1,5 +1,6 @@
 package com.seamlabs.BlueRide.parent_flow.helper_profile;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,14 +14,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.seamlabs.BlueRide.MainActivity;
 import com.seamlabs.BlueRide.R;
+import com.seamlabs.BlueRide.network.requests.AssignStudentsToHelperRequestModel;
 import com.seamlabs.BlueRide.network.response.HelperResponseModel;
 import com.seamlabs.BlueRide.network.response.StudentResponseModel;
 import com.seamlabs.BlueRide.network.response.UserProfileResponseModel;
@@ -29,6 +34,7 @@ import com.seamlabs.BlueRide.parent_flow.profile.adapter.ProfileStudentRecyclerV
 import com.seamlabs.BlueRide.parent_flow.profile.view.ParentProfileViewCommunicator;
 import com.seamlabs.BlueRide.utils.Utility;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.transitionseverywhere.TransitionManager;
 
 import java.util.ArrayList;
 
@@ -36,10 +42,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.http.Body;
 
+import static com.seamlabs.BlueRide.utils.Constants.FRAGMENT_TO_SHOW;
 import static com.seamlabs.BlueRide.utils.Constants.HELPER_ACCOUNT;
+import static com.seamlabs.BlueRide.utils.Constants.PROFILE_FRAGMENT;
 import static com.seamlabs.BlueRide.utils.Constants.STUDENTS_LIST;
 
-public class HelperProfileActivity extends AppCompatActivity implements ParentProfileViewCommunicator {
+public class HelperProfileActivity extends AppCompatActivity implements HelperProfileViewCommunicator {
 
     @BindView(R.id.students_recyclerView)
     RecyclerView students_recyclerView;
@@ -83,10 +91,14 @@ public class HelperProfileActivity extends AppCompatActivity implements ParentPr
     HelperResponseModel helperResponseModel;
     ArrayList<StudentResponseModel> studentsList = new ArrayList<>();
 
+    HelperProfilePresenter presenter;
     boolean helperEnabled = true;
     boolean allowToPickStudent = true;
     // 0 for oneTime and 1 for always
     int permissionType = 0;
+
+    @BindView(R.id.content_helper_profile)
+    ViewGroup transitionsContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +109,7 @@ public class HelperProfileActivity extends AppCompatActivity implements ParentPr
         setContentView(R.layout.activity_helper_profile);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-
+        presenter = new HelperProfilePresenter(this, new HelperProfileInteractor());
         helperResponseModel = (HelperResponseModel) getIntent().getSerializableExtra(HELPER_ACCOUNT);
         studentsList = (ArrayList<StudentResponseModel>) getIntent().getSerializableExtra(STUDENTS_LIST);
         if (helperResponseModel != null) {
@@ -159,9 +171,28 @@ public class HelperProfileActivity extends AppCompatActivity implements ParentPr
                 } else {
                     helperEnabled = false;
                 }
+                presenter.changeHelperState(helperResponseModel.getId());
             }
         });
 
+        saveChanges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleSaveChange();
+            }
+        });
+
+    }
+
+    private void handleSaveChange() {
+        AssignStudentsToHelperRequestModel requestModel = new AssignStudentsToHelperRequestModel();
+
+        requestModel.setHelper_id(helperResponseModel.getId());
+        requestModel.setAllow_pickup(allowToPickStudent);
+        requestModel.setOne_time(permissionType);
+        requestModel.setStudent_ids(studentRecyclerViewAdapter.getSelectedStudent());
+
+        presenter.assignHelperToStudents(requestModel);
     }
 
     @Override
@@ -175,26 +206,43 @@ public class HelperProfileActivity extends AppCompatActivity implements ParentPr
     }
 
     @Override
-    public void onSuccessGettingUserProfile(UserProfileResponseModel userProfileResponseModel) {
-
+    public void onSuccessChangeHelperState() {
+        String toast = helperEnabled ? "Successfully Enabled" : "Successfully Disabled";
+        Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onErrorGettingUserProfile() {
-
+    public void onErrorChangeHelperState(String errorMessage) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onHelperClickListener(HelperResponseModel helperModel) {
-
+    public void onSuccessAssigningHelper() {
+        Toast.makeText(this, "Saved Successfully", Toast.LENGTH_SHORT).show();
+//        Intent intent = new Intent(HelperProfileActivity.this, MainActivity.class);
+//        intent.putExtra(FRAGMENT_TO_SHOW, PROFILE_FRAGMENT);
+//        startActivity(intent);
+//        finish();
+        onBackPressed();
     }
+
+    @Override
+    public void onErrorAssigningHelper(String errorMessage) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
 
     @Override
     public void showPermissionActions(boolean show) {
+//        if (show)
+//            permissions_layout.setVisibility(View.VISIBLE);
+//        else
+//            permissions_layout.setVisibility(View.INVISIBLE);
+        TransitionManager.beginDelayedTransition(transitionsContainer);
         if (show)
             permissions_layout.setVisibility(View.VISIBLE);
         else
-            permissions_layout.setVisibility(View.INVISIBLE);
+            permissions_layout.setVisibility(View.GONE);
 
     }
 
@@ -219,5 +267,19 @@ public class HelperProfileActivity extends AppCompatActivity implements ParentPr
             studentModels.add(studentModel);
         }
         return studentModels;
+    }
+
+    private void showNewPassword(final View view) {
+//        boolean visible = view.getVisibility() == View.VISIBLE ? true : false;
+        TransitionManager.beginDelayedTransition(transitionsContainer);
+        // it is the same as
+        // TransitionManager.beginDelayedTransition(transitionsContainer, new AutoTransition());
+        // where AutoTransition is the set of Fade and ChangeBounds transitions
+//        new_password_layout.setVisibility(visible ? View.VISIBLE : View.GONE);
+        if (view.getVisibility() == View.GONE)
+            view.setVisibility(View.VISIBLE);
+        else
+            view.setVisibility(View.GONE);
+
     }
 }

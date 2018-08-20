@@ -22,9 +22,9 @@ public class UserResponseModel extends BaseResponse {
     @SerializedName("long")
     private double lon;
 
+    private ArrayList<ImagesResponseModel> images = new ArrayList<>();
     private ArrayList<RolesResponseModel> roles = new ArrayList<>();
     private ArrayList<SchoolsResponse> schools = new ArrayList<>();
-    private ArrayList<ImagesResponseModel> images = new ArrayList<>();
 
     public int getId() {
         return id;

@@ -91,96 +91,108 @@
             android:scrollbars="horizontal"></android.support.v7.widget.RecyclerView>
     </LinearLayout>
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/permissions_layout"
+    <LinearLayout
+        android:id="@+id/content_helper_profile"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="8dp"
-        android:visibility="invisible"
+        android:orientation="vertical"
+        android:gravity="center_vertical|bottom"
         app:layout_constraintTop_toBottomOf="@id/students_layout">
 
-        <LinearLayout
-            android:id="@+id/allow_pickingUp_layout"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/permissions_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.seamlabs.BlueRide.widgets.CairoSemiBoldTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_weight="1"
-                android:text="@string/allow_to_pick_this_students"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-
-            <Switch
-                android:id="@+id/allowPickUpSwitcher"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/permission_type_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/allow_pickingUp_layout">
+            android:visibility="gone">
 
-            <com.seamlabs.BlueRide.widgets.CairoSemiBoldTextView
+            <LinearLayout
+                android:id="@+id/allow_pickingUp_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_weight="2"
-                android:text="@string/permission_tv"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-
-            <RadioGroup
-                android:id="@+id/permission_type_radioGroup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_weight="1"
-                android:gravity="end"
+                android:layout_marginBottom="8dp"
                 android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/oneTimeRadioButton"
-                    android:layout_width="wrap_content"
+                <com.seamlabs.BlueRide.widgets.CairoSemiBoldTextView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="5dp"
-                    android:checked="true"
-                    android:text="@string/one_time" />
+                    android:layout_gravity="start"
+                    android:layout_weight="1"
+                    android:text="@string/allow_to_pick_this_students"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
 
-                <RadioButton
-                    android:id="@+id/alwaysRadioButton"
-                    android:layout_width="wrap_content"
+                <Switch
+                    android:id="@+id/allowPickUpSwitcher"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/always" />
-            </RadioGroup>
-        </LinearLayout>
+                    android:layout_gravity="end"
+                    android:layout_weight="1" />
+            </LinearLayout>
 
-        <com.seamlabs.BlueRide.widgets.CairoButton
-            android:id="@+id/save"
-            android:layout_width="@dimen/main_button_width"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            android:layout_margin="16dp"
-            android:background="@drawable/button_main_background"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="@string/Save"
-            android:textAllCaps="false"
-            android:textColor="@color/main_background_color"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/permission_type_layout" />
-    </android.support.constraint.ConstraintLayout>
+            <LinearLayout
+                android:id="@+id/permission_type_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/allow_pickingUp_layout">
+
+                <com.seamlabs.BlueRide.widgets.CairoSemiBoldTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_weight="2"
+                    android:text="@string/permission_tv"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <RadioGroup
+                    android:id="@+id/permission_type_radioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/oneTimeRadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:checked="true"
+                        android:text="@string/one_time" />
+
+                    <RadioButton
+                        android:id="@+id/alwaysRadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/always" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <com.seamlabs.BlueRide.widgets.CairoButton
+                android:id="@+id/save"
+                android:layout_width="@dimen/main_button_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_margin="16dp"
+                android:background="@drawable/button_main_background"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="@string/Save"
+                android:textAllCaps="false"
+                android:textColor="@color/main_background_color"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/permission_type_layout" />
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+
+
 </android.support.constraint.ConstraintLayout>

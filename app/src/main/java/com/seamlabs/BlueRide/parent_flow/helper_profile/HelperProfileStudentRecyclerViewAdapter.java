@@ -26,9 +26,9 @@ public class HelperProfileStudentRecyclerViewAdapter extends RecyclerView.Adapte
 
     Context context;
     ArrayList<StudentModel> students = new ArrayList<>();
-    ParentProfileViewCommunicator parentHomeViewCommunicator;
+    HelperProfileViewCommunicator parentHomeViewCommunicator;
 
-    public HelperProfileStudentRecyclerViewAdapter(ParentProfileViewCommunicator view, Context context, ArrayList<StudentModel> students) {
+    public HelperProfileStudentRecyclerViewAdapter(HelperProfileViewCommunicator view, Context context, ArrayList<StudentModel> students) {
         this.context = context;
         this.students = students;
         this.parentHomeViewCommunicator = view;

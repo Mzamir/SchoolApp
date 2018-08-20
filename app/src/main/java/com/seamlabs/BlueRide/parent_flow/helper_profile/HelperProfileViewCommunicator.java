@@ -8,8 +8,13 @@ public interface HelperProfileViewCommunicator {
 
     void hideProgress();
 
-    void onSuccessGettingHelperStudents(UserProfileResponseModel userProfileResponseModel) ;
+    void onSuccessChangeHelperState();
 
-    void onErrorGettingHelperStudents() ;
+    void onErrorChangeHelperState(String errorMessage);
 
+    void onSuccessAssigningHelper();
+
+    void onErrorAssigningHelper(String errorMessage);
+
+    void showPermissionActions(boolean show);
 }

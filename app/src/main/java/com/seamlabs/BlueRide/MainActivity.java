@@ -44,6 +44,7 @@ import static com.seamlabs.BlueRide.utils.Constants.HELPER_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.Constants.MENTOR_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.Constants.PARENT_ACTIVITY;
 import static com.seamlabs.BlueRide.utils.Constants.PARENT_USER_TYPE;
+import static com.seamlabs.BlueRide.utils.Constants.TEACHER_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.UserSettingsPreference.getUserType;
 import static com.seamlabs.BlueRide.utils.UserSettingsPreference.setUserType;
 
@@ -163,12 +164,12 @@ public class MainActivity extends AppCompatActivity
         profile_toolbar_layout.setVisibility(View.GONE);
         if (userType.equals(PARENT_USER_TYPE) || userType.equals(HELPER_USER_TYPE)) {
             fragment = new ParentHomeFragment();
-        } else if (userType.equals(MENTOR_USER_TYPE)) {
+        } else if (userType.equals(MENTOR_USER_TYPE) || userType.equals(TEACHER_USER_TYPE)) {
             fragment = new MentorHomeFragment();
         }
         Log.i(TAG, userType);
         if (fragment != null)
-            fragmentManager.beginTransaction().replace(R.id.frameLayout, fragment).addToBackStack(null).commit();
+            fragmentManager.beginTransaction().replace(R.id.frameLayout, fragment).commit();
     }
 
     private void showTrackingHelperFragment() {
@@ -202,7 +203,11 @@ public class MainActivity extends AppCompatActivity
         parent_toolbar_layout.setVisibility(View.GONE);
         track_helper_toolbar_layout.setVisibility(View.GONE);
         profile_toolbar_layout.setVisibility(View.VISIBLE);
-        fragmentManager.beginTransaction().replace(R.id.frameLayout, new EditProfileFragment()).addToBackStack(null).commit();
+        Fragment editProfileFragment = new EditProfileFragment();
+
+        fragmentManager.beginTransaction().replace(R.id.frameLayout, new EditProfileFragment(), EditProfileFragment.class.getSimpleName())
+                .addToBackStack(null).commit();
+
     }
 
     private void customizeToolbarBasedOnUserType(String currentUserType) {
@@ -241,6 +246,12 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             if (fragmentManager.getBackStackEntryCount() > 0) {
+                Fragment f = fragmentManager.findFragmentById(R.id.frameLayout);
+                if (f instanceof ParentHomeFragment) {
+
+                } else {
+
+                }
                 fragmentManager.popBackStack();
             } else {
                 super.onBackPressed();
@@ -310,5 +321,13 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        Fragment tagetedFragment = (Fragment) getSupportFragmentManager().findFragmentByTag(EditProfileFragment.class.getSimpleName());
+//        if (tagetedFragment != null) {
+//            tagetedFragment.onActivityResult(requestCode, resultCode, data);
+//        }
+//        Log.i(TAG, "onActivityResult");
+//    }
 }

@@ -5,6 +5,7 @@ import android.util.Log;
 import com.seamlabs.BlueRide.MyApplication;
 import com.seamlabs.BlueRide.network.ApiClient;
 import com.seamlabs.BlueRide.network.ApiService;
+import com.seamlabs.BlueRide.network.requests.TeacherDeliverStudentsRequestModel;
 import com.seamlabs.BlueRide.network.response.MentorDeliverStudentsResponseModel;
 import com.seamlabs.BlueRide.network.response.MentorQueueResponseModel;
 
@@ -58,11 +59,68 @@ public class MentorHomeInteractor {
                 });
     }
 
+    public void getTeacherQueue(final onMentorHomeListener listener) {
+        ApiService apiService = ApiClient.getClient(MyApplication.getMyApplicationContext())
+                .create(ApiService.class);
+
+        apiService.getTeacherQueue()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<ArrayList<MentorQueueResponseModel>>() {
+                    @Override
+                    public void onSuccess(ArrayList<MentorQueueResponseModel> mentorQueueResponseModels) {
+                        if (mentorQueueResponseModels != null) {
+                            if (mentorQueueResponseModels.size() > 0) {
+                                listener.onSuccessGettingStudents(mentorQueueResponseModels);
+                                return;
+                            }
+                        }
+                        listener.onErrorGettingStudents();
+                        Log.i(TAG, "onSuccess getMentorQueue Exception ");
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i(TAG, "onError getMentorQueue Exception " + e.getMessage());
+                        listener.onErrorGettingStudents();
+                    }
+                });
+    }
+
     public void deliverStudents(ArrayList<Integer> studentsIDs, final onMentorHomeListener listener) {
         ApiService apiService = ApiClient.getClient(MyApplication.getMyApplicationContext())
                 .create(ApiService.class);
 
         apiService.mentorDeliverStudentsAction(studentsIDs)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<ArrayList<MentorDeliverStudentsResponseModel>>() {
+                    @Override
+                    public void onSuccess(ArrayList<MentorDeliverStudentsResponseModel> mentorQueueResponseModels) {
+                        if (mentorQueueResponseModels != null) {
+//                            if (mentorQueueResponseModels.size() > 0) {
+                            listener.onSuccessDeliverAction();
+                            return;
+//                            }
+                        }
+                        listener.onErrorDeliverAction();
+                        Log.i(TAG, "onSuccess deliverStudents Exception ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i(TAG, "onError deliverStudents Exception " + e.getMessage());
+                        listener.onErrorDeliverAction();
+                    }
+                });
+    }
+
+    public void teacherDeliverStudents(ArrayList<TeacherDeliverStudentsRequestModel> requestModels, final onMentorHomeListener listener) {
+        ApiService apiService = ApiClient.getClient(MyApplication.getMyApplicationContext())
+                .create(ApiService.class);
+
+        apiService.teacherDeliverStudentsAction(requestModels)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<ArrayList<MentorDeliverStudentsResponseModel>>() {

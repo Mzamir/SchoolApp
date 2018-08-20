@@ -18,6 +18,7 @@ import static com.seamlabs.BlueRide.utils.Constants.HELPER_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.Constants.MENTOR_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.Constants.PARENT_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.Constants.SERVER_ERROR;
+import static com.seamlabs.BlueRide.utils.Constants.TEACHER_USER_TYPE;
 
 public class ParentRegistrationInteractor {
 
@@ -110,6 +111,8 @@ public class ParentRegistrationInteractor {
             user.setRole(HELPER_USER_TYPE);
         } else if (loginResponse.getRoles().get(0).getName().equals("mentor")) {
             user.setRole(MENTOR_USER_TYPE);
+        } else if (loginResponse.getRoles().get(0).getName().equals("teacher")) {
+            user.setRole(TEACHER_USER_TYPE);
         }
         return user;
     }

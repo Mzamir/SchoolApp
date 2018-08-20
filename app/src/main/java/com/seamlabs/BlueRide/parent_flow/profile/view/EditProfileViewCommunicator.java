@@ -7,5 +7,5 @@ public interface EditProfileViewCommunicator {
 
     void onSuccessEditProfile() ;
 
-    void onErrorEditProfile() ;
+    void onErrorEditProfile(String errorMessage) ;
 }

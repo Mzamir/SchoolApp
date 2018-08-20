@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".parent_flow.profile.view.ParentProfileActivity">
 
-    <com.seamlabs.BlueRide.widgets.CairoTextView
+    <com.seamlabs.BlueRide.widgets.CairoBoldTextView
         android:id="@+id/cairoTextView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
             android:background="@color/gray"
             android:tint="@color/gray"></View>
 
-        <com.seamlabs.BlueRide.widgets.CairoTextView
+        <com.seamlabs.BlueRide.widgets.CairoBoldTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Your helpers"
@@ -107,7 +107,7 @@
             android:background="@color/gray"
             android:tint="@color/gray"></View>
 
-        <com.seamlabs.BlueRide.widgets.CairoTextView
+        <com.seamlabs.BlueRide.widgets.CairoBoldTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Your Students"

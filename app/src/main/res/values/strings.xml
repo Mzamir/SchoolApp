@@ -60,6 +60,8 @@
     <string name="title_activity_tracking_helper_map">Map</string>
     <string name="address">Address</string>
     <string name="change_your_photo">Change your photo</string>
+    <string name="new_password_hint">New password</string>
+    <string name="confirm_password_hint">Confirm password</string>
 
 
 </resources>

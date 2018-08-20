@@ -9,6 +9,7 @@ public class MentorStudentModel {
     private String studentCreatedAt;
     private String studentUpdatedAt;
     private boolean marked;
+    private boolean mentorCanDeliver ;
     private String studentPicture;
     int requestId ;
     String requestState ;
@@ -101,5 +102,13 @@ public class MentorStudentModel {
 
     public void setRequestState(String requestState) {
         this.requestState = requestState;
+    }
+
+    public boolean isMentorCanDeliver() {
+        return mentorCanDeliver;
+    }
+
+    public void setMentorCanDeliver(boolean mentorCanDeliver) {
+        this.mentorCanDeliver = mentorCanDeliver;
     }
 }

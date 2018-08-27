@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,7 +51,7 @@ import static com.seamlabs.BlueRide.utils.UserSettingsPreference.getUserType;
 import static com.seamlabs.BlueRide.utils.UserSettingsPreference.setUserType;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ParentProfileFragment.onEditProfileClickListener, MyFragment.onNavigationIconClickListener {
 
     String TAG = MainActivity.class.getSimpleName();
 
@@ -85,6 +87,8 @@ public class MainActivity extends AppCompatActivity
     TextView nav_header_email;
     SimpleDraweeView nav_header_icon;
     Button nav_header_switchaccount;
+    DrawerLayout drawer;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +103,7 @@ public class MainActivity extends AppCompatActivity
 
 //        getSupportActionBar().setIcon(R.mipmap.school_ico);
         userProfileModel = UserSettingsPreference.getSavedUserProfile(this);
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
@@ -108,7 +112,7 @@ public class MainActivity extends AppCompatActivity
         toggle.setHomeAsUpIndicator(null);
         toggle.syncState();
         userType = getUserType(this);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         nav_header_switchaccount = navigationView.getHeaderView(0).findViewById(R.id.switch_account);
         nav_header_email = navigationView.getHeaderView(0).findViewById(R.id.nav_header_email);
         nav_header_username = navigationView.getHeaderView(0).findViewById(R.id.nav_header_username);
@@ -156,7 +160,7 @@ public class MainActivity extends AppCompatActivity
         Log.i("TOKEN", "User token " + PrefUtils.getApiKey(this));
     }
 
-    Fragment fragment = null;
+    MyFragment fragment = null;
 
     private void showInitialFragment() {
         parent_toolbar_layout.setVisibility(View.VISIBLE);
@@ -167,9 +171,10 @@ public class MainActivity extends AppCompatActivity
         } else if (userType.equals(MENTOR_USER_TYPE) || userType.equals(TEACHER_USER_TYPE)) {
             fragment = new MentorHomeFragment();
         }
+        fragment.setNavigationIconClickListener(this);
         Log.i(TAG, userType);
         if (fragment != null)
-            fragmentManager.beginTransaction().replace(R.id.frameLayout, fragment).commit();
+            replaceFragment(fragment);
     }
 
     private void showTrackingHelperFragment() {
@@ -177,7 +182,9 @@ public class MainActivity extends AppCompatActivity
         profile_toolbar_layout.setVisibility(View.GONE);
         track_helper_toolbar_layout.setVisibility(View.VISIBLE);
         Log.i(TAG, userType);
-        fragmentManager.beginTransaction().replace(R.id.frameLayout, new TrackingHelpersFragment()).addToBackStack(null).commit();
+        fragment = new TrackingHelpersFragment();
+        fragment.setNavigationIconClickListener(this);
+        replaceFragment(fragment);
     }
 
     private void showSettingFragment() {
@@ -190,7 +197,10 @@ public class MainActivity extends AppCompatActivity
         parent_toolbar_layout.setVisibility(View.GONE);
         track_helper_toolbar_layout.setVisibility(View.GONE);
         profile_toolbar_layout.setVisibility(View.VISIBLE);
-        fragmentManager.beginTransaction().replace(R.id.frameLayout, new ParentProfileFragment()).addToBackStack(null).commit();
+        fragment = new ParentProfileFragment();
+        ((ParentProfileFragment) fragment).setOnEditProfileClickListener(this);
+        fragment.setNavigationIconClickListener(this);
+        replaceFragment(fragment);
     }
 
     private void showEditProfileFragment() {
@@ -203,9 +213,10 @@ public class MainActivity extends AppCompatActivity
         parent_toolbar_layout.setVisibility(View.GONE);
         track_helper_toolbar_layout.setVisibility(View.GONE);
         profile_toolbar_layout.setVisibility(View.VISIBLE);
-        Fragment editProfileFragment = new EditProfileFragment();
 
-        fragmentManager.beginTransaction().replace(R.id.frameLayout, new EditProfileFragment(), EditProfileFragment.class.getSimpleName())
+        fragment = new EditProfileFragment();
+        fragment.setNavigationIconClickListener(this);
+        fragmentManager.beginTransaction().replace(R.id.frameLayout, fragment, EditProfileFragment.class.getSimpleName())
                 .addToBackStack(null).commit();
 
     }
@@ -246,12 +257,6 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             if (fragmentManager.getBackStackEntryCount() > 0) {
-                Fragment f = fragmentManager.findFragmentById(R.id.frameLayout);
-                if (f instanceof ParentHomeFragment) {
-
-                } else {
-
-                }
                 fragmentManager.popBackStack();
             } else {
                 super.onBackPressed();
@@ -283,9 +288,9 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        int id = menuItem.getItemId();
         Intent intent;
         switch (id) {
             case R.id.nav_home:
@@ -303,9 +308,10 @@ public class MainActivity extends AppCompatActivity
                 showSettingFragment();
                 break;
             case R.id.nav_pending_students:
-                MentorPendingFragment mentorPendingFragment = new MentorPendingFragment();
-                mentorPendingFragment.setStudentList(((MentorHomeFragment) fragment).getStudentList());
-                fragmentManager.beginTransaction().replace(R.id.frameLayout, mentorPendingFragment).addToBackStack(null).commit();
+                MyFragment mentorPendingFragment = new MentorPendingFragment();
+                ((MentorPendingFragment) mentorPendingFragment).setStudentList(((MentorHomeFragment) fragment).getStudentList());
+                mentorPendingFragment.setNavigationIconClickListener(this);
+                replaceFragment(mentorPendingFragment);
                 break;
             case R.id.nav_logout:
                 startActivity(new Intent(MainActivity.this, ParentSignInActivity.class));
@@ -321,13 +327,27 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        Fragment tagetedFragment = (Fragment) getSupportFragmentManager().findFragmentByTag(EditProfileFragment.class.getSimpleName());
-//        if (tagetedFragment != null) {
-//            tagetedFragment.onActivityResult(requestCode, resultCode, data);
-//        }
-//        Log.i(TAG, "onActivityResult");
-//    }
+    private void replaceFragment(final MyFragment finalFragment) {
+        MyFragment currentFragment = (MyFragment) fragmentManager.findFragmentById(R.id.frameLayout);
+        if (currentFragment != null) {
+            if (currentFragment.getClass().equals(finalFragment.getClass()))
+                return;
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fragmentManager.beginTransaction().replace(R.id.frameLayout, finalFragment).addToBackStack(null).commit();
+            }
+        }, 320);
+    }
+
+    @Override
+    public void onEditProfileClick() {
+        showEditProfileFragment();
+    }
+
+    @Override
+    public void onNavigationIconClick() {
+        drawer.openDrawer(Gravity.LEFT);
+    }
 }

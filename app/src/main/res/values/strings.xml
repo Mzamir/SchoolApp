@@ -62,6 +62,7 @@
     <string name="change_your_photo">Change your photo</string>
     <string name="new_password_hint">New password</string>
     <string name="confirm_password_hint">Confirm password</string>
+    <string name="no_requests_to_track">There is no request to track right now.</string>
 
 
 </resources>

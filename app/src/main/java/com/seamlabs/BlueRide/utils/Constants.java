@@ -73,5 +73,10 @@ public class Constants {
     //Saudi code
     public static final String PHONE_NUMBER_CODE = "+966";
 
+    // Picking-up period and permission
+    public static final int NOT_ALLOWED_TO_PICK_UP = 0 ;
+    public static final int ONE_TIME_PICK_UP = 1 ;
+    public static final int ALWAYS_PICK_UP = 2 ;
+
 
 }

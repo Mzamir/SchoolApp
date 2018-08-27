@@ -86,4 +86,12 @@ public class StudentResponseModel implements Serializable {
     public void setImages(ArrayList<ImagesResponseModel> images) {
         this.images = images;
     }
+
+    public StudentPivotResponseModel getPivot() {
+        return pivot;
+    }
+
+    public void setPivot(StudentPivotResponseModel pivot) {
+        this.pivot = pivot;
+    }
 }

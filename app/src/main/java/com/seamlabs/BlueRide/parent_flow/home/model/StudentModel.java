@@ -1,5 +1,7 @@
 package com.seamlabs.BlueRide.parent_flow.home.model;
 
+import com.seamlabs.BlueRide.network.response.StudentPivotResponseModel;
+
 public class StudentModel {
 
     private int studentID;
@@ -11,7 +13,7 @@ public class StudentModel {
     private String studentUpdatedAt;
     private boolean marked;
     private String studentPicture;
-
+    StudentPivotResponseModel pivot = new StudentPivotResponseModel();
     public int getStudentID() {
         return studentID;
     }
@@ -82,5 +84,13 @@ public class StudentModel {
 
     public void setStudentPicture(String studentPicture) {
         this.studentPicture = studentPicture;
+    }
+
+    public StudentPivotResponseModel getPivot() {
+        return pivot;
+    }
+
+    public void setPivot(StudentPivotResponseModel pivot) {
+        this.pivot = pivot;
     }
 }

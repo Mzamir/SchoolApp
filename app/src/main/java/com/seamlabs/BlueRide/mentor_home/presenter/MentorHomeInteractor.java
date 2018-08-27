@@ -41,10 +41,10 @@ public class MentorHomeInteractor {
                     @Override
                     public void onSuccess(ArrayList<MentorQueueResponseModel> mentorQueueResponseModels) {
                         if (mentorQueueResponseModels != null) {
-                            if (mentorQueueResponseModels.size() > 0) {
+//                            if (mentorQueueResponseModels.size() > 0) {
                                 listener.onSuccessGettingStudents(mentorQueueResponseModels);
                                 return;
-                            }
+//                            }
                         }
                         listener.onErrorGettingStudents();
                         Log.i(TAG, "onSuccess getMentorQueue Exception ");

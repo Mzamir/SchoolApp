@@ -9,36 +9,6 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:id="@+id/helper_layout"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        android:visibility="visible">
-
-        <com.seamlabs.BlueRide.widgets.CairoTextView
-            android:id="@+id/helper_name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Ahmed Mahmoud"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:gravity="center_vertical"
-            android:visibility="visible" />
-
-        <ImageView
-            android:id="@+id/helper_marked_icon"
-            android:layout_width="@dimen/marked_icon_dimen"
-            android:layout_height="@dimen/marked_icon_dimen"
-            android:src="@mipmap/marked_blue" />
-    </LinearLayout>
-
-
-    <LinearLayout
         android:id="@+id/mentor_students_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -53,12 +23,13 @@
             android:layout_height="@dimen/recycler_image_dimen"
             app:actualImageResource="@mipmap/profile_logo"
             app:placeholderImage="@mipmap/profile_logo"
+            android:layout_gravity="center"
             app:roundedCornerRadius="@dimen/roundedCornerRadius"
             fresco:viewAspectRatio="1.33" />
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/icons_padding"
             android:gravity="center_vertical"
             android:orientation="vertical">
@@ -78,24 +49,20 @@
                 android:text="Off King Fahd Road"
                 android:textColor="@color/gray"
                 android:textSize="12sp" />
+
+            <com.seamlabs.BlueRide.widgets.CairoTextView
+                android:id="@+id/student_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pending"
+                android:textColor="@color/green"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="right|center_vertical">
-
-            <com.seamlabs.BlueRide.widgets.CairoTextView
-                android:id="@+id/student_state"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="10dp"
-                android:text="Pending"
-                android:textColor="@color/green"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
             <ImageView
                 android:id="@+id/marked_icon"
                 android:layout_width="@dimen/marked_icon_dimen"
@@ -103,4 +70,5 @@
                 android:src="@mipmap/marked_blue" />
         </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>

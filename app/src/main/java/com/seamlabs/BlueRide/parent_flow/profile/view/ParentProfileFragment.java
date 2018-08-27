@@ -3,12 +3,10 @@ package com.seamlabs.BlueRide.parent_flow.profile.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,10 +15,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.seamlabs.BlueRide.MyApplication;
+import com.seamlabs.BlueRide.MyFragment;
 import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.network.response.HelperResponseModel;
 import com.seamlabs.BlueRide.network.response.StudentResponseModel;
@@ -35,7 +34,6 @@ import com.seamlabs.BlueRide.utils.UserSettingsPreference;
 import com.seamlabs.BlueRide.utils.Utility;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -44,7 +42,7 @@ import butterknife.ButterKnife;
 import static com.seamlabs.BlueRide.utils.Constants.HELPER_ACCOUNT;
 import static com.seamlabs.BlueRide.utils.Constants.STUDENTS_LIST;
 
-public class ParentProfileFragment extends Fragment implements ParentProfileViewCommunicator {
+public class ParentProfileFragment extends MyFragment implements ParentProfileViewCommunicator {
 
 
     ParentProfilePresenter prsenter;
@@ -74,19 +72,67 @@ public class ParentProfileFragment extends Fragment implements ParentProfileView
     UserResponseModel userProfileModel;
 
     Activity activity;
+    @BindView(R.id.profile_toolbar)
     Toolbar toolbar;
+
+    public interface onEditProfileClickListener {
+        void onEditProfileClick();
+
+//        void onNavigationIconClick();
+    }
+
+    @BindView(R.id.user_profile_picture)
+    SimpleDraweeView user_profile_picture;
+    @BindView(R.id.user_profile_name)
+    TextView user_profile_name;
+    @BindView(R.id.edit_profile)
+    ImageView edit_profile;
+    @BindView(R.id.navigation_icon)
+    LinearLayout navigation_icon;
+
+    private void bindToolBarData() {
+        edit_profile.setVisibility(View.VISIBLE);
+        if (UserSettingsPreference.getSavedUserProfile(getActivity()).getImages().get(0) != null) {
+            Uri uri = Uri.parse(UserSettingsPreference.getSavedUserProfile(getActivity()).getImages().get(0).getPath());
+            user_profile_picture.setImageURI(uri);
+        }
+        user_profile_name.setText(UserSettingsPreference.getSavedUserProfile(getActivity()).getName());
+
+        edit_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onEditProfileClickListener != null)
+                    onEditProfileClickListener.onEditProfileClick();
+            }
+        });
+        navigation_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getNavigationIconClickListener() != null){
+                    getNavigationIconClickListener().onNavigationIconClick();
+                }
+//                    onEditProfileClickListener.onNavigationIconClick();
+            }
+        });
+    }
+
+    onEditProfileClickListener onEditProfileClickListener;
+
+    public onEditProfileClickListener getOnEditProfileClickListener() {
+        return onEditProfileClickListener;
+    }
+
+    public void setOnEditProfileClickListener(onEditProfileClickListener onEditProfileClickListener) {
+        this.onEditProfileClickListener = onEditProfileClickListener;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_parent_profile, container, false);
         ButterKnife.bind(this, view);
-
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         activity = getActivity();
-//        toolbar = getView().findViewById(R.id.profile_toolbar);
-//        activity = (AppCompatActivity) getActivity();
-//        activity.setSupportActionBar(toolbar);
-
         prsenter = new ParentProfilePresenter(this, new ParentProfileInteactor());
         initializeView();
         userProfileModel = UserSettingsPreference.getSavedUserProfile(activity);
@@ -94,6 +140,7 @@ public class ParentProfileFragment extends Fragment implements ParentProfileView
 
         return view;
     }
+
 
     private void bindBasicDateToViews(UserResponseModel userProfileModel) {
         email_address.setText(userProfileModel.getEmail());
@@ -113,7 +160,7 @@ public class ParentProfileFragment extends Fragment implements ParentProfileView
         students_recyclerView.setLayoutManager(students_recyclerView_layoutManager);
         students_recyclerView.setItemAnimator(new DefaultItemAnimator());
         students_recyclerView.setAdapter(studentRecyclerViewAdapter);
-        prsenter.getUserProfile();
+
     }
 
     @Override
@@ -162,5 +209,12 @@ public class ParentProfileFragment extends Fragment implements ParentProfileView
 
         helpersRecyclerViewAdapter.notifyDataSetChanged();
         studentRecyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        bindToolBarData();
+        prsenter.getUserProfile();
     }
 }

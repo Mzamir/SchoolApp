@@ -1,0 +1,74 @@
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_home_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:gravity="center_vertical">
+
+    <LinearLayout
+        android:id="@+id/parent_toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/navigation_icon"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:gravity="start">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:src="@drawable/ic_menu"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/toolbar_logo"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="new post image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_school_ico"
+            android:visibility="visible"
+            app:actualImageScaleType="centerCrop"
+            app:placeholderImage="@drawable/ic_school_ico" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="10dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <com.seamlabs.BlueRide.widgets.CairoTextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Schools"
+                android:textColor="@color/main_background_color"
+                android:textSize="18sp" />
+
+            <com.seamlabs.BlueRide.widgets.CairoTextView
+                android:id="@+id/toolbar_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select the school to start picking up your students"
+                android:textColor="@color/main_background_color"
+                android:textSize="12sp"
+                android:visibility="visible" />
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.Toolbar>

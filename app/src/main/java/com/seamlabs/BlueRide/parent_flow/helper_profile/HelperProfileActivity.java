@@ -1,18 +1,16 @@
 package com.seamlabs.BlueRide.parent_flow.helper_profile;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,15 +21,13 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.seamlabs.BlueRide.MainActivity;
 import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.network.requests.AssignStudentsToHelperRequestModel;
+import com.seamlabs.BlueRide.network.response.HelperProfileResponseModel;
 import com.seamlabs.BlueRide.network.response.HelperResponseModel;
+import com.seamlabs.BlueRide.network.response.StudentPivotResponseModel;
 import com.seamlabs.BlueRide.network.response.StudentResponseModel;
-import com.seamlabs.BlueRide.network.response.UserProfileResponseModel;
 import com.seamlabs.BlueRide.parent_flow.home.model.StudentModel;
-import com.seamlabs.BlueRide.parent_flow.profile.adapter.ProfileStudentRecyclerViewAdapter;
-import com.seamlabs.BlueRide.parent_flow.profile.view.ParentProfileViewCommunicator;
 import com.seamlabs.BlueRide.utils.Utility;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.transitionseverywhere.TransitionManager;
@@ -40,15 +36,16 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.http.Body;
 
-import static com.seamlabs.BlueRide.utils.Constants.FRAGMENT_TO_SHOW;
+import static com.seamlabs.BlueRide.utils.Constants.ALWAYS_PICK_UP;
 import static com.seamlabs.BlueRide.utils.Constants.HELPER_ACCOUNT;
-import static com.seamlabs.BlueRide.utils.Constants.PROFILE_FRAGMENT;
+import static com.seamlabs.BlueRide.utils.Constants.NOT_ALLOWED_TO_PICK_UP;
+import static com.seamlabs.BlueRide.utils.Constants.ONE_TIME_PICK_UP;
 import static com.seamlabs.BlueRide.utils.Constants.STUDENTS_LIST;
 
 public class HelperProfileActivity extends AppCompatActivity implements HelperProfileViewCommunicator {
 
+    private static final String TAG = HelperProfileActivity.class.getSimpleName();
     @BindView(R.id.students_recyclerView)
     RecyclerView students_recyclerView;
     @BindView(R.id.students_layout)
@@ -87,6 +84,8 @@ public class HelperProfileActivity extends AppCompatActivity implements HelperPr
     @BindView(R.id.alwaysRadioButton)
     RadioButton alwaysPermission;
 
+    @BindView(R.id.permission_type_layout)
+    LinearLayout permission_type_layout;
     HelperProfileStudentRecyclerViewAdapter studentRecyclerViewAdapter;
     HelperResponseModel helperResponseModel;
     ArrayList<StudentResponseModel> studentsList = new ArrayList<>();
@@ -111,10 +110,11 @@ public class HelperProfileActivity extends AppCompatActivity implements HelperPr
         setSupportActionBar(toolbar);
         presenter = new HelperProfilePresenter(this, new HelperProfileInteractor());
         helperResponseModel = (HelperResponseModel) getIntent().getSerializableExtra(HELPER_ACCOUNT);
-        studentsList = (ArrayList<StudentResponseModel>) getIntent().getSerializableExtra(STUDENTS_LIST);
         if (helperResponseModel != null) {
             initializeView();
+            presenter.getHelperProfile(helperResponseModel.getId());
         }
+
     }
 
     private void initializeView() {
@@ -141,8 +141,12 @@ public class HelperProfileActivity extends AppCompatActivity implements HelperPr
             public void onClick(View v) {
                 if (allowHelperToPickStudent.isChecked()) {
                     allowToPickStudent = true;
+                    permissionType = ONE_TIME_PICK_UP;
+                    permission_type_layout.setVisibility(View.VISIBLE);
                 } else {
+                    permissionType = NOT_ALLOWED_TO_PICK_UP;
                     allowToPickStudent = false;
+                    permission_type_layout.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -152,7 +156,7 @@ public class HelperProfileActivity extends AppCompatActivity implements HelperPr
             public void onClick(View v) {
                 oneTimePermission.setChecked(true);
                 alwaysPermission.setChecked(false);
-                permissionType = 0;
+                permissionType = ONE_TIME_PICK_UP;
             }
         });
         alwaysPermission.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +164,7 @@ public class HelperProfileActivity extends AppCompatActivity implements HelperPr
             public void onClick(View v) {
                 oneTimePermission.setChecked(false);
                 alwaysPermission.setChecked(true);
-                permissionType = 1;
+                permissionType = ALWAYS_PICK_UP;
             }
         });
         helper_state_switch.setOnClickListener(new View.OnClickListener() {
@@ -188,7 +192,6 @@ public class HelperProfileActivity extends AppCompatActivity implements HelperPr
         AssignStudentsToHelperRequestModel requestModel = new AssignStudentsToHelperRequestModel();
 
         requestModel.setHelper_id(helperResponseModel.getId());
-        requestModel.setAllow_pickup(allowToPickStudent);
         requestModel.setOne_time(permissionType);
         requestModel.setStudent_ids(studentRecyclerViewAdapter.getSelectedStudent());
 
@@ -219,11 +222,12 @@ public class HelperProfileActivity extends AppCompatActivity implements HelperPr
     @Override
     public void onSuccessAssigningHelper() {
         Toast.makeText(this, "Saved Successfully", Toast.LENGTH_SHORT).show();
-//        Intent intent = new Intent(HelperProfileActivity.this, MainActivity.class);
-//        intent.putExtra(FRAGMENT_TO_SHOW, PROFILE_FRAGMENT);
-//        startActivity(intent);
-//        finish();
-        onBackPressed();
+//        onBackPressed();
+        try {
+            presenter.getHelperProfile(helperResponseModel.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -233,19 +237,56 @@ public class HelperProfileActivity extends AppCompatActivity implements HelperPr
 
 
     @Override
-    public void showPermissionActions(boolean show) {
-//        if (show)
-//            permissions_layout.setVisibility(View.VISIBLE);
-//        else
-//            permissions_layout.setVisibility(View.INVISIBLE);
+    public void showPermissionActions(boolean show, StudentModel studentModel) {
         TransitionManager.beginDelayedTransition(transitionsContainer);
-        if (show)
+        if (show) {
+            StudentPivotResponseModel pivot = studentModel.getPivot();
+            if (pivot != null) {
+                Log.i(TAG, "Pivot state " + pivot.getOne_time());
+                if (pivot.getOne_time() == 0) {
+                    allowHelperToPickStudent.setChecked(false);
+                    permission_type_layout.setVisibility(View.INVISIBLE);
+                    permissionType = NOT_ALLOWED_TO_PICK_UP;
+                } else if (pivot.getOne_time() == 1) {
+                    permission_type_layout.setVisibility(View.VISIBLE);
+                    allowHelperToPickStudent.setChecked(true);
+                    oneTimePermission.setChecked(true);
+                    alwaysPermission.setChecked(false);
+                    permissionType = ONE_TIME_PICK_UP;
+                } else if (pivot.getOne_time() == 2) {
+                    permission_type_layout.setVisibility(View.VISIBLE);
+                    allowHelperToPickStudent.setChecked(true);
+                    oneTimePermission.setChecked(false);
+                    alwaysPermission.setChecked(true);
+                    permissionType = ALWAYS_PICK_UP;
+                }
+            }
             permissions_layout.setVisibility(View.VISIBLE);
-        else
-            permissions_layout.setVisibility(View.GONE);
 
+        } else
+            permissions_layout.setVisibility(View.GONE);
     }
 
+    @Override
+    public void onSuccessGettingHelperProfile(HelperProfileResponseModel helperProfileResponse) {
+        if (helperProfileResponse.getStudents() != null) {
+            this.studentsList.clear();
+            this.studentsList.addAll(helperProfileResponse.getStudents());
+            studentRecyclerViewAdapter = new HelperProfileStudentRecyclerViewAdapter(this, this, convertStudentsResponseToStudentModel(studentsList));
+            RecyclerView.LayoutManager students_recyclerView_layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            students_recyclerView.setLayoutManager(students_recyclerView_layoutManager);
+            students_recyclerView.setItemAnimator(new DefaultItemAnimator());
+            students_recyclerView.setAdapter(studentRecyclerViewAdapter);
+            studentRecyclerViewAdapter.notifyDataSetChanged();
+            permissions_layout.setVisibility(View.GONE);
+
+        }
+    }
+
+    @Override
+    public void onErrorGettingHelperProfile(String message) {
+
+    }
 
     private ArrayList<StudentModel> convertStudentsResponseToStudentModel(ArrayList<StudentResponseModel> studentResponseModels) {
         ArrayList<StudentModel> studentModels = new ArrayList<>();
@@ -256,6 +297,7 @@ public class HelperProfileActivity extends AppCompatActivity implements HelperPr
                     studentModel.setStudentPicture(response.getImages().get(0).getPath());
                 }
             }
+            studentModel.setPivot(response.getPivot());
             studentModel.setMarked(false);
             studentModel.setStudentID(response.getId());
             studentModel.setStudentName(response.getName());
@@ -267,19 +309,5 @@ public class HelperProfileActivity extends AppCompatActivity implements HelperPr
             studentModels.add(studentModel);
         }
         return studentModels;
-    }
-
-    private void showNewPassword(final View view) {
-//        boolean visible = view.getVisibility() == View.VISIBLE ? true : false;
-        TransitionManager.beginDelayedTransition(transitionsContainer);
-        // it is the same as
-        // TransitionManager.beginDelayedTransition(transitionsContainer, new AutoTransition());
-        // where AutoTransition is the set of Fade and ChangeBounds transitions
-//        new_password_layout.setVisibility(visible ? View.VISIBLE : View.GONE);
-        if (view.getVisibility() == View.GONE)
-            view.setVisibility(View.VISIBLE);
-        else
-            view.setVisibility(View.GONE);
-
     }
 }

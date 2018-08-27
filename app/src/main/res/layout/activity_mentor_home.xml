@@ -7,6 +7,8 @@
     android:orientation="vertical"
     tools:context=".mentor_home.view.MentorHomeActivity">
 
+    <include layout="@layout/profile_toolbar"></include>
+
     <LinearLayout
         android:id="@+id/mentor_students_layout"
         android:layout_width="match_parent"

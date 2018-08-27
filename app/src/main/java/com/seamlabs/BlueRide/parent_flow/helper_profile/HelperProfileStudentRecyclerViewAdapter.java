@@ -11,10 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.seamlabs.BlueRide.R;
-import com.seamlabs.BlueRide.mentor_home.model.MentorStudentModel;
-import com.seamlabs.BlueRide.network.response.StudentResponseModel;
 import com.seamlabs.BlueRide.parent_flow.home.model.StudentModel;
-import com.seamlabs.BlueRide.parent_flow.profile.view.ParentProfileViewCommunicator;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -46,11 +43,6 @@ public class HelperProfileStudentRecyclerViewAdapter extends RecyclerView.Adapte
     public void onBindViewHolder(@NonNull SchoolsViewHolderLayout holder, int position) {
         final StudentModel studentModel = students.get(position);
 
-//        if (studentModel.getName().contains(" ")) {
-//            holder.student_name.setText(studentModel.getName().substring(0, studentModel.getName().indexOf(" ")));
-//        } else {
-//            holder.student_name.setText(studentModel.getName());
-//        }
         holder.student_name.setText(studentModel.getStudentName());
         if (studentModel.getStudentPicture() != null) {
             Uri uri = Uri.parse(studentModel.getStudentPicture());
@@ -76,8 +68,8 @@ public class HelperProfileStudentRecyclerViewAdapter extends RecyclerView.Adapte
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     StudentModel studentModel = students.get(position);
-                    studentModel.setMarked(!studentModel.isMarked());
-                    showPermissionActions();
+                    markSelectedStudent(position);
+                    showPermissionActions(studentModel);
                     notifyItemChanged(position);
                 }
             });
@@ -110,14 +102,24 @@ public class HelperProfileStudentRecyclerViewAdapter extends RecyclerView.Adapte
         return selectedStudentList;
     }
 
-    void showPermissionActions() {
+    void showPermissionActions(StudentModel studentModel) {
         for (StudentModel model : students) {
             if (model.isMarked()) {
-                parentHomeViewCommunicator.showPermissionActions(true);
+                parentHomeViewCommunicator.showPermissionActions(true , studentModel);
                 return;
             }
         }
-        parentHomeViewCommunicator.showPermissionActions(false);
+        parentHomeViewCommunicator.showPermissionActions(false , studentModel);
     }
 
+    private void markSelectedStudent(int selectedSchoolPosition) {
+        for (int i = 0; i < students.size(); i++) {
+            if (i == selectedSchoolPosition) {
+                students.get(i).setMarked(!students.get(i).isMarked());
+            } else {
+                students.get(i).setMarked(false);
+            }
+            notifyItemChanged(i);
+        }
+    }
 }

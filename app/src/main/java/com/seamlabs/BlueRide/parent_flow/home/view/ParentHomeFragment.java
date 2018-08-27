@@ -13,19 +13,23 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.pusher.client.Pusher;
 import com.pusher.client.PusherOptions;
 import com.pusher.client.channel.Channel;
 import com.pusher.client.channel.SubscriptionEventListener;
+import com.seamlabs.BlueRide.MyFragment;
 import com.seamlabs.BlueRide.parent_flow.pick_up.view.MapsActivity;
 import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.network.requests.ParentPickUpRequestModel;
@@ -50,7 +54,7 @@ import static com.seamlabs.BlueRide.utils.Constants.PUSHER_API_CLUSTER;
 import static com.seamlabs.BlueRide.utils.Constants.PUSHER_API_KEY;
 import static com.seamlabs.BlueRide.utils.Constants.SELECTED_SCHOOL_MODEL;
 
-public class ParentHomeFragment extends Fragment implements ParentHomeViewCommunicator {
+public class ParentHomeFragment extends MyFragment implements ParentHomeViewCommunicator {
 
     private static final int REQUEST_PERMISSION_GPS_STATE = 1;
     String TAG = ParentHomeFragment.class.getSimpleName();
@@ -66,6 +70,11 @@ public class ParentHomeFragment extends Fragment implements ParentHomeViewCommun
     @BindView(R.id.startPickup)
     Button startPickup;
 
+    @BindView(R.id.parent_home_toolbar)
+    Toolbar parent_home_toolbar;
+    @BindView(R.id.navigation_icon)
+    LinearLayout navigation_icon;
+
     ParentHomePresenter presenter;
     SchoolsRecyclerAdapter schoolsRecyclerAdapter;
     StudentRecyclerAdapter studentRecyclerAdapter;
@@ -77,6 +86,7 @@ public class ParentHomeFragment extends Fragment implements ParentHomeViewCommun
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_parent_home, container, false);
         ButterKnife.bind(this, view);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(parent_home_toolbar);
         initializeView();
         presenter = new ParentHomePresenter(this, new ParentHomeInteractor());
         presenter.getParentSchools();
@@ -90,6 +100,14 @@ public class ParentHomeFragment extends Fragment implements ParentHomeViewCommun
                     }
                 } else {
                     showSnackBar("Select the school and your students first", false);
+                }
+            }
+        });
+        navigation_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getNavigationIconClickListener() != null) {
+                    getNavigationIconClickListener().onNavigationIconClick();
                 }
             }
         });

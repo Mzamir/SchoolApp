@@ -3,62 +3,70 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+    <include layout="@layout/parent_home_toolbar"></include>
+
     <LinearLayout
-        android:id="@+id/schools_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_margin="16dp"
         android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/schools_recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="horizontal"></android.support.v7.widget.RecyclerView>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/gray"
-            android:tint="@color/gray"></View>
-
         <LinearLayout
+            android:id="@+id/schools_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/students_recyclerView"
+                android:id="@+id/schools_recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="vertical"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/schools_layout"></android.support.v7.widget.RecyclerView>
+                android:scrollbars="horizontal"></android.support.v7.widget.RecyclerView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/gray"
+                android:tint="@color/gray"></View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/students_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/schools_layout"></android.support.v7.widget.RecyclerView>
+            </LinearLayout>
         </LinearLayout>
+
+
+        <com.seamlabs.BlueRide.widgets.CairoButton
+            android:id="@+id/startPickup"
+            android:layout_width="@dimen/main_button_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="32dp"
+            android:background="@drawable/button_main_background"
+            android:backgroundTint="@color/green"
+            android:elevation="5dp"
+            android:text="Start"
+            android:textAllCaps="false"
+            android:textColor="@color/main_background_color" />
     </LinearLayout>
-
-
-    <com.seamlabs.BlueRide.widgets.CairoButton
-        android:id="@+id/startPickup"
-        android:layout_width="@dimen/main_button_width"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"
-        android:background="@drawable/button_main_background"
-        android:backgroundTint="@color/green"
-        android:elevation="5dp"
-        android:text="Start"
-        android:textAllCaps="false"
-        android:textColor="@color/main_background_color" />
 
 </LinearLayout>

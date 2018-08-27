@@ -1,12 +1,14 @@
 package com.seamlabs.BlueRide.mentor_home.view;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,10 +17,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -29,6 +34,7 @@ import com.pusher.client.channel.Channel;
 import com.pusher.client.channel.SubscriptionEventListener;
 import com.pusher.client.channel.User;
 import com.seamlabs.BlueRide.MyApplication;
+import com.seamlabs.BlueRide.MyFragment;
 import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.mentor_home.adapter.MentorStudentsRecyclerViewAdapter;
 import com.seamlabs.BlueRide.mentor_home.model.MentorStudentModel;
@@ -63,7 +69,7 @@ import static com.seamlabs.BlueRide.utils.Constants.PUSHER_MENTOR_CHANEL_NAME;
 import static com.seamlabs.BlueRide.utils.Constants.PUSHER_MENTOR_EVENT_NAME;
 import static com.seamlabs.BlueRide.utils.Constants.TEACHER_USER_TYPE;
 
-public class MentorHomeFragment extends Fragment implements MentorHomeViewCommunicator {
+public class MentorHomeFragment extends MyFragment implements MentorHomeViewCommunicator {
 
     Pusher pusher;
     Activity activity;
@@ -91,6 +97,34 @@ public class MentorHomeFragment extends Fragment implements MentorHomeViewCommun
     @BindView(R.id.no_students_tv)
     TextView no_students_tv;
 
+    @BindView(R.id.profile_toolbar)
+    android.support.v7.widget.Toolbar toolbar;
+    @BindView(R.id.user_profile_picture)
+    SimpleDraweeView user_profile_picture;
+    @BindView(R.id.user_profile_name)
+    TextView user_profile_name;
+    @BindView(R.id.edit_profile)
+    ImageView edit_profile;
+    @BindView(R.id.navigation_icon)
+    LinearLayout navigation_icon;
+
+    private void bindToolBarData() {
+        if (UserSettingsPreference.getSavedUserProfile(getActivity()).getImages().get(0) != null) {
+            Uri uri = Uri.parse(UserSettingsPreference.getSavedUserProfile(getActivity()).getImages().get(0).getPath());
+            user_profile_picture.setImageURI(uri);
+        }
+        user_profile_name.setText(UserSettingsPreference.getSavedUserProfile(getActivity()).getName());
+
+        navigation_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getNavigationIconClickListener() != null) {
+                    getNavigationIconClickListener().onNavigationIconClick();
+                }
+            }
+        });
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -100,6 +134,7 @@ public class MentorHomeFragment extends Fragment implements MentorHomeViewCommun
             activity.getWindow().setStatusBarColor(ContextCompat.getColor(activity, R.color.colorPrimary));
         }
         ButterKnife.bind(this, view);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         presenter = new MentorHomePresenter(this, new MentorHomeInteractor());
         initializeView();
         deliver_students.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +144,13 @@ public class MentorHomeFragment extends Fragment implements MentorHomeViewCommun
             }
         });
         initializePushNotification();
+        navigation_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getNavigationIconClickListener() != null)
+                    getNavigationIconClickListener().onNavigationIconClick();
+            }
+        });
         return view;
     }
 
@@ -274,4 +316,9 @@ public class MentorHomeFragment extends Fragment implements MentorHomeViewCommun
         return presenter.sortStudentsBasedOnPriority(studentList);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        bindToolBarData();
+    }
 }

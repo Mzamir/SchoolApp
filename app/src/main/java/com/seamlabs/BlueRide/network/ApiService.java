@@ -6,6 +6,7 @@ import com.seamlabs.BlueRide.network.requests.ParentPickUpRequestModel;
 import com.seamlabs.BlueRide.network.requests.TeacherDeliverStudentsRequestModel;
 import com.seamlabs.BlueRide.network.requests.UpdateLocationRequestModel;
 import com.seamlabs.BlueRide.network.requests.UserRequestModel;
+import com.seamlabs.BlueRide.network.response.HelperProfileResponseModel;
 import com.seamlabs.BlueRide.network.response.HelperResponseModel;
 import com.seamlabs.BlueRide.network.response.MentorDeliverStudentsResponseModel;
 import com.seamlabs.BlueRide.network.response.MentorQueueResponseModel;
@@ -150,4 +151,6 @@ public interface ApiService {
     @PUT("change_helper_status")
     Single<BaseResponse> changeHelperState(@Field("helper_id") int helper_id);
 
+    @GET
+    Single<HelperProfileResponseModel> getHelperProfile(@Url() String helper_id);
 }

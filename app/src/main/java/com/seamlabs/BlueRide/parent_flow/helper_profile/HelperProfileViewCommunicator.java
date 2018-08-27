@@ -1,7 +1,7 @@
 package com.seamlabs.BlueRide.parent_flow.helper_profile;
 
-import com.seamlabs.BlueRide.network.response.HelperResponseModel;
-import com.seamlabs.BlueRide.network.response.UserProfileResponseModel;
+import com.seamlabs.BlueRide.network.response.HelperProfileResponseModel;
+import com.seamlabs.BlueRide.parent_flow.home.model.StudentModel;
 
 public interface HelperProfileViewCommunicator {
     void showProgress();
@@ -16,5 +16,11 @@ public interface HelperProfileViewCommunicator {
 
     void onErrorAssigningHelper(String errorMessage);
 
-    void showPermissionActions(boolean show);
+    void showPermissionActions(boolean show, StudentModel studentModel);
+
+    void onSuccessGettingHelperProfile(HelperProfileResponseModel helperProfileResponse);
+
+    void onErrorGettingHelperProfile(String message);
+
+
 }

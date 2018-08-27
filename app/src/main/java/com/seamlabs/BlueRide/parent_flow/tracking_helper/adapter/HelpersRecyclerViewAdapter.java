@@ -36,7 +36,7 @@ public class HelpersRecyclerViewAdapter extends RecyclerView.Adapter<HelpersRecy
     @NonNull
     @Override
     public StudentsViewHolderLayout onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.mentor_students_recyclerview_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.helpers_recyclerview_item, parent, false);
         StudentsViewHolderLayout studentsViewHolderLayout = new StudentsViewHolderLayout(v);
         return studentsViewHolderLayout;
     }

@@ -13,8 +13,12 @@
                       <PersistentState>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_waiting_annimation" />
-                            <entry key="sourceFile" value="C:\Users\Mahmoud Samir" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="height" value="46" />
+                            <entry key="outputName" value="ic_upload_ico" />
+                            <entry key="overrideSize" value="true" />
+                            <entry key="sourceFile" value="C:\Users\Mahmoud Samir\Desktop\upload_ico.svg" />
+                            <entry key="width" value="46" />
                           </map>
                         </option>
                       </PersistentState>

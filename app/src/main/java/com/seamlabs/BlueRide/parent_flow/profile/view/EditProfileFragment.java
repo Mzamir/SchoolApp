@@ -15,6 +15,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.seamlabs.BlueRide.MyFragment;
 import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.network.requests.EditProfileRequestModel;
 import com.seamlabs.BlueRide.network.response.UserResponseModel;
@@ -41,7 +45,7 @@ import butterknife.ButterKnife;
 import static com.seamlabs.BlueRide.utils.Constants.EMPTY_FIELD_ERROR;
 import static com.seamlabs.BlueRide.utils.Utility.isEmailValid;
 
-public class EditProfileFragment extends Fragment implements EditProfileViewCommunicator {
+public class EditProfileFragment extends MyFragment implements EditProfileViewCommunicator {
     String TAG = EditProfileFragment.class.getSimpleName();
     @BindView(R.id.email_address)
     EditText email_address;
@@ -79,6 +83,10 @@ public class EditProfileFragment extends Fragment implements EditProfileViewComm
     @BindView(R.id.new_password_layout)
     LinearLayout new_password_layout;
 
+    @BindView(R.id.profile_toolbar)
+    Toolbar toolbar ;
+    @BindView(R.id.navigation_icon)
+    LinearLayout navigation_icon;
     UserResponseModel userProfileModel;
     Activity activity;
 
@@ -100,11 +108,41 @@ public class EditProfileFragment extends Fragment implements EditProfileViewComm
     private String address = "";
     private String imagePath = "";
 
+    @BindView(R.id.user_profile_picture)
+    SimpleDraweeView user_profile_picture;
+    @BindView(R.id.user_profile_name)
+    TextView user_profile_name;
+    @BindView(R.id.edit_profile)
+    ImageView edit_profile;
+
+    private void bindToolBarData() {
+        if (UserSettingsPreference.getSavedUserProfile(getActivity()).getImages().get(0) != null) {
+            Uri uri = Uri.parse(UserSettingsPreference.getSavedUserProfile(getActivity()).getImages().get(0).getPath());
+            user_profile_picture.setImageURI(uri);
+        }
+        user_profile_name.setText(UserSettingsPreference.getSavedUserProfile(getActivity()).getName());
+
+        edit_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                showEditProfileFragment();
+            }
+        });
+
+        navigation_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getNavigationIconClickListener()!=null)
+                    getNavigationIconClickListener().onNavigationIconClick();
+            }
+        });
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_edit_profile, container, false);
         ButterKnife.bind(this, view);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         requestModel = new EditProfileRequestModel();
         activity = getActivity();
         presenter = new EditProfilePresenter(this, new EditProfileInteactor());
@@ -408,5 +446,10 @@ public class EditProfileFragment extends Fragment implements EditProfileViewComm
                     }
                 }
         }
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        bindToolBarData();
     }
 }

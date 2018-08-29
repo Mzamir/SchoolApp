@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.seamlabs.BlueRide.MainActivity;
 import com.seamlabs.BlueRide.MyActivity;
-import com.seamlabs.BlueRide.MyApplication;
 import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.parent_flow.account.presenter.ParentRegistrationInteractor;
 import com.seamlabs.BlueRide.parent_flow.account.presenter.ParentSignInPresenter;
@@ -82,9 +81,14 @@ public class ParentSignInActivity extends MyActivity implements ParentRegistrati
     }
 
     @Override
-    public void navigateToParentHome() {
+    public void navigateToParentHome(int status) {
         startActivity(new Intent(this, MainActivity.class));
         finish();
+    }
+
+    @Override
+    public void onSuccessGettingTerms() {
+
     }
 
     private void validateCredentials() {

@@ -1,6 +1,7 @@
 package com.seamlabs.BlueRide.network;
 
 import com.seamlabs.BlueRide.network.requests.AssignStudentsToHelperRequestModel;
+import com.seamlabs.BlueRide.network.requests.CancelPickUpRequestModel;
 import com.seamlabs.BlueRide.network.requests.EditProfileRequestModel;
 import com.seamlabs.BlueRide.network.requests.ParentPickUpRequestModel;
 import com.seamlabs.BlueRide.network.requests.TeacherDeliverStudentsRequestModel;
@@ -24,12 +25,15 @@ import java.util.ArrayList;
 import io.reactivex.Single;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -41,7 +45,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("signup_parent")
-    Single<UserResponseModel> signUpParent(@Field("national_id") String national_id, @Field("password") String password);
+    Single<Response<UserResponseModel>> signUpParent(@Field("national_id") String national_id, @Field("password") String password);
 
     @FormUrlEncoded
     @POST("add_helper")
@@ -49,6 +53,14 @@ public interface ApiService {
 
     @POST("signup_helper")
     Single<UserResponseModel> signupHelper(@Body UserRequestModel userRequestModel);
+
+    @FormUrlEncoded
+    @POST("signup_helper")
+    Single<Response<UserResponseModel>> signupHelper(@Field("name") String name,
+                                                     @Field("email") String email,
+                                                     @Field("password") String password,
+                                                     @Field("national_id") String national_id,
+                                                     @Field("phone") String phone);
 
 
     @FormUrlEncoded
@@ -98,8 +110,10 @@ public interface ApiService {
     @GET("teacher_queue")
     Single<ArrayList<MentorQueueResponseModel>> getTeacherQueue();
 
+
     @FormUrlEncoded
-    @DELETE
+    @HTTP(method = "DELETE", path = "cancel_request", hasBody = true)
+//    @DELETE("cancel_request")
     Single<BaseResponse> cancelPickUpRequest(@Field("request_id") int request_id);
 
     @POST("/simulate")
@@ -128,6 +142,10 @@ public interface ApiService {
     Single<UserResponseModel> editProfile(@Part MultipartBody.Part image);
 
     @Multipart
+    @POST("student_image")
+    Single<UserResponseModel> editStudentImage(@Part MultipartBody.Part image, @Part("national_id") RequestBody id);
+
+    @Multipart
     @POST("user_profile")
     Single<UserResponseModel> editProfile(
             @Part("email") RequestBody email,
@@ -153,4 +171,5 @@ public interface ApiService {
 
     @GET
     Single<HelperProfileResponseModel> getHelperProfile(@Url() String helper_id);
+
 }

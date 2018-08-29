@@ -8,9 +8,11 @@ public interface ParentPickUpView {
 
     void hideProgress();
 
-    void onSuccess(ParentArrivedResponseModel parentArrivedResponseModel);
+    void onSuccessParentArrived(ParentArrivedResponseModel parentArrivedResponseModel);
 
     void onSuccessPickUpRequest(ParentPickUpResponseModel responseModel);
 
-    void onError();
+    void onError(String errorMessage);
+
+    void onSuccessCancelingRequest(String success);
 }

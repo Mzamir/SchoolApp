@@ -75,7 +75,7 @@ public class ProfileStudentRecyclerViewAdapter extends RecyclerView.Adapter<Prof
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    parentHomeViewCommunicator.onStudentClickListner(students.get(getAdapterPosition()));
                 }
             });
         }

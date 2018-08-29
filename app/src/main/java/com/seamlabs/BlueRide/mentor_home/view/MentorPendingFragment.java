@@ -83,8 +83,9 @@ public class MentorPendingFragment extends MyFragment implements MentorHomeViewC
                 this.studentList.add(mentorStudentModel);
         }
     }
+
     @BindView(R.id.profile_toolbar)
-    Toolbar toolbar ;
+    Toolbar toolbar;
 
     @BindView(R.id.user_profile_picture)
     SimpleDraweeView user_profile_picture;
@@ -109,6 +110,7 @@ public class MentorPendingFragment extends MyFragment implements MentorHomeViewC
             }
         });
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -121,7 +123,11 @@ public class MentorPendingFragment extends MyFragment implements MentorHomeViewC
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         presenter = new MentorHomePresenter(this, new MentorHomeInteractor());
         number_of_student_requests_layout.setVisibility(View.GONE);
-        initializeView();
+        try {
+            initializeView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         deliver_students.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,7 +137,7 @@ public class MentorPendingFragment extends MyFragment implements MentorHomeViewC
         navigation_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getNavigationIconClickListener()!=null)
+                if (getNavigationIconClickListener() != null)
                     getNavigationIconClickListener().onNavigationIconClick();
             }
         });
@@ -139,14 +145,18 @@ public class MentorPendingFragment extends MyFragment implements MentorHomeViewC
     }
 
     private void initializeView() {
-        studentList = getStudentList();
-        if (studentList.size() > 0) {
-            showStudentRecyclerView(true);
-            studentRecyclerAdapter = new MentorStudentsRecyclerViewAdapter(this, activity, studentList);
-            RecyclerView.LayoutManager students_recyclerView_layoutManager = new LinearLayoutManager(activity);
-            students_recyclerView.setLayoutManager(students_recyclerView_layoutManager);
-            students_recyclerView.setItemAnimator(new DefaultItemAnimator());
-            students_recyclerView.setAdapter(studentRecyclerAdapter);
+        studentList = UserSettingsPreference.getPendingStudentsFromShared();
+        if (studentList != null) {
+            if (studentList.size() > 0) {
+                showStudentRecyclerView(true);
+                studentRecyclerAdapter = new MentorStudentsRecyclerViewAdapter(this, activity, studentList);
+                RecyclerView.LayoutManager students_recyclerView_layoutManager = new LinearLayoutManager(activity);
+                students_recyclerView.setLayoutManager(students_recyclerView_layoutManager);
+                students_recyclerView.setItemAnimator(new DefaultItemAnimator());
+                students_recyclerView.setAdapter(studentRecyclerAdapter);
+            } else {
+                showStudentRecyclerView(false);
+            }
         } else {
             showStudentRecyclerView(false);
         }

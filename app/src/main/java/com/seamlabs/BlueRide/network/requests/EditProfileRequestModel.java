@@ -13,13 +13,12 @@ import okhttp3.MultipartBody;
 
 public class EditProfileRequestModel extends BaseResponse {
 
-    private  String email;
+    private String email;
     private String phone;
     private String current_password;
     private String new_password;
-    private  String confirm_password;
-    private  String address;
-    private  String image;
+    private String confirm_password;
+    private String address;
 
 
     public String getEmail() {
@@ -70,12 +69,4 @@ public class EditProfileRequestModel extends BaseResponse {
         this.address = address;
     }
 
-    public String getImage() {
-
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 }

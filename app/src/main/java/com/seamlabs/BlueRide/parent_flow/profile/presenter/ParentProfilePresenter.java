@@ -18,6 +18,11 @@ public class ParentProfilePresenter implements ParentProfileInteactor.OnParentIn
         inteactor.getUserProfile(this);
     }
 
+    public void updateStudentPicture(String imagePath , String national_id) {
+
+        inteactor.editStudentImage(imagePath , national_id, this);
+    }
+
     @Override
     public void onSuccessGettingUserProfile(UserProfileResponseModel userProfileResponseModel) {
         if (view != null) {
@@ -31,6 +36,20 @@ public class ParentProfilePresenter implements ParentProfileInteactor.OnParentIn
         if (view != null) {
             view.hideProgress();
             view.onErrorGettingUserProfile();
+        }
+    }
+
+    @Override
+    public void onSuccessEditingStudentImage() {
+        if (view != null) {
+            view.onSuccessEditingStudentImage();
+        }
+    }
+
+    @Override
+    public void onErrorEditingStudentImage(String message) {
+        if (view != null) {
+            view.onErrorEditingStudentImage(message);
         }
     }
 }

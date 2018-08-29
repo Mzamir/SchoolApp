@@ -39,9 +39,13 @@ import com.seamlabs.BlueRide.utils.UserSettingsPreference;
 import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.seamlabs.BlueRide.utils.Constants.EVENT_PICTURE_CHANGED;
 import static com.seamlabs.BlueRide.utils.Constants.HELPER_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.Constants.MENTOR_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.Constants.PARENT_ACTIVITY;
@@ -96,6 +100,7 @@ public class MainActivity extends AppCompatActivity
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
         }
+        EventBus.getDefault().register(this);
         setContentView(R.layout.activity_parent_home);
         ButterKnife.bind(this);
 //        toolbar = findViewById(R.id.toolbar);
@@ -308,10 +313,9 @@ public class MainActivity extends AppCompatActivity
                 showSettingFragment();
                 break;
             case R.id.nav_pending_students:
-                MyFragment mentorPendingFragment = new MentorPendingFragment();
-                ((MentorPendingFragment) mentorPendingFragment).setStudentList(((MentorHomeFragment) fragment).getStudentList());
-                mentorPendingFragment.setNavigationIconClickListener(this);
-                replaceFragment(mentorPendingFragment);
+                fragment = new MentorPendingFragment();
+                fragment.setNavigationIconClickListener(this);
+                replaceFragment(fragment);
                 break;
             case R.id.nav_logout:
                 startActivity(new Intent(MainActivity.this, ParentSignInActivity.class));
@@ -349,5 +353,49 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onNavigationIconClick() {
         drawer.openDrawer(Gravity.LEFT);
+    }
+
+    @Subscribe
+    public void onEvent(MessageEvent event) {
+        try {
+            userProfileModel = UserSettingsPreference.getSavedUserProfile(this);
+            if (event.getMessage().equals(EVENT_PICTURE_CHANGED)) {
+                if (userProfileModel.getImages().size() > 0) {
+                    nav_header_icon.setImageURI(Uri.parse(userProfileModel.getImages().get(0).getPath()));
+                }
+                nav_header_email.setText(userProfileModel.getEmail());
+                nav_header_username.setText(userProfileModel.getName());
+            }
+        } catch (Exception e) {
+            Log.i(TAG, "Change picture" + e.getMessage().toString());
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+//        if (EventBus.getDefault().isRegistered(this))
+//            EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().unregister(this);
+    }
+
+    //    @Override
+//    protected void onStop() {
+//        super.onDestroy();
+//        if (EventBus.getDefault().isRegistered(this))
+//            EventBus.getDefault().unregister(this);
+//    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (EventBus.getDefault().isRegistered(this) == false)
+            EventBus.getDefault().register(this);
     }
 }

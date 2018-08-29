@@ -35,6 +35,8 @@
     <string name="dont_have_account">Don\'t have an account? </string>
     <string name="create_new_one">Create new one! </string>
     <string name="empty_field">Empty field</string>
+    <string name="invalid_id">At least 10 characters</string>
+    <string name="invalid_password">At least 6 characters</string>
     <string name="helper">Helper?</string>
     <string name="signup_here">Sign up here</string>
     <string name="have_account">Already user?</string>
@@ -52,8 +54,6 @@
     <string name="pick_up">Pick Up</string>
     <string name="cancel">Cancel</string>
 
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBVEBhWuQ2lAcRkazdAGxWqmLIDcSUdHdI</string>
-
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
@@ -63,6 +63,7 @@
     <string name="new_password_hint">New password</string>
     <string name="confirm_password_hint">Confirm password</string>
     <string name="no_requests_to_track">There is no request to track right now.</string>
+    <string name="terms_conditions">Read terms and conditions</string>
 
 
 </resources>

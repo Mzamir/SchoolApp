@@ -28,9 +28,9 @@ public class ParentSignInPresenter implements ParentRegistrationInteractor.OnPar
     }
 
     @Override
-    public void onSuccess() {
+    public void onSuccess(int status) {
         if (view != null) {
-            view.navigateToParentHome();
+            view.navigateToParentHome(status);
         }
     }
 }

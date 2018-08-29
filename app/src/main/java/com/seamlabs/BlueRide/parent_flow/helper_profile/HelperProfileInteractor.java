@@ -49,7 +49,7 @@ public class HelperProfileInteractor {
                     public void onSuccess(BaseResponse response) {
                         if (response.getMessage() == null && response.getErrors() == null)
                             listener.onSuccessChangeHelperState();
-                        Log.i(TAG, "onSuccess Exception " + new Gson().toJson(response).toString());
+                        Log.i(TAG, "onSuccessParentArrived Exception " + new Gson().toJson(response).toString());
                     }
 
                     @Override
@@ -73,7 +73,7 @@ public class HelperProfileInteractor {
                     public void onSuccess(BaseResponse response) {
                         if (response.getMessage() == null && response.getErrors() == null)
                             listener.onSuccessAssigningHelper();
-                        Log.i(TAG, "onSuccess Exception " + new Gson().toJson(response).toString());
+                        Log.i(TAG, "onSuccessParentArrived Exception " + new Gson().toJson(response).toString());
                     }
 
                     @Override
@@ -100,7 +100,7 @@ public class HelperProfileInteractor {
                         else if (response.getErrors() != null) {
                             listener.onErrorGettingHelperProfile(response.getErrors());
                         }
-                        Log.i(TAG, "onSuccess Exception " + new Gson().toJson(response).toString());
+                        Log.i(TAG, "onSuccessParentArrived Exception " + new Gson().toJson(response).toString());
                     }
 
                     @Override

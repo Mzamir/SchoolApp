@@ -6,11 +6,10 @@ import com.seamlabs.BlueRide.MyApplication;
 import com.seamlabs.BlueRide.network.ApiClient;
 import com.seamlabs.BlueRide.network.ApiService;
 import com.seamlabs.BlueRide.network.BaseResponse;
+import com.seamlabs.BlueRide.network.requests.CancelPickUpRequestModel;
 import com.seamlabs.BlueRide.network.requests.ParentPickUpRequestModel;
-import com.seamlabs.BlueRide.network.requests.UpdateLocationRequestModel;
 import com.seamlabs.BlueRide.network.response.ParentArrivedResponseModel;
 import com.seamlabs.BlueRide.network.response.ParentPickUpResponseModel;
-import com.seamlabs.BlueRide.network.response.UpdateLocationResponseModel;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -25,13 +24,13 @@ public class ParentPickUpInteractor {
 
 
     public interface onPickerArrivedListener {
-        void onSuccess(ParentArrivedResponseModel parentArrivedResponseModel);
+        void onSuccessParentArrived(ParentArrivedResponseModel parentArrivedResponseModel);
 
         void onSuccessPickUpRequest(ParentPickUpResponseModel responseModel);
 
         void onError(String errorMessage);
 
-        void onSuccessCancelingRequest();
+        void onSuccessCancelingRequest(String success);
     }
 
     public void parent_arrived(int request_id, final onPickerArrivedListener listener) {
@@ -45,7 +44,7 @@ public class ParentPickUpInteractor {
                     @Override
                     public void onSuccess(ParentArrivedResponseModel response) {
                         if (response.getMessage() == null && response.getErrors() == null)
-                            listener.onSuccess(response);
+                            listener.onSuccessParentArrived(response);
                         else {
                             listener.onError(GENERAL_ERROR);
                         }
@@ -91,6 +90,8 @@ public class ParentPickUpInteractor {
     public void cancelPickUpRequest(int request_id, final onPickerArrivedListener listener) {
         ApiService apiService = ApiClient.getClient(MyApplication.getMyApplicationContext())
                 .create(ApiService.class);
+        CancelPickUpRequestModel cancelPickUpRequestModel = new CancelPickUpRequestModel();
+        cancelPickUpRequestModel.setRequest_id(request_id);
         apiService.cancelPickUpRequest(request_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -98,7 +99,7 @@ public class ParentPickUpInteractor {
                     @Override
                     public void onSuccess(BaseResponse baseResponse) {
                         if (baseResponse.getSuccess() != null)
-                            listener.onSuccessCancelingRequest();
+                            listener.onSuccessCancelingRequest(baseResponse.getSuccess());
                         else {
                             if (baseResponse.getErrors() != null) {
                                 listener.onError(baseResponse.getErrors());
@@ -117,7 +118,6 @@ public class ParentPickUpInteractor {
                     }
                 });
     }
-
 
 
 }

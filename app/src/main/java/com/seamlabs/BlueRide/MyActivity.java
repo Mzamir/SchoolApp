@@ -14,8 +14,13 @@ public class MyActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setupUI(findViewById(R.id.parent_layout));
+        try {
+            setupUI(findViewById(R.id.parent_layout));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
     public void setupUI(View view) {
 
         // Set up touch listener for non-text box views to hide keyboard.

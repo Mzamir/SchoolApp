@@ -3,12 +3,15 @@ package com.seamlabs.BlueRide.parent_flow.profile.presenter;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.seamlabs.BlueRide.MessageEvent;
 import com.seamlabs.BlueRide.MyApplication;
 import com.seamlabs.BlueRide.network.ApiClient;
 import com.seamlabs.BlueRide.network.ApiService;
 import com.seamlabs.BlueRide.network.requests.EditProfileRequestModel;
 import com.seamlabs.BlueRide.network.response.UserResponseModel;
 import com.seamlabs.BlueRide.utils.UserSettingsPreference;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 
@@ -20,6 +23,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 import static com.seamlabs.BlueRide.MyApplication.getMyApplicationContext;
+import static com.seamlabs.BlueRide.utils.Constants.EVENT_PICTURE_CHANGED;
 import static com.seamlabs.BlueRide.utils.Constants.GENERAL_ERROR;
 import static com.seamlabs.BlueRide.utils.Constants.SERVER_ERROR;
 
@@ -46,11 +50,12 @@ public class EditProfileInteactor {
                     public void onSuccess(UserResponseModel userResponseModel) {
                         if (userResponseModel != null) {
                             UserSettingsPreference.saveUserProfile(getMyApplicationContext(), userResponseModel);
+                            EventBus.getDefault().post(new MessageEvent(EVENT_PICTURE_CHANGED));
                             listener.onSuccessEditProfile(userResponseModel);
                             return;
                         }
                         listener.onErrorGettingEditProfile(userResponseModel.getErrors());
-                        Log.i(TAG, "onSuccess exception");
+                        Log.i(TAG, "onSuccessParentArrived exception");
 
                     }
 
@@ -73,13 +78,14 @@ public class EditProfileInteactor {
                     public void onSuccess(UserResponseModel userResponseModel) {
                         if (userResponseModel != null) {
                             UserSettingsPreference.saveUserProfile(getMyApplicationContext(), userResponseModel);
+                            EventBus.getDefault().post(new MessageEvent(EVENT_PICTURE_CHANGED));
                             if (showProgress) {
                                 listener.onSuccessEditProfile(userResponseModel);
                             }
                             return;
                         }
                         listener.onErrorGettingEditProfile(userResponseModel.getErrors());
-                        Log.i(TAG, "onSuccess exception");
+                        Log.i(TAG, "onSuccessParentArrived exception");
 
                     }
 

@@ -1,12 +1,24 @@
 package com.seamlabs.BlueRide.network.requests;
 
-public class UserRequestModel {
-    String name;
-    String email;
-    String password;
-    String national_id;
-    String phone;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
+public class UserRequestModel {
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("email")
+    @Expose
+    private String email;
+    @SerializedName("password")
+    @Expose
+    private String password;
+    @SerializedName("national_id")
+    @Expose
+    private String nationalId;
+    @SerializedName("phone")
+    @Expose
+    private String phone;
 
     public String getName() {
         return name;
@@ -32,12 +44,12 @@ public class UserRequestModel {
         this.password = password;
     }
 
-    public String getNational_id() {
-        return national_id;
+    public String getNationalId() {
+        return nationalId;
     }
 
-    public void setNational_id(String national_id) {
-        this.national_id = national_id;
+    public void setNationalId(String nationalId) {
+        this.nationalId = nationalId;
     }
 
     public String getPhone() {
@@ -47,4 +59,5 @@ public class UserRequestModel {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
 }

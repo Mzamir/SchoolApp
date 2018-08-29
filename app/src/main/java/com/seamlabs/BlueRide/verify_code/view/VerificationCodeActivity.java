@@ -23,6 +23,7 @@ import com.seamlabs.BlueRide.verify_code.presenter.VerifyPhonePresenter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.seamlabs.BlueRide.MyApplication.getMyApplicationContext;
 import static com.seamlabs.BlueRide.utils.Constants.USER_NATIONAL_ID;
 
 public class VerificationCodeActivity extends MyActivity implements VerificationCodeView {
@@ -42,9 +43,6 @@ public class VerificationCodeActivity extends MyActivity implements Verification
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.main_background_color));
-//        }
         setContentView(R.layout.activity_verification_code);
         ButterKnife.bind(this);
         presenter = new VerifyPhonePresenter(this, new VerifyPhoneInteractor());
@@ -65,6 +63,10 @@ public class VerificationCodeActivity extends MyActivity implements Verification
     }
 
     private void verifyPhoneNumber() {
+        if (verification_code_edx.getText().toString().isEmpty()) {
+            verification_code_edx.setError(getResources().getString(R.string.empty_field));
+            return;
+        }
         presenter.verifyPhone(verification_code_edx.getText().toString(), national_id);
     }
 
@@ -92,6 +94,7 @@ public class VerificationCodeActivity extends MyActivity implements Verification
     public void navigateToParentHome() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        UserSettingsPreference.updateLoginState(getMyApplicationContext(), true);
         finish();
     }
 

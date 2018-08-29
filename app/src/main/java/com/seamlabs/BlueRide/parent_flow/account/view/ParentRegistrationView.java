@@ -8,6 +8,7 @@ public interface ParentRegistrationView {
 
     void onErrorRegistration(String errorMessage) ;
 
-    void navigateToParentHome();
+    void navigateToParentHome(int status);
 
+    void onSuccessGettingTerms();
 }

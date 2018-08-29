@@ -42,12 +42,12 @@ public class MentorHomeInteractor {
                     public void onSuccess(ArrayList<MentorQueueResponseModel> mentorQueueResponseModels) {
                         if (mentorQueueResponseModels != null) {
 //                            if (mentorQueueResponseModels.size() > 0) {
-                                listener.onSuccessGettingStudents(mentorQueueResponseModels);
-                                return;
+                            listener.onSuccessGettingStudents(mentorQueueResponseModels);
+                            return;
 //                            }
                         }
                         listener.onErrorGettingStudents();
-                        Log.i(TAG, "onSuccess getMentorQueue Exception ");
+                        Log.i(TAG, "onSuccessParentArrived getMentorQueue Exception ");
 
                     }
 
@@ -76,7 +76,7 @@ public class MentorHomeInteractor {
                             }
                         }
                         listener.onErrorGettingStudents();
-                        Log.i(TAG, "onSuccess getMentorQueue Exception ");
+                        Log.i(TAG, "onSuccessParentArrived getMentorQueue Exception ");
 
                     }
 
@@ -99,13 +99,12 @@ public class MentorHomeInteractor {
                     @Override
                     public void onSuccess(ArrayList<MentorDeliverStudentsResponseModel> mentorQueueResponseModels) {
                         if (mentorQueueResponseModels != null) {
-//                            if (mentorQueueResponseModels.size() > 0) {
                             listener.onSuccessDeliverAction();
                             return;
-//                            }
+
                         }
                         listener.onErrorDeliverAction();
-                        Log.i(TAG, "onSuccess deliverStudents Exception ");
+                        Log.i(TAG, "onSuccessParentArrived deliverStudents Exception ");
                     }
 
                     @Override
@@ -133,7 +132,7 @@ public class MentorHomeInteractor {
 //                            }
                         }
                         listener.onErrorDeliverAction();
-                        Log.i(TAG, "onSuccess deliverStudents Exception ");
+                        Log.i(TAG, "onSuccessParentArrived deliverStudents Exception ");
                     }
 
                     @Override

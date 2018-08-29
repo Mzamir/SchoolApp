@@ -142,6 +142,21 @@ public class ParentProfileActivity extends AppCompatActivity implements ParentPr
 
     }
 
+    @Override
+    public void onStudentClickListner(StudentResponseModel selectedStudent) {
+
+    }
+
+    @Override
+    public void onSuccessEditingStudentImage() {
+
+    }
+
+    @Override
+    public void onErrorEditingStudentImage(String message) {
+
+    }
+
     private void bindDateToViews(UserProfileResponseModel user) {
 
 

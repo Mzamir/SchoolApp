@@ -27,9 +27,11 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.seamlabs.BlueRide.utils.Constants.DELIVERD_TO_SUPERVISON;
 import static com.seamlabs.BlueRide.utils.Constants.MENTOR_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.Constants.PARENT_ARRIVED_STATE;
 import static com.seamlabs.BlueRide.utils.Constants.PENDING_STATE;
+import static com.seamlabs.BlueRide.utils.Constants.REPORTED_STATE;
 import static com.seamlabs.BlueRide.utils.Constants.TEACHER_USER_TYPE;
 
 public class MentorStudentsRecyclerViewAdapter extends RecyclerView.Adapter<MentorStudentsRecyclerViewAdapter.StudentsViewHolderLayout> {
@@ -91,7 +93,11 @@ public class MentorStudentsRecyclerViewAdapter extends RecyclerView.Adapter<Ment
                     int position = getAdapterPosition();
                     MentorStudentModel studentModel = students.get(position);
                     if (UserSettingsPreference.getUserType(MyApplication.getMyApplicationContext()).equals(MENTOR_USER_TYPE)) {
-                        if (studentModel.isMentorCanDeliver()) {
+                        if (studentModel.getRequestState().equals(DELIVERD_TO_SUPERVISON)) {
+                            studentModel.setMarked(!studentModel.isMarked());
+                            showDeliverAction();
+                            notifyItemChanged(position);
+                        } else if (studentModel.getRequestState().equals(REPORTED_STATE) && studentModel.isMentorCanDeliver()) {
                             studentModel.setMarked(!studentModel.isMarked());
                             showDeliverAction();
                             notifyItemChanged(position);
@@ -99,7 +105,7 @@ public class MentorStudentsRecyclerViewAdapter extends RecyclerView.Adapter<Ment
                             Toast.makeText(MyApplication.getMyApplicationContext(), "You can't deliver this student", Toast.LENGTH_SHORT).show();
                         }
                     } else if (UserSettingsPreference.getUserType(MyApplication.getMyApplicationContext()).equals(TEACHER_USER_TYPE)) {
-                        if (studentModel.getRequestState().equals(PARENT_ARRIVED_STATE)) {
+                        if (studentModel.getRequestState().equals(PARENT_ARRIVED_STATE) || studentModel.getRequestState().equals(REPORTED_STATE)) {
                             studentModel.setMarked(!studentModel.isMarked());
                             showDeliverAction();
                             notifyItemChanged(position);

@@ -22,6 +22,7 @@ import com.seamlabs.BlueRide.verify_code.view.VerificationCodeActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.seamlabs.BlueRide.MyApplication.getMyApplicationContext;
 import static com.seamlabs.BlueRide.utils.Constants.USER_NATIONAL_ID;
 
 public class HelperSignupActivity extends MyActivity implements HelperRegistrationView {
@@ -90,6 +91,7 @@ public class HelperSignupActivity extends MyActivity implements HelperRegistrati
     public void hideProgress() {
         Utility.hideProgressDialog();
     }
+
     @Override
     public void onErrorRegistration(String errorMessage) {
         Snackbar snackbar = Snackbar
@@ -105,6 +107,7 @@ public class HelperSignupActivity extends MyActivity implements HelperRegistrati
             startActivity(intent);
             finish();
         } else {
+            UserSettingsPreference.updateLoginState(getMyApplicationContext(), true);
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -124,8 +127,16 @@ public class HelperSignupActivity extends MyActivity implements HelperRegistrati
             password_edx.setError(getResources().getString(R.string.empty_field));
             return;
         }
+        if (password_edx.getText().toString().length() < 6) {
+            password_edx.setError(getResources().getString(R.string.invalid_password));
+            return;
+        }
         if (id_number_edx.getText().toString().isEmpty()) {
             id_number_edx.setError(getResources().getString(R.string.empty_field));
+            return;
+        }
+        if (id_number_edx.getText().toString().length() < 10) {
+            id_number_edx.setError(getResources().getString(R.string.invalid_id));
             return;
         }
         if (phone_edx.getText().toString().isEmpty()) {

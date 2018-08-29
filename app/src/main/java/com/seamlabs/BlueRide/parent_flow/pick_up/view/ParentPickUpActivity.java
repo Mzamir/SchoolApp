@@ -19,10 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.seamlabs.BlueRide.MyApplication;
 import com.seamlabs.BlueRide.network.response.ParentPickUpResponseModel;
-import com.seamlabs.BlueRide.parent_flow.account.view.ParentSignupActivity;
-import com.seamlabs.BlueRide.utils.LocalNoificationCreator;
 import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.network.response.ParentArrivedResponseModel;
 import com.seamlabs.BlueRide.parent_flow.home.model.SchoolModel;
@@ -183,7 +180,7 @@ public class ParentPickUpActivity extends AppCompatActivity implements LocationL
     }
 
     @Override
-    public void onSuccess(ParentArrivedResponseModel parentArrivedResponseModel) {
+    public void onSuccessParentArrived(ParentArrivedResponseModel parentArrivedResponseModel) {
         Intent intent = new Intent(ParentPickUpActivity.this, ParentWaitingActivity.class);
         intent.putExtra(PICK_REQUEST_ID, request_id);
         startActivity(intent);
@@ -195,7 +192,12 @@ public class ParentPickUpActivity extends AppCompatActivity implements LocationL
     }
 
     @Override
-    public void onError() {
+    public void onError(String errorMessage) {
         Toast.makeText(this, GENERAL_ERROR, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSuccessCancelingRequest(String success) {
+
     }
 }

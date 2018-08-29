@@ -3,12 +3,20 @@ package com.seamlabs.BlueRide.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.reflect.TypeToken;
+import com.seamlabs.BlueRide.mentor_home.model.MentorStudentModel;
 import com.seamlabs.BlueRide.network.response.UserResponseModel;
 import com.seamlabs.BlueRide.parent_flow.profile.model.UserProfileModel;
 import com.google.gson.Gson;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.seamlabs.BlueRide.MyApplication.getMyApplicationContext;
 import static com.seamlabs.BlueRide.utils.Constants.PARENT_USER_TYPE;
+import static com.seamlabs.BlueRide.utils.Constants.SHARED_PENDING_STUDENTS;
+import static com.seamlabs.BlueRide.utils.Constants.SHARED_PENDING_STUDENTS_LIST;
 import static com.seamlabs.BlueRide.utils.Constants.SHARED_USER_LOGGING_STATE;
 import static com.seamlabs.BlueRide.utils.Constants.SHARED_USER_SETTING;
 import static com.seamlabs.BlueRide.utils.Constants.SHARED_USER_TYPE;
@@ -63,5 +71,30 @@ public class UserSettingsPreference {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public static ArrayList<MentorStudentModel> getPendingStudentsFromShared() {
+        Gson gson = new Gson();
+        List<MentorStudentModel> tempList;
+        SharedPreferences prefs = getMyApplicationContext().getSharedPreferences(SHARED_PENDING_STUDENTS, Context.MODE_PRIVATE);
+        String listJson = prefs.getString(SHARED_PENDING_STUDENTS_LIST, "");
+        Type type = new TypeToken<List<Object>>() {
+        }.getType();
+        tempList = gson.fromJson(listJson, type);
+        if (tempList != null) {
+            if (!tempList.isEmpty()) {
+                ArrayList<MentorStudentModel> list = new ArrayList<>(tempList);
+                return list;
+            }
+        }
+        return null;
+    }
+
+    public static void savePendingStudentsToShare(ArrayList<MentorStudentModel> list) {
+        SharedPreferences sharedPreferences = getMyApplicationContext().getSharedPreferences(SHARED_PENDING_STUDENTS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        String json = new Gson().toJson(list);
+        editor.putString(SHARED_PENDING_STUDENTS_LIST, json);
+        editor.commit();
     }
 }

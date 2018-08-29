@@ -84,7 +84,7 @@ public class EditProfileFragment extends MyFragment implements EditProfileViewCo
     LinearLayout new_password_layout;
 
     @BindView(R.id.profile_toolbar)
-    Toolbar toolbar ;
+    Toolbar toolbar;
     @BindView(R.id.navigation_icon)
     LinearLayout navigation_icon;
     UserResponseModel userProfileModel;
@@ -94,8 +94,8 @@ public class EditProfileFragment extends MyFragment implements EditProfileViewCo
 
     @BindView(R.id.transitions_container)
     ViewGroup transitionsContainer;
-    private int RESULT_LOAD_IMAGE = 100;
-    private final int REQUEST_PERMISSION_EXTERNAL_STORAGE = 1000;
+    public static int RESULT_LOAD_IMAGE = 100;
+    public static final int REQUEST_PERMISSION_EXTERNAL_STORAGE = 1000;
 
     private boolean somethingUpdated = false;
     EditProfileRequestModel requestModel;
@@ -132,11 +132,12 @@ public class EditProfileFragment extends MyFragment implements EditProfileViewCo
         navigation_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getNavigationIconClickListener()!=null)
+                if (getNavigationIconClickListener() != null)
                     getNavigationIconClickListener().onNavigationIconClick();
             }
         });
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -287,7 +288,7 @@ public class EditProfileFragment extends MyFragment implements EditProfileViewCo
                     requestModel.setNew_password(new_password_edx.getText().toString());
                     new_password = requestModel.getNew_password();
                     if (checkViewsEmptyState(confirm_password_edx)) {
-                        requestModel.setNew_password(confirm_password_edx.getText().toString());
+                        requestModel.setConfirm_password(confirm_password_edx.getText().toString());
                         confirm_password = requestModel.getConfirm_password();
                         somethingUpdated = true;
                     } else
@@ -447,6 +448,7 @@ public class EditProfileFragment extends MyFragment implements EditProfileViewCo
                 }
         }
     }
+
     @Override
     public void onStart() {
         super.onStart();

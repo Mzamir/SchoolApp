@@ -23,10 +23,10 @@ public class ParentPickUpPresenter implements ParentPickUpInteractor.onPickerArr
     }
 
     @Override
-    public void onSuccess(ParentArrivedResponseModel parentArrivedResponseModel) {
+    public void onSuccessParentArrived(ParentArrivedResponseModel parentArrivedResponseModel) {
         if (view != null) {
             view.hideProgress();
-            view.onSuccess(parentArrivedResponseModel);
+            view.onSuccessParentArrived(parentArrivedResponseModel);
         }
     }
 
@@ -34,13 +34,16 @@ public class ParentPickUpPresenter implements ParentPickUpInteractor.onPickerArr
     public void onError(String errorMessage) {
         if (view != null) {
             view.hideProgress();
-            view.onError();
+            view.onError(errorMessage);
         }
     }
 
     @Override
-    public void onSuccessCancelingRequest() {
-
+    public void onSuccessCancelingRequest(String success) {
+        if (view != null) {
+            view.hideProgress();
+            view.onSuccessCancelingRequest(success);
+        }
     }
 
     public void parentPickUpRequest(ParentPickUpRequestModel pickUpRequestModel) {
@@ -48,6 +51,7 @@ public class ParentPickUpPresenter implements ParentPickUpInteractor.onPickerArr
             view.showProgress();
         interactor.parentPickUpRequest(pickUpRequestModel, this);
     }
+
     @Override
     public void onSuccessPickUpRequest(ParentPickUpResponseModel responseModel) {
         if (view != null) {
@@ -58,9 +62,9 @@ public class ParentPickUpPresenter implements ParentPickUpInteractor.onPickerArr
     }
 
     public void cancelRequest(int request_id) {
-        if (view!=null){
+        if (view != null) {
             view.showProgress();
         }
-        interactor.cancelPickUpRequest(request_id , this) ;
+        interactor.cancelPickUpRequest(request_id, this);
     }
 }

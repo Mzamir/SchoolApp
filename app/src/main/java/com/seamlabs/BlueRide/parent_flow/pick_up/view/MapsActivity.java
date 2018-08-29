@@ -3,6 +3,7 @@ package com.seamlabs.BlueRide.parent_flow.pick_up.view;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -10,6 +11,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -25,14 +27,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-import com.pusher.client.Pusher;
-import com.pusher.client.PusherOptions;
-import com.pusher.client.channel.Channel;
-import com.pusher.client.channel.SubscriptionEventListener;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.seamlabs.BlueRide.MainActivity;
 import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.maps_directions.DrawMarker;
@@ -45,9 +45,6 @@ import com.seamlabs.BlueRide.parent_flow.pick_up.presenter.ParentPickUpInteracto
 import com.seamlabs.BlueRide.parent_flow.pick_up.presenter.ParentPickUpPresenter;
 import com.seamlabs.BlueRide.parent_flow.waiting_student.view.ParentWaitingActivity;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -56,8 +53,6 @@ import static com.seamlabs.BlueRide.utils.Constants.HELPER_LONGITUDE;
 import static com.seamlabs.BlueRide.utils.Constants.LARGE_DISTANCE;
 import static com.seamlabs.BlueRide.utils.Constants.PICK_REQUEST_ID;
 import static com.seamlabs.BlueRide.utils.Constants.PICK_UP_REQUEST_MODEL;
-import static com.seamlabs.BlueRide.utils.Constants.PUSHER_API_CLUSTER;
-import static com.seamlabs.BlueRide.utils.Constants.PUSHER_API_KEY;
 import static com.seamlabs.BlueRide.utils.Constants.SELECTED_SCHOOL_MODEL;
 import static com.seamlabs.BlueRide.utils.Constants.SMALL_DISTANCE;
 
@@ -97,11 +92,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         schoolModel = (SchoolModel) getIntent().getSerializableExtra(SELECTED_SCHOOL_MODEL);
         parentPickUpRequestModel = (ParentPickUpRequestModel) getIntent().getSerializableExtra(PICK_UP_REQUEST_MODEL);
         destinationLocation = new LatLng(Double.parseDouble(schoolModel.getschoolLat()), Double.parseDouble(schoolModel.getschoolLong()));
+        Log.i(TAG, "onLocationChanged " + destinationLocation.latitude + " " + destinationLocation.longitude);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.pick_up_map);
         mapFragment.getMapAsync(this);
 
+        saveIsParentMadeRequest(false);
         cancel_request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,6 +126,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Toast.makeText(MapsActivity.this, "You are far a way to pick up", Toast.LENGTH_SHORT).show();
             }
         });
+        setUpLocationManager();
     }
 
     private void setUpLocationManager() {
@@ -137,9 +135,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Criteria criteria = new Criteria();
         provider = locationManager.getBestProvider(criteria, false);
 
+
         Location location = null;
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            location = locationManager.getLastKnownLocation(provider);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+//            location = locationManager.getLastKnownLocation(provider);
         }
         // Initialize the location fields
         if (location != null) {
@@ -152,11 +153,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        this.mMap = googleMap;
 //        mMap.getUiSettings().setTiltGesturesEnabled(true);
 
+//        Toast.makeText(this, "Map is ready", Toast.LENGTH_SHORT).show();
+        Log.i(TAG, "Map is ready");
         drawCircles();
-        setUpLocationManager();
+
     }
 
 
@@ -165,20 +168,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.i(TAG, "onLocationChanged " + location.getLatitude() + " " + location.getLongitude());
         currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
         if (currentLocation != null) {
-//            if (marker != null) {
-//                marker.setPosition(currentLocation);
-//                marker.setTitle("Lat " + currentLocation.latitude +
-//                        "\n Long " + currentLocation.longitude);
-//            } else {
-//                marker = mMap.addMarker(new MarkerOptions().position(currentLocation).title("Lat " + currentLocation.latitude +
-//                        "\n Long " + currentLocation.longitude));
-//            }
-
-
-//            CircleOptions circleOptions = new CircleOptions();
-//            circleOptions.center(destinationLocation);
-//            mMap.addCircle(circleOptions);
-//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 17));
             double remainingDistance = distance(
                     Double.parseDouble(schoolModel.getschoolLat()),
                     Double.parseDouble(schoolModel.getschoolLong()),
@@ -186,12 +175,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     location.getLongitude());
 
             Log.i(TAG, "onLocationChanged " + "Distance " + remainingDistance);
+
             if (remainingDistance <= SMALL_DISTANCE) {
-                temp_button.setVisibility(View.GONE);
-                pick_up.setVisibility(View.VISIBLE);
+                if (!IsParentMadeRequest()) {
+                    presenter.parentPickUpRequest(parentPickUpRequestModel);
+                    school_notified.setVisibility(View.VISIBLE);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            temp_button.setVisibility(View.GONE);
+                            pick_up.setVisibility(View.VISIBLE);
+                        }
+                    }, 500);
+                } else {
+                    temp_button.setVisibility(View.GONE);
+                    pick_up.setVisibility(View.VISIBLE);
+                }
             } else if (remainingDistance <= LARGE_DISTANCE) {
-                presenter.parentPickUpRequest(parentPickUpRequestModel);
-                school_notified.setVisibility(View.VISIBLE);
+                if (!IsParentMadeRequest()) {
+                    presenter.parentPickUpRequest(parentPickUpRequestModel);
+                    school_notified.setVisibility(View.VISIBLE);
+                }
             }
             DrawDirection();
         }
@@ -262,21 +266,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void DrawDirection() {
+        Log.i(TAG, "DrawDirection");
         DrawRouteMaps.getInstance(this)
                 .draw(currentLocation, destinationLocation, mMap);
-        DrawMarker.getInstance(this).draw(mMap, currentLocation, R.drawable.map_car_top_view, "Origin Location");
-        DrawMarker.getInstance(this).draw(mMap, destinationLocation, R.drawable.map_destination, "Destination Location");
+
+        if (marker != null) {
+            marker.setPosition(currentLocation);
+            marker.setTitle("Lat " + currentLocation.latitude +
+                    "\n Long " + currentLocation.longitude);
+        } else {
+            marker = mMap.addMarker(new MarkerOptions()
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_car_top_view))
+                    .position(currentLocation)
+                    .title("Lat " + currentLocation.latitude + "\n Long " + currentLocation.longitude));
+        }
+//        DrawMarker.getInstance(this).draw(mMap, currentLocation, R.drawable.map_car_top_view, "Origin Location");
 
         LatLngBounds bounds = new LatLngBounds.Builder()
                 .include(currentLocation)
                 .include(destinationLocation).build();
         Point displaySize = new Point();
         getWindowManager().getDefaultDisplay().getSize(displaySize);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, displaySize.x, displaySize.y / 2, 30));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, displaySize.x, displaySize.y / 2, 30));
 
     }
 
     private void drawCircles() {
+
         mMap.addCircle(new CircleOptions().center(destinationLocation)
                 .fillColor(getResources().getColor(R.color.map_yellow))
                 .radius(LARGE_RADIUSE)
@@ -288,7 +304,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .radius(SMALL_RADIUSE)
                 .strokeColor(Color.BLACK)
                 .strokeWidth(5));
-
+        DrawMarker.getInstance(this).draw(mMap, destinationLocation, R.drawable.map_destination, "Destination Location");
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(destinationLocation, 17));
+        Log.i(TAG, "drawCircles");
     }
 
     @Override
@@ -301,9 +319,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    // onSuccess parent arriving request
+    // onSuccessParentArrived parent arriving request
     @Override
-    public void onSuccess(ParentArrivedResponseModel parentArrivedResponseModel) {
+    public void onSuccessParentArrived(ParentArrivedResponseModel parentArrivedResponseModel) {
         Intent intent = new Intent(MapsActivity.this, ParentWaitingActivity.class);
         intent.putExtra(PICK_REQUEST_ID, request_id);
         intent.putExtra(HELPER_LATITUDE, currentLocation.latitude);
@@ -313,13 +331,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onSuccessPickUpRequest(ParentPickUpResponseModel responseModel) {
-        request_id = responseModel.getid();
-        Toast.makeText(this, "Pick request successfully sent", Toast.LENGTH_SHORT).show();
+        this.request_id = responseModel.getid();
+        saveIsParentMadeRequest(true);
+        Toast.makeText(this, "Pick request sent successfully", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onError() {
+    public void onError(String errorMessage) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+        saveIsParentMadeRequest(false);
+    }
 
+    @Override
+    public void onSuccessCancelingRequest(String success) {
+        if (success.isEmpty()) {
+            Toast.makeText(this, "Request cancelled", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, success, Toast.LENGTH_SHORT).show();
+        }
+        startActivity(new Intent(MapsActivity.this, MainActivity.class));
+        finish();
     }
 
     // To animate view slide out from right to left
@@ -336,4 +367,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        super.onBackPressed();
     }
 
+    private SharedPreferences getRequestSharedPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences("is_parent_made_request", MODE_PRIVATE);
+        return sharedPreferences;
+    }
+
+    private void saveIsParentMadeRequest(boolean isMadeRequest) {
+        SharedPreferences.Editor editor = getRequestSharedPreferences().edit();
+        editor.putBoolean("request_made", isMadeRequest);
+        editor.commit();
+    }
+
+    private boolean IsParentMadeRequest() {
+
+        return getRequestSharedPreferences().getBoolean("request_made", false);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
 }

@@ -115,9 +115,10 @@ public class ParentWaitingActivity extends AppCompatActivity implements ParentWa
         received_btn.setEnabled(enable);
     }
 
+    CountDownTimer countDownTimer ;
     private void startCountDownTimer() {
         report_btn.setEnabled(false);
-        new CountDownTimer(1000 * 60 * 2, 1000) {
+        countDownTimer =new CountDownTimer(1000 * 60 * 2, 1000) {
             public void onTick(long millisUntilFinished) {
                 int seconds = (int) (millisUntilFinished / 1000) % 60;
                 int minutes = (int) ((millisUntilFinished / (1000 * 60)) % 60);
@@ -132,7 +133,8 @@ public class ParentWaitingActivity extends AppCompatActivity implements ParentWa
                 Toast.makeText(ParentWaitingActivity.this, "Report now if your children is not here.", Toast.LENGTH_SHORT).show();
                 waiting_animation.setAnimation(null);
             }
-        }.start();
+        };
+        countDownTimer.start();
     }
 
     @Override
@@ -141,6 +143,22 @@ public class ParentWaitingActivity extends AppCompatActivity implements ParentWa
         if (report_btn.isEnabled()) {
             startActivity(new Intent(ParentWaitingActivity.this, MainActivity.class));
             finish();
+        }
+    }
+
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        if (countDownTimer!=null){
+//            countDownTimer.cancel();
+//        }
+//    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (countDownTimer!=null){
+            countDownTimer.cancel();
         }
     }
 

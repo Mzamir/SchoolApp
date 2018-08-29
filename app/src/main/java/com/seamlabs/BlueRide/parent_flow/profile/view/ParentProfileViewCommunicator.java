@@ -10,11 +10,17 @@ public interface ParentProfileViewCommunicator {
 
     void hideProgress();
 
-    void onSuccessGettingUserProfile(UserProfileResponseModel userProfileResponseModel) ;
+    void onSuccessGettingUserProfile(UserProfileResponseModel userProfileResponseModel);
 
-    void onErrorGettingUserProfile() ;
+    void onErrorGettingUserProfile();
 
-    void onHelperClickListener(HelperResponseModel helperModel) ;
+    void onHelperClickListener(HelperResponseModel helperModel);
 
-    void showPermissionActions(boolean show) ;
+    void showPermissionActions(boolean show);
+
+    void onStudentClickListner(StudentResponseModel selectedStudent);
+
+    void onSuccessEditingStudentImage();
+
+    void onErrorEditingStudentImage(String message);
 }

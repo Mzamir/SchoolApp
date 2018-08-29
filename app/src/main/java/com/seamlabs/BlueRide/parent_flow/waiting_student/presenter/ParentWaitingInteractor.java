@@ -51,7 +51,7 @@ public class ParentWaitingInteractor {
                                 errorMessage = response.getErrors();
                             }
                             listener.onErrorReceived(errorMessage);
-                            Log.i(TAG, "onSuccess " + errorMessage);
+                            Log.i(TAG, "onSuccessParentArrived " + errorMessage);
                         }
                     }
 
@@ -84,7 +84,7 @@ public class ParentWaitingInteractor {
                                 errorMessage = response.getErrors();
                             }
                             listener.onErrorReceived(errorMessage);
-                            Log.i(TAG, "onSuccess " + errorMessage);
+                            Log.i(TAG, "onSuccessParentArrived " + errorMessage);
                         }
                     }
 

@@ -5,9 +5,10 @@ public class Constants {
     public static final String BASE_IMAGES_URL = "https://blueride.app:555";
     public static final String MAPS_SERVER_KEY = "AIzaSyBVEBhWuQ2lAcRkazdAGxWqmLIDcSUdHdI";
     public static final int REALM_DATABASE_VERSION = 1;
-
+    public static final String TERMS_AND_CONDITIONS_FOLDER_NAME = "BlueRide";
+    public static final String TERMS_AND_CONDITIONS_FILE_NAME = "TermsAndConditions.pdf";
     // Toasts messages
-    public static final String SERVER_ERROR = "It's not your fault, It's our";
+    public static final String SERVER_ERROR = "Error occurred";
     public static final String GENERAL_ERROR = "Error occurred, try again later";
     public static final String ADMIN_LOGIN_ERROR = "Admins NOT allowed to log in here";
     public static CharSequence EMPTY_FIELD_ERROR = "Empty field";
@@ -16,6 +17,10 @@ public class Constants {
     public static final String SHARED_USER_SETTING = "SHARED_USER_SETTING";
     public static final String SHARED_USER_LOGGING_STATE = "SHARED_USER_LOGGING_STATE";
     public static final String SHARED_USER_TYPE = "SHARED_USER_TYPE";
+
+    // Shared preference for pending students
+    public static final String SHARED_PENDING_STUDENTS = "SHARED_PENDING_STUDENTS";
+    public static final String SHARED_PENDING_STUDENTS_LIST = "SHARED_PENDING_STUDENTS_LIST";
 
     // user types
     public static final String PARENT_USER_TYPE = "parent";
@@ -27,6 +32,7 @@ public class Constants {
     public static final String PENDING_STATE = "pending";
     public static final String PARENT_ARRIVED_STATE = "parent_arrived";
     public static final String REPORTED_STATE = "reported";
+    public static final String DELIVERD_TO_SUPERVISON = "delivered_to_supervisor";
 
     // Extra INTENT data
     public static final String PICK_REQUEST_ID = "pickUpRequestID";
@@ -74,9 +80,10 @@ public class Constants {
     public static final String PHONE_NUMBER_CODE = "+966";
 
     // Picking-up period and permission
-    public static final int NOT_ALLOWED_TO_PICK_UP = 0 ;
-    public static final int ONE_TIME_PICK_UP = 1 ;
-    public static final int ALWAYS_PICK_UP = 2 ;
+    public static final int NOT_ALLOWED_TO_PICK_UP = 0;
+    public static final int ONE_TIME_PICK_UP = 1;
+    public static final int ALWAYS_PICK_UP = 2;
 
-
+    // Events
+    public static final String EVENT_PICTURE_CHANGED = "ProfilePictureChanged";
 }

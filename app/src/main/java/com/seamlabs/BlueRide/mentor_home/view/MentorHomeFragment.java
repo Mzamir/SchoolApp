@@ -209,9 +209,20 @@ public class MentorHomeFragment extends MyFragment implements MentorHomeViewComm
             students_recyclerView.setAdapter(studentRecyclerAdapter);
             setStudentList(studentList);
             number_of_student_requests.setText(String.valueOf(requestsCounter));
+            savePendingStudentsToShared();
         } else {
             showStudentRecyclerView(false);
         }
+    }
+
+    private void savePendingStudentsToShared() {
+        ArrayList<MentorStudentModel> pendingStudents = new ArrayList<>();
+        for (MentorStudentModel studentModel : studentList) {
+            if (studentModel.getRequestState().equals(PENDING_STATE)) {
+                pendingStudents.add(studentModel);
+            }
+        }
+        UserSettingsPreference.savePendingStudentsToShare(pendingStudents);
     }
 
     @Override
@@ -226,7 +237,7 @@ public class MentorHomeFragment extends MyFragment implements MentorHomeViewComm
 
     private void performDeliverAction() {
         if (UserSettingsPreference.getUserType(activity).equals(TEACHER_USER_TYPE))
-            presenter.deliverStudents(studentRecyclerAdapter.getselectedRequestList());
+            presenter.teachDeliverStudents(studentRecyclerAdapter.getselectedTeacherRequestList());
         else if (UserSettingsPreference.getUserType(activity).equals(MENTOR_USER_TYPE))
             presenter.deliverStudents(studentRecyclerAdapter.getselectedRequestList());
 
@@ -234,7 +245,10 @@ public class MentorHomeFragment extends MyFragment implements MentorHomeViewComm
     }
 
     private void removeDeliveredStudents() {
-        presenter.getMentorStudent();
+        if (UserSettingsPreference.getUserType(activity).equals(TEACHER_USER_TYPE))
+            presenter.getTeacherStudents();
+        else if (UserSettingsPreference.getUserType(activity).equals(MENTOR_USER_TYPE))
+            presenter.getMentorStudent();
     }
 
     @Override
@@ -272,6 +286,7 @@ public class MentorHomeFragment extends MyFragment implements MentorHomeViewComm
     }
 
     private void updateList(MentorPusherMainResponseModel responseModel) {
+        int requestCounter = Integer.parseInt(number_of_student_requests.getText().toString());
         boolean found = false;
         for (MentorStudentModel studentModel : studentList) {
             if (studentModel.getRequestId() == responseModel.getMentorPusherEventResponseModel().getMentorPusherDetailsResponseModel().getId()) {
@@ -280,12 +295,16 @@ public class MentorHomeFragment extends MyFragment implements MentorHomeViewComm
             }
         }
         if (!found) {
-            convertStudentsResponseToStudentModel(responseModel);
-            studentRecyclerAdapter.notifyDataSetChanged();
+            this.studentList = convertStudentsResponseToStudentModel(responseModel);
+            requestCounter++;
         } else {
             this.studentList = presenter.sortStudentsBasedOnPriority(studentList);
-            studentRecyclerAdapter.notifyDataSetChanged();
         }
+        studentRecyclerAdapter = new MentorStudentsRecyclerViewAdapter(this, activity, studentList);
+        students_recyclerView.setAdapter(studentRecyclerAdapter);
+        setStudentList(studentList);
+        number_of_student_requests.setText(String.valueOf(requestCounter));
+
     }
 
     @Override

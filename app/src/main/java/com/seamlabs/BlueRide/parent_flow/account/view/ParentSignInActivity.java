@@ -11,13 +11,20 @@ import android.widget.TextView;
 import com.seamlabs.BlueRide.MainActivity;
 import com.seamlabs.BlueRide.MyActivity;
 import com.seamlabs.BlueRide.R;
+import com.seamlabs.BlueRide.helper_account.view.ActivityWebView;
 import com.seamlabs.BlueRide.parent_flow.account.presenter.ParentRegistrationInteractor;
 import com.seamlabs.BlueRide.parent_flow.account.presenter.ParentSignInPresenter;
 import com.seamlabs.BlueRide.utils.PrefUtils;
+import com.seamlabs.BlueRide.utils.UserSettingsPreference;
 import com.seamlabs.BlueRide.utils.Utility;
+import com.seamlabs.BlueRide.verify_code.view.VerificationCodeActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.seamlabs.BlueRide.MyApplication.getMyApplicationContext;
+import static com.seamlabs.BlueRide.utils.Constants.USER_ID;
+import static com.seamlabs.BlueRide.utils.Constants.USER_NATIONAL_ID;
 
 public class ParentSignInActivity extends MyActivity implements ParentRegistrationView {
 
@@ -61,6 +68,12 @@ public class ParentSignInActivity extends MyActivity implements ParentRegistrati
                 finish();
             }
         });
+        forget_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ParentSignInActivity.this , ActivityWebView.class));
+            }
+        });
     }
 
     @Override
@@ -82,8 +95,18 @@ public class ParentSignInActivity extends MyActivity implements ParentRegistrati
 
     @Override
     public void navigateToParentHome(int status) {
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
+        if (status == 0) {
+            Intent intent = new Intent(this, VerificationCodeActivity.class);
+            intent.putExtra(USER_NATIONAL_ID, UserSettingsPreference.getSavedUserProfile(this).getNational_id());
+            intent.putExtra(USER_ID, UserSettingsPreference.getSavedUserProfile(this).getId());
+            startActivity(intent);
+            finish();
+        } else {
+            UserSettingsPreference.updateLoginState(getMyApplicationContext(), true);
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override

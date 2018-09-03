@@ -13,6 +13,8 @@ public class SchoolsResponse {
     String lat;
     String created_at;
     String updated_at;
+    int small_zone ;
+    int big_zone ;
     String phone;
     ArrayList<ImagesResponseModel> images = new ArrayList<>();
 
@@ -88,5 +90,20 @@ public class SchoolsResponse {
         this.images = images;
     }
 
+    public int getSmall_zone() {
+        return small_zone;
+    }
+
+    public void setSmall_zone(int small_zone) {
+        this.small_zone = small_zone;
+    }
+
+    public int getBig_zone() {
+        return big_zone;
+    }
+
+    public void setBig_zone(int big_zone) {
+        this.big_zone = big_zone;
+    }
 }
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.seamlabs.BlueRide.MainActivity;
 import com.seamlabs.BlueRide.MyApplication;
+import com.seamlabs.BlueRide.parent_flow.account.view.ParentSignInActivity;
 import com.seamlabs.BlueRide.parent_flow.account.view.ParentSignupActivity;
 import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.helper_account.presenter.HelperRegistrationInteractor;
@@ -22,6 +23,8 @@ import com.seamlabs.BlueRide.verify_code.view.VerificationCodeActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.seamlabs.BlueRide.MyApplication.getMyApplicationContext;
+import static com.seamlabs.BlueRide.utils.Constants.USER_ID;
 import static com.seamlabs.BlueRide.utils.Constants.USER_NATIONAL_ID;
 
 public class HelperSigninActivity extends AppCompatActivity implements HelperRegistrationView {
@@ -38,6 +41,8 @@ public class HelperSigninActivity extends AppCompatActivity implements HelperReg
     @BindView(R.id.signup_btn)
     TextView signup_btn;
 
+    @BindView(R.id.forget_password)
+    TextView forget_password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +62,12 @@ public class HelperSigninActivity extends AppCompatActivity implements HelperReg
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HelperSigninActivity.this, ParentSignupActivity.class));
+            }
+        });
+        forget_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HelperSigninActivity.this, ActivityWebView.class));
             }
         });
     }
@@ -83,9 +94,11 @@ public class HelperSigninActivity extends AppCompatActivity implements HelperReg
         if (status == 0) {
             Intent intent = new Intent(this, VerificationCodeActivity.class);
             intent.putExtra(USER_NATIONAL_ID, UserSettingsPreference.getSavedUserProfile(this).getNational_id());
+            intent.putExtra(USER_ID, UserSettingsPreference.getSavedUserProfile(this).getId());
             startActivity(intent);
             finish();
         } else {
+            UserSettingsPreference.updateLoginState(getMyApplicationContext(), true);
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();

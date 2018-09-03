@@ -13,7 +13,24 @@ public class SchoolModel implements Serializable {
     private String schoolCreatedAt;
     private String schoolUpdatedAt;
     private boolean marked ;
+    int small_zone ;
+    int big_zone ;
 
+    public int getSmall_zone() {
+        return small_zone;
+    }
+
+    public void setSmall_zone(int small_zone) {
+        this.small_zone = small_zone;
+    }
+
+    public int getBig_zone() {
+        return big_zone;
+    }
+
+    public void setBig_zone(int big_zone) {
+        this.big_zone = big_zone;
+    }
 
     public String getSchoolCover() {
         return schoolCover;
@@ -86,4 +103,6 @@ public class SchoolModel implements Serializable {
     public void setMarked(boolean marked) {
         this.marked = marked;
     }
+
+
 }

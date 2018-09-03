@@ -4,15 +4,16 @@
     xmlns:fresco="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/recycler_item_main_background"
+    android:clipToPadding="false"
     android:layout_margin="5dp"
-    android:background="@color/main_background_color"
+    android:elevation="5dp"
     android:orientation="horizontal">
 
     <LinearLayout
         android:id="@+id/mentor_students_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/main_background_color"
         android:orientation="horizontal"
         android:padding="5dp"
         android:visibility="visible">
@@ -21,9 +22,9 @@
             android:id="@+id/student_picture"
             android:layout_width="@dimen/recycler_image_dimen"
             android:layout_height="@dimen/recycler_image_dimen"
+            android:layout_gravity="center"
             app:actualImageResource="@mipmap/profile_logo"
             app:placeholderImage="@mipmap/profile_logo"
-            android:layout_gravity="center"
             app:roundedCornerRadius="@dimen/roundedCornerRadius"
             fresco:viewAspectRatio="1.33" />
 
@@ -42,13 +43,30 @@
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
-            <com.seamlabs.BlueRide.widgets.CairoTextView
-                android:id="@+id/student_class"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Off King Fahd Road"
-                android:textColor="@color/gray"
-                android:textSize="12sp" />
+                android:orientation="horizontal">
+
+                <com.seamlabs.BlueRide.widgets.CairoTextView
+                    android:id="@+id/student_grade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:text="Grade 1"
+                    android:textColor="@color/gray"
+                    android:textSize="12sp" />
+
+                <com.seamlabs.BlueRide.widgets.CairoTextView
+                    android:id="@+id/student_class"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Class 1"
+                    android:textColor="@color/gray"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
 
             <com.seamlabs.BlueRide.widgets.CairoTextView
                 android:id="@+id/student_state"
@@ -63,6 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="right|center_vertical">
+
             <ImageView
                 android:id="@+id/marked_icon"
                 android:layout_width="@dimen/marked_icon_dimen"

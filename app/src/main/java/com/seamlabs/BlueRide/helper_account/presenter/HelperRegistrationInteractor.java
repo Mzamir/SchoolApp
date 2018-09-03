@@ -50,9 +50,11 @@ public class HelperRegistrationInteractor {
                 .subscribe(new DisposableSingleObserver<UserResponseModel>() {
                     @Override
                     public void onSuccess(UserResponseModel responseModel) {
-                        if (responseModel.getRoles().size() == 1 && responseModel.getRoles().get(0).getName().equalsIgnoreCase("admin")) {
-                            listener.onError(ADMIN_LOGIN_ERROR);
-                            return;
+                        if (responseModel.getRoles().size() == 1) {
+                            if (responseModel.getRoles().get(0).getName().equalsIgnoreCase("admin") || responseModel.getRoles().get(0).getName().equalsIgnoreCase("security")) {
+                                listener.onError(ADMIN_LOGIN_ERROR);
+                                return;
+                            }
                         }
                         if (responseModel.getErrors() != null) {
                             listener.onError(responseModel.getErrors());
@@ -60,10 +62,10 @@ public class HelperRegistrationInteractor {
                             return;
                         }
                         if (responseModel != null) {
-                            listener.onSuccess(responseModel.getStatus());
                             PrefUtils.storeApiKey(getMyApplicationContext(), responseModel.getToken());
-                            UserSettingsPreference.updateLoginState(getMyApplicationContext(), true);
+//                            UserSettingsPreference.updateLoginState(getMyApplicationContext(), true);
                             UserSettingsPreference.saveUserProfile(getMyApplicationContext(), responseModel);
+                            listener.onSuccess(responseModel.getStatus());
                         }
 
                     }
@@ -87,9 +89,11 @@ public class HelperRegistrationInteractor {
                     public void onSuccess(Response response) {
                         if (response.isSuccessful()) {
                             UserResponseModel responseModel = (UserResponseModel) response.body();
-                            if (responseModel.getRoles().size() == 1 && responseModel.getRoles().get(0).getName().equalsIgnoreCase("admin")) {
-                                listener.onError(ADMIN_LOGIN_ERROR);
-                                return;
+                            if (responseModel.getRoles().size() == 1) {
+                                if (responseModel.getRoles().get(0).getName().equalsIgnoreCase("admin") || responseModel.getRoles().get(0).getName().equalsIgnoreCase("security")) {
+                                    listener.onError(ADMIN_LOGIN_ERROR);
+                                    return;
+                                }
                             }
                             if (responseModel.getErrors() != null) {
                                 listener.onError(responseModel.getErrors());
@@ -97,10 +101,9 @@ public class HelperRegistrationInteractor {
                                 return;
                             }
                             if (responseModel != null) {
-                                listener.onSuccess(responseModel.getStatus());
                                 PrefUtils.storeApiKey(getMyApplicationContext(), responseModel.getToken());
-                                UserSettingsPreference.updateLoginState(getMyApplicationContext(), true);
                                 UserSettingsPreference.saveUserProfile(getMyApplicationContext(), responseModel);
+                                listener.onSuccess(responseModel.getStatus());
                             }
                         } else if (response.code() == 400) {
                             try {

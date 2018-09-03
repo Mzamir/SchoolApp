@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.seamlabs.BlueRide.MainActivity;
 import com.seamlabs.BlueRide.MyActivity;
@@ -24,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.seamlabs.BlueRide.MyApplication.getMyApplicationContext;
+import static com.seamlabs.BlueRide.utils.Constants.USER_ID;
 import static com.seamlabs.BlueRide.utils.Constants.USER_NATIONAL_ID;
 
 public class VerificationCodeActivity extends MyActivity implements VerificationCodeView {
@@ -39,6 +41,7 @@ public class VerificationCodeActivity extends MyActivity implements Verification
 
     VerifyPhonePresenter presenter;
     String national_id;
+    int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class VerificationCodeActivity extends MyActivity implements Verification
         ButterKnife.bind(this);
         presenter = new VerifyPhonePresenter(this, new VerifyPhoneInteractor());
         national_id = getIntent().getStringExtra(USER_NATIONAL_ID);
+        id = getIntent().getIntExtra(USER_ID, -1);
         verify_code_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +75,7 @@ public class VerificationCodeActivity extends MyActivity implements Verification
     }
 
     private void resendVerificationCode() {
-        presenter.resendVerificationCode(national_id);
+        presenter.resendVerificationCode(id);
     }
 
 
@@ -86,7 +90,7 @@ public class VerificationCodeActivity extends MyActivity implements Verification
     }
 
     @Override
-    public void onErrorVerifyPhone() {
+    public void onErrorVerifyPhone(String message) {
 
     }
 
@@ -96,6 +100,16 @@ public class VerificationCodeActivity extends MyActivity implements Verification
         startActivity(intent);
         UserSettingsPreference.updateLoginState(getMyApplicationContext(), true);
         finish();
+    }
+
+    @Override
+    public void onSuccessResendCode() {
+        Toast.makeText(this, "Code successfully sent", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onErrorResendCode(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

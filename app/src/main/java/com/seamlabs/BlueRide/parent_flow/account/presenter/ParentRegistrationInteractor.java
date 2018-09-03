@@ -52,6 +52,12 @@ public class ParentRegistrationInteractor {
                     public void onSuccess(Response response) {
                         if (response.isSuccessful()) {
                             UserResponseModel userResponseModel = (UserResponseModel) response.body();
+                            if (userResponseModel.getRoles().size() == 1) {
+                                if (userResponseModel.getRoles().get(0).getName().equalsIgnoreCase("admin") || userResponseModel.getRoles().get(0).getName().equalsIgnoreCase("security")) {
+                                    listener.onError(ADMIN_LOGIN_ERROR);
+                                    return;
+                                }
+                            }
                             if (userResponseModel.getErrors() != null) {
                                 listener.onError(userResponseModel.getErrors());
                                 Log.i(TAG, "Error " + userResponseModel.getErrors());
@@ -95,9 +101,11 @@ public class ParentRegistrationInteractor {
                 .subscribe(new DisposableSingleObserver<UserResponseModel>() {
                     @Override
                     public void onSuccess(UserResponseModel userResponseModel) {
-                        if (userResponseModel.getRoles().size() == 1 && userResponseModel.getRoles().get(0).getName().equalsIgnoreCase("admin")) {
-                            listener.onError(ADMIN_LOGIN_ERROR);
-                            return;
+                        if (userResponseModel.getRoles().size() == 1) {
+                            if (userResponseModel.getRoles().get(0).getName().equalsIgnoreCase("admin") || userResponseModel.getRoles().get(0).getName().equalsIgnoreCase("security")) {
+                                listener.onError(ADMIN_LOGIN_ERROR);
+                                return;
+                            }
                         }
                         if (userResponseModel.getErrors() != null) {
                             listener.onError(userResponseModel.getErrors());
@@ -105,7 +113,7 @@ public class ParentRegistrationInteractor {
                         } else if (userResponseModel.getEmail() != null) {
                             Log.i(TAG, "Success " + userResponseModel.getEmail());
                             PrefUtils.storeApiKey(getMyApplicationContext(), userResponseModel.getToken());
-                            UserSettingsPreference.updateLoginState(getMyApplicationContext(), true);
+//                            UserSettingsPreference.updateLoginState(getMyApplicationContext(), true);
                             UserSettingsPreference.saveUserProfile(getMyApplicationContext(), userResponseModel);
                             listener.onSuccess(userResponseModel.getStatus());
                         }

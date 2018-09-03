@@ -1,4 +1,4 @@
-package com.seamlabs.BlueRide;
+package com.seamlabs.BlueRide.utils;
 
 public class MessageEvent {
     private final String message;

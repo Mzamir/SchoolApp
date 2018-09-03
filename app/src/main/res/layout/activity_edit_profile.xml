@@ -95,6 +95,40 @@
                     android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_mobile_ico" />
 
+                <LinearLayout
+                    android:id="@+id/spinnerLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/custom_spinner_background"
+                    android:clickable="false"
+                    android:gravity="bottom"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="5dp"
+                        android:src="@drawable/drop_down_spinner"
+                        android:tint="@color/black" />
+
+                    <com.seamlabs.BlueRide.widgets.CairoSemiBoldTextView
+                        android:id="@+id/spinner_counter_codes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="5dp"
+                        android:enabled="true"
+                        android:gravity="center"
+                        android:text="+966"
+                        android:visibility="visible" />
+
+
+                </LinearLayout>
+
                 <com.seamlabs.BlueRide.widgets.CairoEditText
                     android:id="@+id/phone_number"
                     android:layout_width="wrap_content"

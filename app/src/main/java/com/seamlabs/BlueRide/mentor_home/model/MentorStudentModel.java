@@ -11,6 +11,8 @@ public class MentorStudentModel {
     private boolean marked;
     private boolean mentorCanDeliver ;
     private String studentPicture;
+    String class_name;
+    String grade_name;
     int requestId ;
     String requestState ;
 
@@ -110,5 +112,21 @@ public class MentorStudentModel {
 
     public void setMentorCanDeliver(boolean mentorCanDeliver) {
         this.mentorCanDeliver = mentorCanDeliver;
+    }
+
+    public String getClass_name() {
+        return class_name;
+    }
+
+    public void setClass_name(String class_name) {
+        this.class_name = class_name;
+    }
+
+    public String getGrade_name() {
+        return grade_name;
+    }
+
+    public void setGrade_name(String grade_name) {
+        this.grade_name = grade_name;
     }
 }

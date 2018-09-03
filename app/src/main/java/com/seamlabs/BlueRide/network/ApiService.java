@@ -7,6 +7,7 @@ import com.seamlabs.BlueRide.network.requests.ParentPickUpRequestModel;
 import com.seamlabs.BlueRide.network.requests.TeacherDeliverStudentsRequestModel;
 import com.seamlabs.BlueRide.network.requests.UpdateLocationRequestModel;
 import com.seamlabs.BlueRide.network.requests.UserRequestModel;
+import com.seamlabs.BlueRide.network.response.CheckRequestStateResponseModel;
 import com.seamlabs.BlueRide.network.response.HelperProfileResponseModel;
 import com.seamlabs.BlueRide.network.response.HelperResponseModel;
 import com.seamlabs.BlueRide.network.response.MentorDeliverStudentsResponseModel;
@@ -25,6 +26,8 @@ import java.util.ArrayList;
 import io.reactivex.Single;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -49,7 +52,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("add_helper")
-    Single<BaseResponse> addHelper(@Field("phone") String phone);
+    Single<Response<BaseResponse>> addHelper(@Field("phone") String phone);
 
     @POST("signup_helper")
     Single<UserResponseModel> signupHelper(@Body UserRequestModel userRequestModel);
@@ -71,8 +74,6 @@ public interface ApiService {
     @POST("verify_code")
     Single<BaseResponse> verifyCode(@Field("code") String code, @Field("national_id") String national_id);
 
-    @POST("resend_verification_code")
-    Single<BaseResponse> resendVerificationCode(@Path("") String id);
 
     @GET("schools")
     Single<ArrayList<SchoolsResponse>> getParentSchools();
@@ -100,8 +101,12 @@ public interface ApiService {
     @PUT("mentor_deliver_students")
     Single<ArrayList<MentorDeliverStudentsResponseModel>> mentorDeliverStudentsAction(@Field("requests_id[]") ArrayList<Integer> students_ids);
 
+    @FormUrlEncoded
     @PUT("teacher_deliver_students")
-    Single<ArrayList<MentorDeliverStudentsResponseModel>> teacherDeliverStudentsAction(@Body ArrayList<TeacherDeliverStudentsRequestModel> requestModels);
+    Single<MentorQueueResponseModel> teacherDeliverStudentsAction(
+            @Field("request_ids[]") ArrayList<Integer> request_ids,
+            @Field("student_ids[]") ArrayList<Integer> student_ids
+    );
 
 
     @GET("mentor_queue")
@@ -119,9 +124,13 @@ public interface ApiService {
     @POST("/simulate")
     Single<String> sendCoordinates(@Body RequestBody coordinates);
 
-    @FormUrlEncoded
+    //    @FormUrlEncoded
     @POST("update_location")
-    Single<BaseResponse> updateLocation(@Body UpdateLocationRequestModel locationRequestModel);
+    Single<Response<BaseResponse>> updateLocation(@Body UpdateLocationRequestModel locationRequestModel);
+
+    //    @FormUrlEncoded
+    @POST("update_location")
+    Call<Response<BaseResponse>> updateLocationFromService(@Body UpdateLocationRequestModel updateLocationRequestModel);
 
     @GET("get_helpers")
     Single<ArrayList<HelperResponseModel>> getParentHelpers();
@@ -130,7 +139,7 @@ public interface ApiService {
     Single<UserProfileResponseModel> getUserProfile();
 
     @POST("user_profile")
-    Single<UserResponseModel> editProfile(@Body EditProfileRequestModel editProfileRequestModel);
+    Single<Response<UserResponseModel>> editProfile(@Body EditProfileRequestModel editProfileRequestModel);
 
 
     @Multipart
@@ -172,4 +181,9 @@ public interface ApiService {
     @GET
     Single<HelperProfileResponseModel> getHelperProfile(@Url() String helper_id);
 
+    @GET
+    Single<BaseResponse> resendVerificationCode(@Url() String id);
+
+    @GET
+    Single<CheckRequestStateResponseModel> checkIfCanReceive(@Url() String id);
 }

@@ -86,10 +86,11 @@ public class ParentProfileActivity extends AppCompatActivity implements ParentPr
     }
 
     private void bindBasicDateToViews(UserResponseModel userProfileModel) {
-        if (userProfileModel.getImages().get(0) != null) {
-            Uri uri = Uri.parse(userProfileModel.getImages().get(0).getPath());
-            user_profile_picture.setImageURI(uri);
-        }
+        if (userProfileModel.getImages() != null)
+            if (userProfileModel.getImages().size() >0) {
+                Uri uri = Uri.parse(userProfileModel.getImages().get(0).getPath());
+                user_profile_picture.setImageURI(uri);
+            }
         user_profile_name.setText(userProfileModel.getName());
         email_address.setText(userProfileModel.getEmail());
         phone_number.setText(userProfileModel.getPhone());

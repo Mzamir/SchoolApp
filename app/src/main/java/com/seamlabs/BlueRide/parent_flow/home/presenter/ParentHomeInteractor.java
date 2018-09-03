@@ -28,7 +28,6 @@ public class ParentHomeInteractor {
         void onSuccessGettingParentStudentsForASchool(ArrayList<ParentStudentForASchoolResponse> parentStudentForASchoolResponses);
 
 
-
         void onError(String error);
     }
 
@@ -42,12 +41,12 @@ public class ParentHomeInteractor {
                 .subscribe(new DisposableSingleObserver<ArrayList<SchoolsResponse>>() {
                     @Override
                     public void onSuccess(ArrayList<SchoolsResponse> parentSchoolsRespons) {
-                        if (parentSchoolsRespons == null || parentSchoolsRespons.size() == 0) {
-                            listener.onError("Unauthenticated");
-                        } else {
-                            Log.i("ParentHomeInteractor", "onSuccessGettingParentSchools " + parentSchoolsRespons.size());
-                            listener.onSuccessGettingParentSchools(parentSchoolsRespons);
+                        if (parentSchoolsRespons == null) {
+                            listener.onError(GENERAL_ERROR);
+                            return;
                         }
+                        Log.i("ParentHomeInteractor", "onSuccessGettingParentSchools " + parentSchoolsRespons.size());
+                        listener.onSuccessGettingParentSchools(parentSchoolsRespons);
                     }
 
                     @Override
@@ -68,12 +67,12 @@ public class ParentHomeInteractor {
                 .subscribe(new DisposableSingleObserver<ArrayList<ParentStudentForASchoolResponse>>() {
                     @Override
                     public void onSuccess(ArrayList<ParentStudentForASchoolResponse> parentSchoolsResponse) {
-                        if (parentSchoolsResponse == null || parentSchoolsResponse.size() == 0) {
-                            listener.onError("Unauthenticated");
-                        } else {
-                            Log.i("ParentHomeInteractor", "onSuccessGettingParentSchools " + parentSchoolsResponse.size());
-                            listener.onSuccessGettingParentStudentsForASchool(parentSchoolsResponse);
+                        if (parentSchoolsResponse == null) {
+                            listener.onError(GENERAL_ERROR);
+                            return;
                         }
+                        Log.i("ParentHomeInteractor", "onSuccessGettingParentSchools " + parentSchoolsResponse.size());
+                        listener.onSuccessGettingParentStudentsForASchool(parentSchoolsResponse);
                     }
 
                     @Override

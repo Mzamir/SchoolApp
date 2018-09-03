@@ -19,7 +19,7 @@ public class VerifyPhonePresenter implements VerifyPhoneInteractor.OnVerifyPhone
         interactor.verifyPhone(code, national_id, this);
     }
 
-    public void resendVerificationCode(String id) {
+    public void resendVerificationCode(int id) {
         if (view != null) {
             view.showProgress();
         }
@@ -27,10 +27,10 @@ public class VerifyPhonePresenter implements VerifyPhoneInteractor.OnVerifyPhone
     }
 
     @Override
-    public void onError() {
+    public void onError(String messagge) {
         if (view != null) {
             view.hideProgress();
-            view.onErrorVerifyPhone();
+            view.onErrorVerifyPhone(messagge);
         }
     }
 
@@ -39,6 +39,22 @@ public class VerifyPhonePresenter implements VerifyPhoneInteractor.OnVerifyPhone
         if (view != null) {
             view.hideProgress();
             view.navigateToParentHome();
+        }
+    }
+
+    @Override
+    public void onSuccessResendCode() {
+        if (view != null) {
+            view.hideProgress();
+            view.onSuccessResendCode();
+        }
+    }
+
+    @Override
+    public void onErrorResendCode(String message) {
+        if (view != null) {
+            view.hideProgress();
+            view.onErrorResendCode(message);
         }
     }
 }

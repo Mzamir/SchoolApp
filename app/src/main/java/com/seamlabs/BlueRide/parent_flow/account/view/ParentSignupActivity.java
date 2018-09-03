@@ -1,16 +1,28 @@
 package com.seamlabs.BlueRide.parent_flow.account.view;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,9 +46,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.seamlabs.BlueRide.MyApplication.getMyApplicationContext;
+import static com.seamlabs.BlueRide.maps_directions.DrawRouteMaps.getContext;
 import static com.seamlabs.BlueRide.utils.Constants.BASE_URL;
 import static com.seamlabs.BlueRide.utils.Constants.TERMS_AND_CONDITIONS_FILE_NAME;
 import static com.seamlabs.BlueRide.utils.Constants.TERMS_AND_CONDITIONS_FOLDER_NAME;
+import static com.seamlabs.BlueRide.utils.Constants.USER_ID;
 import static com.seamlabs.BlueRide.utils.Constants.USER_NATIONAL_ID;
 
 public class ParentSignupActivity extends MyActivity implements ParentRegistrationView {
@@ -60,6 +74,9 @@ public class ParentSignupActivity extends MyActivity implements ParentRegistrati
 
     @BindView(R.id.termsAndConditions)
     TextView termsAndConditions;
+    @BindView(R.id.terms_checkbox)
+    CheckBox terms_checkbox;
+    boolean termsAccepted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,14 +109,19 @@ public class ParentSignupActivity extends MyActivity implements ParentRegistrati
         termsAndConditions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkIfFileExit())
-                    viewTermsAndConditionsFile();
-                else
-                    getTermsAndConditionsFile();
+                if (checkStoragePermission())
+                    performTermsAndConditionsAction();
+            }
+        });
+        terms_checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                termsAccepted = isChecked;
             }
         });
 
     }
+
 
     @Override
     public void showProgress() {
@@ -123,6 +145,7 @@ public class ParentSignupActivity extends MyActivity implements ParentRegistrati
         if (status == 0) {
             Intent intent = new Intent(this, VerificationCodeActivity.class);
             intent.putExtra(USER_NATIONAL_ID, UserSettingsPreference.getSavedUserProfile(this).getNational_id());
+            intent.putExtra(USER_ID, UserSettingsPreference.getSavedUserProfile(this).getId());
             startActivity(intent);
             finish();
         } else {
@@ -149,7 +172,11 @@ public class ParentSignupActivity extends MyActivity implements ParentRegistrati
             password_edx.setError(getResources().getString(R.string.empty_field));
             return;
         }
-        presenter.validateCredentials(id_number_edx.getText().toString(), password_edx.getText().toString());
+        if (termsAccepted) {
+            presenter.validateCredentials(id_number_edx.getText().toString(), password_edx.getText().toString());
+        } else {
+            Toast.makeText(this, "You need to accept terms and conditions", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -216,6 +243,87 @@ public class ParentSignupActivity extends MyActivity implements ParentRegistrati
         protected void onPostExecute(Void aVoid) {
             hideProgress();
             viewTermsAndConditionsFile();
+        }
+    }
+
+    public static final int REQUEST_PERMISSION_EXTERNAL_STORAGE = 1000;
+
+    void performTermsAndConditionsAction() {
+        if (checkIfFileExit())
+            viewTermsAndConditionsFile();
+        else
+            getTermsAndConditionsFile();
+    }
+
+    private boolean checkStoragePermission() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                showExplanation("Permission Needed",
+                        "In order to read terms and conditions, We need your permission to access your storage",
+                        Manifest.permission.READ_EXTERNAL_STORAGE, REQUEST_PERMISSION_EXTERNAL_STORAGE);
+            } else {
+                requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, REQUEST_PERMISSION_EXTERNAL_STORAGE);
+            }
+            return false;
+        }
+        return true;
+    }
+
+    private void showExplanation(String title, String message, final String permission, final int permissionRequestCode) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        requestPermission(permission, permissionRequestCode);
+                    }
+                });
+        builder.create().show();
+    }
+
+    private void requestPermission(String permissionName, int permissionRequestCode) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{permissionName}, permissionRequestCode);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSION_EXTERNAL_STORAGE:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Permission Granted!", Toast.LENGTH_SHORT).show();
+                    performTermsAndConditionsAction();
+                } else {
+                    boolean showRationale = false;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                        showRationale = shouldShowRequestPermissionRationale(permissions[0]);
+                    }
+                    if (!showRationale) {
+                        showSnackBar("Permission Denied!", true);
+                    } else if (Manifest.permission.READ_EXTERNAL_STORAGE.equals(permissions[0])) {
+                        Toast.makeText(this, "Permission Denied!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        }
+    }
+
+    public void showSnackBar(String message, boolean showAction) {
+        Snackbar snackbar = Snackbar
+                .make(this.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
+        snackbar.show();
+
+        if (showAction) {
+            snackbar.setAction("Grantee", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                            Uri.fromParts("package", getPackageName(), null));
+                    startActivity(intent);
+                }
+            });
         }
     }
 }

@@ -147,9 +147,15 @@ public class ParentHomeFragment extends MyFragment implements ParentHomeViewComm
 
     @Override
     public void onSuccessGettingSchool(ArrayList<SchoolModel> schoolList) {
-        this.schoolsList = schoolList;
-        schoolsRecyclerAdapter = new SchoolsRecyclerAdapter(this, getContext(), schoolList);
-        schools_recyclerView.setAdapter(schoolsRecyclerAdapter);
+        if (schoolList.size() > 0) {
+            this.schoolsList = schoolList;
+            schoolsRecyclerAdapter = new SchoolsRecyclerAdapter(this, getContext(), schoolList);
+            schools_recyclerView.setAdapter(schoolsRecyclerAdapter);
+            startPickup.setVisibility(View.VISIBLE);
+        } else {
+            startPickup.setVisibility(View.INVISIBLE);
+            showSnackBar("You don't have schools right now", false);
+        }
     }
 
     @Override

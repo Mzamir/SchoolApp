@@ -54,7 +54,6 @@ public class HelpersRecyclerViewAdapter extends RecyclerView.Adapter<HelpersRecy
 //            holder.student_picture.setImageURI(uri);
 //        }
         holder.helper_layout.setVisibility(View.VISIBLE);
-        holder.mentor_students_layout.setVisibility(View.GONE);
         holder.helper_name.setText(helperModel.getName());
     }
 
@@ -86,8 +85,6 @@ public class HelpersRecyclerViewAdapter extends RecyclerView.Adapter<HelpersRecy
         @BindView(R.id.helper_layout)
         LinearLayout helper_layout;
 
-        @BindView(R.id.mentor_students_layout)
-        LinearLayout mentor_students_layout;
         @BindView(R.id.helper_name)
         TextView helper_name;
 

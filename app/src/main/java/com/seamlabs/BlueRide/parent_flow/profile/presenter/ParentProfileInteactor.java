@@ -2,16 +2,11 @@ package com.seamlabs.BlueRide.parent_flow.profile.presenter;
 
 import android.util.Log;
 
-import com.seamlabs.BlueRide.MessageEvent;
 import com.seamlabs.BlueRide.MyApplication;
 import com.seamlabs.BlueRide.network.ApiClient;
 import com.seamlabs.BlueRide.network.ApiService;
 import com.seamlabs.BlueRide.network.BaseResponse;
 import com.seamlabs.BlueRide.network.response.UserProfileResponseModel;
-import com.seamlabs.BlueRide.network.response.UserResponseModel;
-import com.seamlabs.BlueRide.utils.UserSettingsPreference;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 
@@ -22,8 +17,6 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-import static com.seamlabs.BlueRide.MyApplication.getMyApplicationContext;
-import static com.seamlabs.BlueRide.utils.Constants.EVENT_PICTURE_CHANGED;
 import static com.seamlabs.BlueRide.utils.Constants.SERVER_ERROR;
 
 public class ParentProfileInteactor {

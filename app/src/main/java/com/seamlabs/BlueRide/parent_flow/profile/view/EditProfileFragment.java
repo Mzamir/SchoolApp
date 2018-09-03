@@ -13,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,10 +20,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListPopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +45,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.seamlabs.BlueRide.utils.Constants.EMPTY_FIELD_ERROR;
+import static com.seamlabs.BlueRide.utils.Utility.getCountryCodes;
 import static com.seamlabs.BlueRide.utils.Utility.isEmailValid;
 
 public class EditProfileFragment extends MyFragment implements EditProfileViewCommunicator {
@@ -115,8 +118,41 @@ public class EditProfileFragment extends MyFragment implements EditProfileViewCo
     @BindView(R.id.edit_profile)
     ImageView edit_profile;
 
+    @BindView(R.id.spinner_counter_codes)
+    TextView spinner_counter_codes;
+    @BindView(R.id.spinnerLayout)
+    LinearLayout spinnerLayout;
+    ListPopupWindow listPopupWindow;
+    String spinnerList[];
+    String selectedCountryCode = "+966";
+
+    private void handleCountrySpinner() {
+        spinnerList = getCountryCodes();
+        spinner_counter_codes.setText(spinnerList[0]);
+        listPopupWindow = new ListPopupWindow(activity);
+        listPopupWindow.setAdapter(new ArrayAdapter(
+                activity,
+                R.layout.spinner_text, spinnerList));
+        listPopupWindow.setAnchorView(spinnerLayout);
+        listPopupWindow.setModal(true);
+        listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                spinner_counter_codes.setText(spinnerList[position]);
+                selectedCountryCode = spinnerList[position];
+                listPopupWindow.dismiss();
+            }
+        });
+        spinnerLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listPopupWindow.show();
+            }
+        });
+    }
+
     private void bindToolBarData() {
-        if (UserSettingsPreference.getSavedUserProfile(getActivity()).getImages().get(0) != null) {
+        if (UserSettingsPreference.getSavedUserProfile(getActivity()).getImages().size() > 0) {
             Uri uri = Uri.parse(UserSettingsPreference.getSavedUserProfile(getActivity()).getImages().get(0).getPath());
             user_profile_picture.setImageURI(uri);
         }
@@ -152,6 +188,7 @@ public class EditProfileFragment extends MyFragment implements EditProfileViewCo
             bindBasicDateToViews();
         handleViewsListener();
 
+        handleCountrySpinner();
         save_edits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -263,8 +300,8 @@ public class EditProfileFragment extends MyFragment implements EditProfileViewCo
         if (checkViewsEnableState(phone_number)) {
             if (checkViewsEmptyState(phone_number)) {
                 if (!phone_number.getText().toString().equals(userProfileModel.getPhone())) {
-                    requestModel.setPhone(phone_number.getText().toString());
-                    phone = requestModel.getPhone();
+                    requestModel.setPhone(selectedCountryCode + phone_number.getText().toString());
+                    phone = selectedCountryCode + requestModel.getPhone();
                     somethingUpdated = true;
                 }
             } else
@@ -287,12 +324,16 @@ public class EditProfileFragment extends MyFragment implements EditProfileViewCo
                 if (checkViewsEmptyState(new_password_edx)) {
                     requestModel.setNew_password(new_password_edx.getText().toString());
                     new_password = requestModel.getNew_password();
-                    if (checkViewsEmptyState(confirm_password_edx)) {
+                    if (checkViewsEmptyState(confirm_password_edx) &&
+                            confirm_password_edx.getText().toString().equals(new_password_edx.getText().toString())) {
                         requestModel.setConfirm_password(confirm_password_edx.getText().toString());
                         confirm_password = requestModel.getConfirm_password();
                         somethingUpdated = true;
-                    } else
+                    } else {
+                        Toast.makeText(activity, "Enter valid data", Toast.LENGTH_SHORT).show();
                         return;
+                    }
+
                 } else
                     return;
             } else
@@ -358,7 +399,7 @@ public class EditProfileFragment extends MyFragment implements EditProfileViewCo
     }
 
     private void handleProfilePictureChange() {
-        if (checkGPSPermission()) {
+        if (checkStoragePermission()) {
             performCameraAndGalleyAction();
         }
     }
@@ -393,7 +434,7 @@ public class EditProfileFragment extends MyFragment implements EditProfileViewCo
         }
     }
 
-    private boolean checkGPSPermission() {
+    private boolean checkStoragePermission() {
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {

@@ -2,11 +2,11 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/parent_layout"
     android:background="@color/main_background_color"
+    android:orientation="vertical"
     tools:context=".helper_account.view.HelperSignupActivity">
 
     <ImageView
@@ -130,25 +130,66 @@
                     android:inputType="number" />
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/phone_layout"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="32dp"
                 android:layout_marginStart="32dp"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/id_number_layout">
 
-                <com.seamlabs.BlueRide.widgets.CairoEditText
-                    android:id="@+id/phone_edx"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:id="@+id/spinnerLayout"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="@dimen/icons_padding"
-                    android:drawableStart="@drawable/ic_mobile_ico"
-                    android:hint="@string/mobile_hint"
-                    android:inputType="phone" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/custom_spinner_background"
+                    android:gravity="bottom"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="5dp"
+                        android:src="@drawable/drop_down_spinner"
+                        android:tint="@color/black" />
+
+                    <com.seamlabs.BlueRide.widgets.CairoSemiBoldTextView
+                        android:id="@+id/spinner_counter_codes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="5dp"
+                        android:enabled="true"
+                        android:gravity="center"
+                        android:text="+966"
+                        android:visibility="visible" />
+
+
+                </LinearLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/phone_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.seamlabs.BlueRide.widgets.CairoEditText
+                        android:id="@+id/phone_edx"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/icons_padding"
+                        android:drawableStart="@drawable/ic_mobile_ico"
+                        android:hint="@string/mobile_hint"
+                        android:inputType="phone" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 
@@ -219,4 +260,31 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center|top"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signup_as_helper">
+
+        <CheckBox
+            android:id="@+id/terms_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp" />
+
+        <com.seamlabs.BlueRide.widgets.CairoSemiBoldTextView
+            android:id="@+id/termsAndConditions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/terms_conditions" />
+
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

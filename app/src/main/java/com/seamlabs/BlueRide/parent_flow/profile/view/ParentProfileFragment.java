@@ -108,7 +108,7 @@ public class ParentProfileFragment extends MyFragment implements ParentProfileVi
 
     private void bindToolBarData() {
         edit_profile.setVisibility(View.VISIBLE);
-        if (UserSettingsPreference.getSavedUserProfile(getActivity()).getImages().get(0) != null) {
+        if (UserSettingsPreference.getSavedUserProfile(getActivity()).getImages().size() > 0) {
             Uri uri = Uri.parse(UserSettingsPreference.getSavedUserProfile(getActivity()).getImages().get(0).getPath());
             user_profile_picture.setImageURI(uri);
         }

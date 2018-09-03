@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.seamlabs.BlueRide.MyApplication;
 import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.parent_flow.home.model.StudentModel;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -18,6 +20,8 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.seamlabs.BlueRide.MyApplication.getMyApplicationContext;
 
 public class StudentRecyclerAdapter extends RecyclerView.Adapter<StudentRecyclerAdapter.StudentsViewHolderLayout> {
 
@@ -49,7 +53,8 @@ public class StudentRecyclerAdapter extends RecyclerView.Adapter<StudentRecycler
             Uri uri = Uri.parse(studentModel.getStudentPicture());
             holder.student_picture.setImageURI(uri);
         }
-        holder.student_class.setText(String.valueOf(studentModel.getClassID()));
+        holder.student_class.setText(String.valueOf(studentModel.getClass_name()));
+        holder.student_grade.setText(String.valueOf(studentModel.getGrade_name()));
         holder.student_name.setText(studentModel.getStudentName());
     }
 
@@ -67,8 +72,12 @@ public class StudentRecyclerAdapter extends RecyclerView.Adapter<StudentRecycler
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     StudentModel studentModel = students.get(position);
-                    studentModel.setMarked(!studentModel.isMarked());
-                    notifyItemChanged(position);
+                    if (studentModel.isIn_request()) {
+                        Toast.makeText(getMyApplicationContext(), "Already in request", Toast.LENGTH_SHORT).show();
+                    } else {
+                        studentModel.setMarked(!studentModel.isMarked());
+                        notifyItemChanged(position);
+                    }
                 }
             });
         }
@@ -84,6 +93,10 @@ public class StudentRecyclerAdapter extends RecyclerView.Adapter<StudentRecycler
 
         @BindView(R.id.student_class)
         TextView student_class;
+
+        @BindView(R.id.student_grade)
+        TextView student_grade;
+
 
         @BindView(R.id.marked_icon)
         ImageView marked_icon;

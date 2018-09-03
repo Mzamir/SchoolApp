@@ -30,7 +30,9 @@ public class Utility {
         try {
             progressDialog = new ProgressDialog(context, R.style.progressDialog);
             progressDialog.setCancelable(false); // disable dismiss by tapping outside of the dialog
-            progressDialog.show();
+            if (!progressDialog.isShowing()){
+                progressDialog.show();
+            }
         } catch (Exception e) {
             Log.i("Utility", "Dialog Exception " + e.getMessage());
             e.printStackTrace();
@@ -45,5 +47,12 @@ public class Utility {
 
     public static boolean isEmailValid(String email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    public static String[] getCountryCodes() {
+        String phoneCodesList[] = new String[2];
+        phoneCodesList[0] = "+966";
+        phoneCodesList[1] = "+2";
+        return phoneCodesList;
     }
 }

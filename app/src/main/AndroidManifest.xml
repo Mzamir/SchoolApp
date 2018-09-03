@@ -7,9 +7,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!--<uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />-->
-    <!--<uses-feature android:name="android.hardware.camera" android:required="false" />-->
-    <!--<uses-permission android:name="android.permission.CAMERA" android:required="false"/>-->
+
+    <!-- <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" /> -->
+    <!-- <uses-feature android:name="android.hardware.camera" android:required="false" /> -->
+    <!-- <uses-permission android:name="android.permission.CAMERA" android:required="false"/> -->
     <application
         android:name=".MyApplication"
         android:allowBackup="false"
@@ -25,7 +26,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
         <activity
@@ -104,6 +105,11 @@
         <activity
             android:name=".parent_flow.tracking_helper.view.TrackingHelperMap"
             android:label="@string/title_activity_tracking_helper_map" />
+
+        <service android:name=".parent_flow.tracking_helper.HelperUpdateLocationService" />
+
+        <activity android:name=".helper_account.view.ActivityWebView"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>

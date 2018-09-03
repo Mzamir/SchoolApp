@@ -5,12 +5,20 @@ apply plugin: 'com.android.application'
 //apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 android {
+    signingConfigs {
+        config {
+            keyAlias 'schoolstorekey'
+            keyPassword 'xzmir95'
+            storeFile file('E:\\PersonalData\\AndroidProjects\\SchoolApp\\SchoolAppAnd\\store.keystore')
+            storePassword 'xzmir95'
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.seamlabs.BlueRide"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 6
+        versionCode 13
         versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
@@ -34,7 +42,6 @@ android {
             implementation 'org.greenrobot:eventbus:3.0.0'
             //Maps
             implementation 'com.google.android.gms:play-services-maps:15.0.1'
-
             // Retrofit and OkHttp
             // OkHttp interceptors
             implementation "com.squareup.retrofit2:retrofit:2.0.0"
@@ -44,22 +51,20 @@ android {
             implementation "com.squareup.okhttp3:okhttp:3.0.1"
             implementation "com.squareup.okhttp3:okhttp-urlconnection:3.0.1"
             implementation "com.squareup.okhttp3:logging-interceptor:3.4.1"
-
             //Fresco
             implementation 'com.facebook.fresco:fresco:1.10.0'
-
             //Pusher
             implementation 'com.pusher:pusher-java-client:1.8.0'
             implementation 'com.google.firebase:firebase-core:16.0.1'
             implementation 'com.google.firebase:firebase-messaging:17.1.0'
             implementation 'com.pusher:push-notifications-android:1.0.0'
-
             //Animation
             implementation "com.andkulikov:transitionseverywhere:1.8.0"
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/fonts'] } }

@@ -11,8 +11,10 @@ import com.seamlabs.BlueRide.parent_flow.home.model.StudentModel;
 
 import java.util.ArrayList;
 
+import static com.seamlabs.BlueRide.utils.Constants.DELIVERD_TO_SUPERVISON;
 import static com.seamlabs.BlueRide.utils.Constants.PARENT_ARRIVED_STATE;
 import static com.seamlabs.BlueRide.utils.Constants.PENDING_STATE;
+import static com.seamlabs.BlueRide.utils.Constants.REPORTED_STATE;
 
 public class MentorHomePresenter implements MentorHomeInteractor.onMentorHomeListener {
 
@@ -42,7 +44,7 @@ public class MentorHomePresenter implements MentorHomeInteractor.onMentorHomeLis
         interactor.deliverStudents(studentIDs, this);
     }
 
-    public void teachDeliverStudents(ArrayList<TeacherDeliverStudentsRequestModel> requestModels) {
+    public void teachDeliverStudents(TeacherDeliverStudentsRequestModel requestModels) {
         if (view != null)
             view.showProgress();
         interactor.teacherDeliverStudents(requestModels, this);
@@ -93,10 +95,21 @@ public class MentorHomePresenter implements MentorHomeInteractor.onMentorHomeLis
                 studentModel.setStudentNationalID(studentResponseModel.getNational_id());
                 studentModel.setSchoolID(studentResponseModel.getSchool_id());
                 studentModel.setClassID(studentResponseModel.getClass_id());
+                studentModel.setClass_name(studentResponseModel.getClass_name());
+                studentModel.setGrade_name(studentResponseModel.getGrade_name());
                 studentModel.setStudentCreatedAt(studentResponseModel.getCreated_at());
                 studentModel.setStudentUpdatedAt(studentResponseModel.getUpdated_at());
+
                 studentModel.setRequestId(response.getId());
-                studentModel.setRequestState(response.getStatus());
+                if (response.getStatus().equals("pending"))
+                    studentModel.setRequestState(PENDING_STATE);
+                else if (response.getStatus().equals("parent_arrived")) {
+                    studentModel.setRequestState(PARENT_ARRIVED_STATE);
+                } else if (response.getStatus().equals("reported")) {
+                    studentModel.setRequestState(REPORTED_STATE);
+                } else if (response.getStatus().equals("delivered_to_supervisor")) {
+                    studentModel.setRequestState(DELIVERD_TO_SUPERVISON);
+                }
                 studentModel.setStudentPicture(studentResponseModel.getImages().get(0).getPath());
                 studentModels.add(studentModel);
             }

@@ -68,8 +68,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @BindView(R.id.school_notified)
     TextView school_notified;
 
-    private final int LARGE_RADIUSE = 50;
-    private final int SMALL_RADIUSE = 20;
+    private int LARGE_RADIUSE = 50;
+    private int SMALL_RADIUSE = 20;
     private final int ZOOM_LEVEL = 15;
     private GoogleMap mMap;
     private LocationManager locationManager;
@@ -90,6 +90,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ButterKnife.bind(this);
         presenter = new ParentPickUpPresenter(this, new ParentPickUpInteractor());
         schoolModel = (SchoolModel) getIntent().getSerializableExtra(SELECTED_SCHOOL_MODEL);
+        LARGE_DISTANCE = schoolModel.getBig_zone();
+        SMALL_DISTANCE = schoolModel.getSmall_zone();
         parentPickUpRequestModel = (ParentPickUpRequestModel) getIntent().getSerializableExtra(PICK_UP_REQUEST_MODEL);
         destinationLocation = new LatLng(Double.parseDouble(schoolModel.getschoolLat()), Double.parseDouble(schoolModel.getschoolLong()));
         Log.i(TAG, "onLocationChanged " + destinationLocation.latitude + " " + destinationLocation.longitude);
@@ -106,7 +108,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     presenter.cancelRequest(request_id);
                 else {
                     startActivity(new Intent(MapsActivity.this, MainActivity.class));
-//                    Toast.makeText(MapsActivity.this, "Request hasn't created yet", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
@@ -139,7 +141,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Location location = null;
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+            try {
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+            } catch (Exception e) {
+
+            }
 //            location = locationManager.getLastKnownLocation(provider);
         }
         // Initialize the location fields

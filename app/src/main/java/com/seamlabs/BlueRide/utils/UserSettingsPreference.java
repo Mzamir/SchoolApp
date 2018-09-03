@@ -78,7 +78,7 @@ public class UserSettingsPreference {
         List<MentorStudentModel> tempList;
         SharedPreferences prefs = getMyApplicationContext().getSharedPreferences(SHARED_PENDING_STUDENTS, Context.MODE_PRIVATE);
         String listJson = prefs.getString(SHARED_PENDING_STUDENTS_LIST, "");
-        Type type = new TypeToken<List<Object>>() {
+        Type type = new TypeToken<List<MentorStudentModel>>() {
         }.getType();
         tempList = gson.fromJson(listJson, type);
         if (tempList != null) {

@@ -33,12 +33,11 @@ public class ParentHomePresenter implements ParentHomeInteractor.OnGettingParent
     }
 
 
-
     @Override
     public void onSuccessGettingParentSchools(ArrayList<SchoolsResponse> schoolsResponse) {
         if (view != null) {
             view.hideProgress();
-            if (schoolsResponse != null && schoolsResponse.size() > 0)
+            if (schoolsResponse != null)
                 view.onSuccessGettingSchool(convertResponseToModel(schoolsResponse));
         }
     }
@@ -47,7 +46,7 @@ public class ParentHomePresenter implements ParentHomeInteractor.OnGettingParent
     public void onSuccessGettingParentStudentsForASchool(ArrayList<ParentStudentForASchoolResponse> parentStudentForASchoolResponses) {
         if (view != null) {
             view.hideProgress();
-            if (parentStudentForASchoolResponses != null && parentStudentForASchoolResponses.size() > 0)
+            if (parentStudentForASchoolResponses != null)
                 view.onSuccessGettingStudentForASchool(convertStudentsResponseToStudentModel(parentStudentForASchoolResponses));
         }
     }
@@ -70,6 +69,9 @@ public class ParentHomePresenter implements ParentHomeInteractor.OnGettingParent
             studentModel.setClassID(response.getClass_id());
             studentModel.setStudentCreatedAt(response.getCreated_at());
             studentModel.setStudentUpdatedAt(response.getUpdated_at());
+            studentModel.setClass_name(response.getClass_name());
+            studentModel.setGrade_name(response.getGrade_name());
+            studentModel.setIn_request(response.isIn_request());
             studentModels.add(studentModel);
         }
         return studentModels;
@@ -100,6 +102,8 @@ public class ParentHomePresenter implements ParentHomeInteractor.OnGettingParent
             schoolModel.setschoolUpdatedAt(schoolsResponse.getUpdated_at());
             schoolModel.setschoolLong(schoolsResponse.getLongitude());
             schoolModel.setschoolLat(schoolsResponse.getLat());
+            schoolModel.setBig_zone(schoolsResponse.getBig_zone());
+            schoolModel.setSmall_zone(schoolsResponse.getSmall_zone());
             schoolModels.add(schoolModel);
         }
         return schoolModels;

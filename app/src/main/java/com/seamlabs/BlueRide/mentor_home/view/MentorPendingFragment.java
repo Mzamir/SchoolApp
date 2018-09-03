@@ -97,7 +97,7 @@ public class MentorPendingFragment extends MyFragment implements MentorHomeViewC
     LinearLayout navigation_icon;
 
     private void bindToolBarData() {
-        if (UserSettingsPreference.getSavedUserProfile(getActivity()).getImages().get(0) != null) {
+        if (UserSettingsPreference.getSavedUserProfile(getActivity()).getImages().size() >0) {
             Uri uri = Uri.parse(UserSettingsPreference.getSavedUserProfile(getActivity()).getImages().get(0).getPath());
             user_profile_picture.setImageURI(uri);
         }

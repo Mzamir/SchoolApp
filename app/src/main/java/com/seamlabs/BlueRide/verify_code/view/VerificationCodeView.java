@@ -6,8 +6,11 @@ public interface VerificationCodeView {
 
     void hideProgress();
 
-    void onErrorVerifyPhone() ;
+    void onErrorVerifyPhone(String message) ;
 
     void navigateToParentHome();
 
+    void onSuccessResendCode() ;
+
+    void onErrorResendCode(String message);
 }

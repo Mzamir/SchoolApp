@@ -13,7 +13,7 @@
     <string name="verify_number">Verify Your Phone Number</string>
     <string name="verify_number_message">Please enter you valid phone number below \n to complete verification</string>
     <string name="verify_btn">Verify</string>
-    <string name="enter_4_digits">Enter 4 Digit Code</string>
+    <string name="enter_4_digits">Enter 5 Digit Code</string>
     <string name="received_code_title">Received a Verification Code!</string>
     <string name="received_code_message">we are automatically sent you SMS on your mobile numeber</string>
     <string name="resend_code">Resend code</string>
@@ -65,5 +65,8 @@
     <string name="no_requests_to_track">There is no request to track right now.</string>
     <string name="terms_conditions">Read terms and conditions</string>
 
-
+    <array name="phoneCodes">
+        <item>"+966"</item>
+        <item>"+02"</item>
+    </array>
 </resources>

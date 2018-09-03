@@ -9,16 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.seamlabs.BlueRide.MyApplication;
 import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.network.response.StudentResponseModel;
 import com.seamlabs.BlueRide.parent_flow.home.view.ParentHomeViewCommunicator;
 import com.seamlabs.BlueRide.parent_flow.profile.view.ParentProfileViewCommunicator;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.seamlabs.BlueRide.utils.UserSettingsPreference;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.seamlabs.BlueRide.utils.Constants.PARENT_USER_TYPE;
 
 
 public class ProfileStudentRecyclerViewAdapter extends RecyclerView.Adapter<ProfileStudentRecyclerViewAdapter.SchoolsViewHolderLayout> {
@@ -75,7 +79,10 @@ public class ProfileStudentRecyclerViewAdapter extends RecyclerView.Adapter<Prof
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    parentHomeViewCommunicator.onStudentClickListner(students.get(getAdapterPosition()));
+                    if (UserSettingsPreference.getUserType(MyApplication.getMyApplicationContext())
+                            .equals(PARENT_USER_TYPE)) {
+                        parentHomeViewCommunicator.onStudentClickListner(students.get(getAdapterPosition()));
+                    }
                 }
             });
         }

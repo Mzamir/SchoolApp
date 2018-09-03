@@ -1,12 +1,13 @@
 package com.seamlabs.BlueRide;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -34,6 +35,7 @@ import com.seamlabs.BlueRide.parent_flow.add_helper.view.AddHelperActivity;
 import com.seamlabs.BlueRide.parent_flow.profile.view.EditProfileFragment;
 import com.seamlabs.BlueRide.parent_flow.profile.view.ParentProfileFragment;
 import com.seamlabs.BlueRide.parent_flow.tracking_helper.view.TrackingHelpersFragment;
+import com.seamlabs.BlueRide.utils.MessageEvent;
 import com.seamlabs.BlueRide.utils.PrefUtils;
 import com.seamlabs.BlueRide.utils.UserSettingsPreference;
 import com.facebook.drawee.generic.RoundingParams;
@@ -50,6 +52,7 @@ import static com.seamlabs.BlueRide.utils.Constants.HELPER_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.Constants.MENTOR_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.Constants.PARENT_ACTIVITY;
 import static com.seamlabs.BlueRide.utils.Constants.PARENT_USER_TYPE;
+import static com.seamlabs.BlueRide.utils.Constants.SHARED_PENDING_STUDENTS;
 import static com.seamlabs.BlueRide.utils.Constants.TEACHER_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.UserSettingsPreference.getUserType;
 import static com.seamlabs.BlueRide.utils.UserSettingsPreference.setUserType;
@@ -179,7 +182,7 @@ public class MainActivity extends AppCompatActivity
         fragment.setNavigationIconClickListener(this);
         Log.i(TAG, userType);
         if (fragment != null)
-            replaceFragment(fragment);
+            fragmentManager.beginTransaction().replace(R.id.frameLayout, fragment).commit();
     }
 
     private void showTrackingHelperFragment() {
@@ -193,10 +196,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void showSettingFragment() {
-        if (userProfileModel.getImages().get(0) != null) {
-            Uri uri = Uri.parse(userProfileModel.getImages().get(0).getPath());
-            user_profile_picture.setImageURI(uri);
-        }
+        if (userProfileModel.getImages() != null)
+            if (userProfileModel.getImages().size() > 0) {
+                Uri uri = Uri.parse(userProfileModel.getImages().get(0).getPath());
+                user_profile_picture.setImageURI(uri);
+            }
         user_profile_name.setText(userProfileModel.getName());
         edit_profile.setVisibility(View.VISIBLE);
         parent_toolbar_layout.setVisibility(View.GONE);
@@ -209,10 +213,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void showEditProfileFragment() {
-        if (userProfileModel.getImages().get(0) != null) {
-            Uri uri = Uri.parse(userProfileModel.getImages().get(0).getPath());
-            user_profile_picture.setImageURI(uri);
-        }
+        if (userProfileModel.getImages() != null)
+            if (userProfileModel.getImages().size() > 0) {
+                Uri uri = Uri.parse(userProfileModel.getImages().get(0).getPath());
+                user_profile_picture.setImageURI(uri);
+            }
         user_profile_name.setText(userProfileModel.getName());
         edit_profile.setVisibility(View.INVISIBLE);
         parent_toolbar_layout.setVisibility(View.GONE);
@@ -321,6 +326,10 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(MainActivity.this, ParentSignInActivity.class));
                 UserSettingsPreference.getUserSettingsSharedPreferences(MyApplication.getMyApplicationContext()).edit().clear().commit();
                 PrefUtils.getPrefUtilsSharedPreferences(MyApplication.getMyApplicationContext()).edit().clear().commit();
+                SharedPreferences sharedPreferences =
+                        getSharedPreferences(SHARED_PENDING_STUDENTS, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear().commit();
                 finish();
                 break;
             default:

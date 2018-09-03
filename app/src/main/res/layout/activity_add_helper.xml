@@ -66,21 +66,47 @@
             android:layout_marginEnd="32dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="124dp"
+            android:gravity="bottom"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4">
 
-            <com.seamlabs.BlueRide.widgets.CairoEditText
+            <LinearLayout
+                android:id="@+id/spinnerLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:drawablePadding="@dimen/icons_padding"
-                android:drawableStart="@drawable/ic_mobile_ico"
-                android:enabled="false"
+                android:layout_gravity="center"
+                android:background="@drawable/custom_spinner_background"
                 android:gravity="bottom"
-                android:text="+966" />
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="5dp"
+                    android:src="@drawable/drop_down_spinner"
+                    android:tint="@color/black" />
+
+                <com.seamlabs.BlueRide.widgets.CairoSemiBoldTextView
+                    android:id="@+id/spinner_counter_codes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="5dp"
+                    android:enabled="true"
+                    android:gravity="center"
+                    android:text="+966"
+                    android:visibility="visible" />
+
+
+            </LinearLayout>
+
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -90,6 +116,8 @@
                     android:id="@+id/phone_edx"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/icons_padding"
+                    android:drawableStart="@drawable/ic_mobile_ico"
                     android:hint="@string/mobile_hint"
                     android:inputType="phone" />
             </android.support.design.widget.TextInputLayout>

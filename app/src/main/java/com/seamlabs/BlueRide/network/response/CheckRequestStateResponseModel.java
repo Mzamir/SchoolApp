@@ -1,21 +1,21 @@
 package com.seamlabs.BlueRide.network.response;
 
-import com.seamlabs.BlueRide.network.BaseResponse;
 import com.google.gson.annotations.SerializedName;
+import com.seamlabs.BlueRide.network.BaseResponse;
 
 import java.util.ArrayList;
 
-public class MentorQueueResponseModel extends BaseResponse {
+public class CheckRequestStateResponseModel extends BaseResponse {
 
     int id;
-    int picker_id;
-    int mentor_id;
-    int security_id;
+    int picker_id ;
+    int mentor_id ;
+    Integer security_id ;
     int school_id;
     String created_at;
     String updated_at;
-    String status;
-    boolean mentor_can_deliver;
+    String status ;
+    boolean mentor_can_deliver ;
 
     @SerializedName("students")
     ArrayList<StudentResponseModel> students = new ArrayList<>();
@@ -42,14 +42,6 @@ public class MentorQueueResponseModel extends BaseResponse {
 
     public void setMentor_id(int mentor_id) {
         this.mentor_id = mentor_id;
-    }
-
-    public int getSecurity_id() {
-        return security_id;
-    }
-
-    public void setSecurity_id(int security_id) {
-        this.security_id = security_id;
     }
 
     public int getSchool_id() {
@@ -98,5 +90,13 @@ public class MentorQueueResponseModel extends BaseResponse {
 
     public void setMentor_can_deliver(boolean mentor_can_deliver) {
         this.mentor_can_deliver = mentor_can_deliver;
+    }
+
+    public Integer getSecurity_id() {
+        return security_id;
+    }
+
+    public void setSecurity_id(Integer security_id) {
+        this.security_id = security_id;
     }
 }

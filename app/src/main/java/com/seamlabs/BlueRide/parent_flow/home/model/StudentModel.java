@@ -13,7 +13,11 @@ public class StudentModel {
     private String studentUpdatedAt;
     private boolean marked;
     private String studentPicture;
+    String class_name;
+    String grade_name;
+    boolean in_request ;
     StudentPivotResponseModel pivot = new StudentPivotResponseModel();
+
     public int getStudentID() {
         return studentID;
     }
@@ -92,5 +96,29 @@ public class StudentModel {
 
     public void setPivot(StudentPivotResponseModel pivot) {
         this.pivot = pivot;
+    }
+
+    public String getClass_name() {
+        return class_name;
+    }
+
+    public void setClass_name(String class_name) {
+        this.class_name = class_name;
+    }
+
+    public String getGrade_name() {
+        return grade_name;
+    }
+
+    public void setGrade_name(String grade_name) {
+        this.grade_name = grade_name;
+    }
+
+    public boolean isIn_request() {
+        return in_request;
+    }
+
+    public void setIn_request(boolean in_request) {
+        this.in_request = in_request;
     }
 }

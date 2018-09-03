@@ -70,10 +70,10 @@ public class MentorHomeInteractor {
                     @Override
                     public void onSuccess(ArrayList<MentorQueueResponseModel> mentorQueueResponseModels) {
                         if (mentorQueueResponseModels != null) {
-                            if (mentorQueueResponseModels.size() > 0) {
-                                listener.onSuccessGettingStudents(mentorQueueResponseModels);
-                                return;
-                            }
+//                            if (mentorQueueResponseModels.size() > 0) {
+                            listener.onSuccessGettingStudents(mentorQueueResponseModels);
+                            return;
+//                            }
                         }
                         listener.onErrorGettingStudents();
                         Log.i(TAG, "onSuccessParentArrived getMentorQueue Exception ");
@@ -115,16 +115,16 @@ public class MentorHomeInteractor {
                 });
     }
 
-    public void teacherDeliverStudents(ArrayList<TeacherDeliverStudentsRequestModel> requestModels, final onMentorHomeListener listener) {
+    public void teacherDeliverStudents(TeacherDeliverStudentsRequestModel requestModels, final onMentorHomeListener listener) {
         ApiService apiService = ApiClient.getClient(MyApplication.getMyApplicationContext())
                 .create(ApiService.class);
 
-        apiService.teacherDeliverStudentsAction(requestModels)
+        apiService.teacherDeliverStudentsAction(requestModels.getRequest_ids(), requestModels.getStudent_ids())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<ArrayList<MentorDeliverStudentsResponseModel>>() {
+                .subscribe(new DisposableSingleObserver<MentorQueueResponseModel>() {
                     @Override
-                    public void onSuccess(ArrayList<MentorDeliverStudentsResponseModel> mentorQueueResponseModels) {
+                    public void onSuccess(MentorQueueResponseModel mentorQueueResponseModels) {
                         if (mentorQueueResponseModels != null) {
 //                            if (mentorQueueResponseModels.size() > 0) {
                             listener.onSuccessDeliverAction();

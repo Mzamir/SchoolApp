@@ -66,14 +66,17 @@ public class MentorStudentsRecyclerViewAdapter extends RecyclerView.Adapter<Ment
             Uri uri = Uri.parse(studentModel.getStudentPicture());
             holder.student_picture.setImageURI(uri);
         }
-        holder.student_class.setText(String.valueOf(studentModel.getClassID()));
+        holder.student_class.setText(String.valueOf(studentModel.getClass_name()));
+        holder.student_grade.setText(String.valueOf(studentModel.getGrade_name()));
         holder.student_name.setText(studentModel.getStudentName());
         if (studentModel.getRequestState().equals(PENDING_STATE)) {
-            holder.student_state.setTextColor(context.getResources().getColor(R.color.gray));
+            holder.student_state.setTextColor(context.getResources().getColor(R.color.pending_state));
         } else if (studentModel.getRequestState().equals(PARENT_ARRIVED_STATE)) {
-            holder.student_state.setTextColor(context.getResources().getColor(R.color.green));
-        } else {
-            holder.student_state.setTextColor(context.getResources().getColor(R.color.red));
+            holder.student_state.setTextColor(context.getResources().getColor(R.color.parent_arrived));
+        } else if (studentModel.getRequestState().equals(REPORTED_STATE)) {
+            holder.student_state.setTextColor(context.getResources().getColor(R.color.report_state));
+        } else if (studentModel.getRequestState().equals(REPORTED_STATE)) {
+            holder.student_state.setTextColor(context.getResources().getColor(R.color.report_state));
         }
         holder.student_state.setText(studentModel.getRequestState());
     }
@@ -129,6 +132,9 @@ public class MentorStudentsRecyclerViewAdapter extends RecyclerView.Adapter<Ment
         @BindView(R.id.student_class)
         TextView student_class;
 
+        @BindView(R.id.student_grade)
+        TextView student_grade;
+
         @BindView(R.id.student_state)
         TextView student_state;
 
@@ -162,17 +168,29 @@ public class MentorStudentsRecyclerViewAdapter extends RecyclerView.Adapter<Ment
         return temp;
     }
 
-    public ArrayList<TeacherDeliverStudentsRequestModel> getselectedTeacherRequestList() {
-        ArrayList<TeacherDeliverStudentsRequestModel> selectedTeacherRequestList = new ArrayList<>();
+    public TeacherDeliverStudentsRequestModel getselectedTeacherRequestList() {
+        ArrayList<Integer> request_ids = new ArrayList<>();
+        ArrayList<Integer> student_ids = new ArrayList<>();
+
+        TeacherDeliverStudentsRequestModel selectedTeacherRequestList = new TeacherDeliverStudentsRequestModel();
         for (MentorStudentModel studentModel : students) {
             if (studentModel.isMarked()) {
-                TeacherDeliverStudentsRequestModel requestModel = new TeacherDeliverStudentsRequestModel();
-                requestModel.setRequest_id(studentModel.getRequestId());
-                requestModel.setStudent_id(studentModel.getStudentID());
-                selectedTeacherRequestList.add(requestModel);
+                request_ids.add(studentModel.getRequestId());
+                student_ids.add(studentModel.getStudentID());
             }
         }
+        selectedTeacherRequestList.setRequest_ids(request_ids);
+        selectedTeacherRequestList.setStudent_ids(student_ids);
 
         return selectedTeacherRequestList;
+    }
+
+    public int getNumberOfUniqeRequest() {
+        Set<Integer> selectedRequestList = new HashSet<>();
+        for (MentorStudentModel studentModel : students) {
+            selectedRequestList.add(studentModel.getRequestId());
+        }
+        ArrayList<Integer> temp = new ArrayList<>(selectedRequestList);
+        return temp.size();
     }
 }

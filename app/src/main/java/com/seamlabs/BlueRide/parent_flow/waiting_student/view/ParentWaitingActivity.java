@@ -4,16 +4,18 @@ import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.seamlabs.BlueRide.parent_flow.tracking_helper.HelperUpdateLocationService;
 import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.MainActivity;
+import com.seamlabs.BlueRide.network.response.CheckRequestStateResponseModel;
 import com.seamlabs.BlueRide.parent_flow.waiting_student.presenter.ParentWaitingInteractor;
 import com.seamlabs.BlueRide.parent_flow.waiting_student.presenter.ParentWaitingPresenter;
 import com.seamlabs.BlueRide.utils.Utility;
@@ -32,11 +34,6 @@ public class ParentWaitingActivity extends AppCompatActivity implements ParentWa
     @BindView(R.id.received_btn)
     Button received_btn;
 
-    @BindView(R.id.report_btn)
-    Button report_btn;
-
-    @BindView(R.id.waiting_timer)
-    TextView waiting_timer;
     @BindView(R.id.waiting_animation)
     ImageView waiting_animation;
 
@@ -59,19 +56,12 @@ public class ParentWaitingActivity extends AppCompatActivity implements ParentWa
         presenter = new ParentWaitingPresenter(this, new ParentWaitingInteractor());
         startCountDownTimer();
         request_id = getIntent().getIntExtra(PICK_REQUEST_ID, -1);
+        Log.i("Waiting", "request_id " + String.valueOf(request_id));
         received_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (request_id >= 0) {
-                    presenter.delivered(request_id);
-                }
-            }
-        });
-        report_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (request_id >= 0) {
-                    presenter.report(request_id);
+                if (request_id != -1) {
+                    presenter.checkIfCanReceive(request_id);
                 }
             }
         });
@@ -79,20 +69,17 @@ public class ParentWaitingActivity extends AppCompatActivity implements ParentWa
 
     @Override
     public void showProgress() {
-        enableDisableButtons(false);
         Utility.showProgressDialog(ParentWaitingActivity.this);
     }
 
     @Override
     public void hideProgress() {
-        enableDisableButtons(true);
         Utility.hideProgressDialog();
     }
 
     @Override
     public void onSuccessReport(String successMessage) {
         Toast.makeText(this, successMessage, Toast.LENGTH_SHORT).show();
-        startCountDownTimer();
     }
 
     @Override
@@ -110,28 +97,35 @@ public class ParentWaitingActivity extends AppCompatActivity implements ParentWa
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
     }
 
-    private void enableDisableButtons(boolean enable) {
-        report_btn.setEnabled(enable);
-        received_btn.setEnabled(enable);
+    @Override
+    public void onSuccessCheckingRequestState(CheckRequestStateResponseModel responseModel) {
+        if (responseModel.getSecurity_id() != null) {
+            if (responseModel.getStatus().equals("delivered_to_security") || responseModel.getStatus().equals("returned"))
+                if (request_id != -1)
+                    presenter.delivered(request_id);
+        } else {
+            Toast.makeText(ParentWaitingActivity.this, "You are far a way to pick up", Toast.LENGTH_SHORT).show();
+        }
     }
 
-    CountDownTimer countDownTimer ;
+    @Override
+    public void onErrorCheckingRequestState(String errorMessage) {
+
+    }
+
+
+    CountDownTimer countDownTimer;
+
     private void startCountDownTimer() {
-        report_btn.setEnabled(false);
-        countDownTimer =new CountDownTimer(1000 * 60 * 2, 1000) {
+        countDownTimer = new CountDownTimer(1000 * 60 * 5, 1000) {
             public void onTick(long millisUntilFinished) {
-                int seconds = (int) (millisUntilFinished / 1000) % 60;
-                int minutes = (int) ((millisUntilFinished / (1000 * 60)) % 60);
-                String secondText = (seconds >= 10) ? String.valueOf(seconds) : "0" + String.valueOf(seconds);
-                String minutesText = (minutes >= 10) ? String.valueOf(minutes) : "0" + String.valueOf(minutes);
-                waiting_timer.setText(minutesText + ":" + secondText);
             }
 
             public void onFinish() {
-                waiting_timer.setText("00:00");
-                report_btn.setEnabled(true);
-                Toast.makeText(ParentWaitingActivity.this, "Report now if your children is not here.", Toast.LENGTH_SHORT).show();
                 waiting_animation.setAnimation(null);
+                if (request_id != -1) {
+                    presenter.report(request_id);
+                }
             }
         };
         countDownTimer.start();
@@ -139,31 +133,33 @@ public class ParentWaitingActivity extends AppCompatActivity implements ParentWa
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
-        if (report_btn.isEnabled()) {
-            startActivity(new Intent(ParentWaitingActivity.this, MainActivity.class));
-            finish();
-        }
-    }
-
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        if (countDownTimer!=null){
-//            countDownTimer.cancel();
+//        if (report_btn.isEnabled()) {
+//            startActivity(new Intent(ParentWaitingActivity.this, MainActivity.class));
+//            finish();
 //        }
-//    }
+    }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (countDownTimer!=null){
+        if (countDownTimer != null) {
             countDownTimer.cancel();
         }
     }
 
     private void updateHelperLocation(double lan, double longi) {
         presenter.updateHelperLocation(lan, longi);
+        startService(new Intent(this, HelperUpdateLocationService.class));
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
 }

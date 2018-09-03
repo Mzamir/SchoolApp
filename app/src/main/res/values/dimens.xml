@@ -12,5 +12,6 @@
     <dimen name="profile_recycler_image_dimen">60dp</dimen>
     <dimen name="main_button_width">250dp</dimen>
     <dimen name="roundedCornerRadius">5dp</dimen>
+    <dimen name="recyclerItem_roundedCornerRadius">15dp</dimen>
     <dimen name="layout_radius">15dp</dimen>
 </resources>

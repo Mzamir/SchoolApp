@@ -75,7 +75,7 @@ public class TrackingHelpersFragment extends MyFragment implements TrackingHelpe
     ImageView edit_profile;
 
     private void bindToolBarData() {
-        if (UserSettingsPreference.getSavedUserProfile(getActivity()).getImages().get(0) != null) {
+        if (UserSettingsPreference.getSavedUserProfile(getActivity()).getImages().size() >0) {
             Uri uri = Uri.parse(UserSettingsPreference.getSavedUserProfile(getActivity()).getImages().get(0).getPath());
             user_profile_picture.setImageURI(uri);
         }
@@ -166,21 +166,6 @@ public class TrackingHelpersFragment extends MyFragment implements TrackingHelpe
     @Override
     public void onError(String errorMessage) {
         Toast.makeText(activity, errorMessage, Toast.LENGTH_SHORT).show();
-    }
-
-    private void addDummyData() {
-        HelperModel model = new HelperModel();
-        model.setMarked(false);
-        model.setName("Mahmoud samir");
-        helperList.add(model);
-        model = new HelperModel();
-        model.setMarked(false);
-        model.setName("Samir");
-        helperList.add(model);
-
-        helpersRecyclerViewAdapter = new HelpersRecyclerViewAdapter(this, activity, helperList);
-        helpers_recyclerView.setAdapter(helpersRecyclerViewAdapter);
-//        helpersRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     @Override

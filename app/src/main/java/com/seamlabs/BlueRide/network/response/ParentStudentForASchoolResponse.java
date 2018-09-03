@@ -11,6 +11,9 @@ public class ParentStudentForASchoolResponse {
     int class_id;
     String created_at;
     String updated_at;
+    String class_name;
+    String grade_name;
+    boolean in_request ;
     ArrayList<ImagesResponseModel> images = new ArrayList<>();
     public int getId() {
         return id;
@@ -74,5 +77,29 @@ public class ParentStudentForASchoolResponse {
 
     public void setImages(ArrayList<ImagesResponseModel> images) {
         this.images = images;
+    }
+
+    public String getClass_name() {
+        return class_name;
+    }
+
+    public void setClass_name(String class_name) {
+        this.class_name = class_name;
+    }
+
+    public String getGrade_name() {
+        return grade_name;
+    }
+
+    public void setGrade_name(String grade_name) {
+        this.grade_name = grade_name;
+    }
+
+    public boolean isIn_request() {
+        return in_request;
+    }
+
+    public void setIn_request(boolean in_request) {
+        this.in_request = in_request;
     }
 }

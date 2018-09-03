@@ -20,10 +20,6 @@ import org.json.JSONObject;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.seamlabs.BlueRide.utils.Constants.HELPER_USER_TYPE;
-import static com.seamlabs.BlueRide.utils.Constants.MENTOR_USER_TYPE;
-import static com.seamlabs.BlueRide.utils.Constants.PARENT_USER_TYPE;
-import static com.seamlabs.BlueRide.utils.Constants.PUSHER_EVENT_NAME;
 import static com.seamlabs.BlueRide.utils.Constants.USER_TYPE;
 import static com.seamlabs.BlueRide.utils.UserSettingsPreference.getLoginState;
 import static com.seamlabs.BlueRide.utils.UserSettingsPreference.getUserType;

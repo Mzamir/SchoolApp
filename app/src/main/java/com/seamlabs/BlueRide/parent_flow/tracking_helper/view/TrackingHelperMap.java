@@ -28,8 +28,8 @@ import org.json.JSONObject;
 
 import static com.seamlabs.BlueRide.utils.Constants.PUSHER_API_CLUSTER;
 import static com.seamlabs.BlueRide.utils.Constants.PUSHER_API_KEY;
-import static com.seamlabs.BlueRide.utils.Constants.PUSHER_CHANEL_NAME;
-import static com.seamlabs.BlueRide.utils.Constants.PUSHER_EVENT_NAME;
+import static com.seamlabs.BlueRide.utils.Constants.PUSHER_TRACKING_CHANEL_NAME;
+import static com.seamlabs.BlueRide.utils.Constants.PUSHER_TRACKING_EVENT_NAME;
 import static com.seamlabs.BlueRide.utils.Constants.TRACKED_HELPER_ID;
 
 public class TrackingHelperMap extends FragmentActivity implements OnMapReadyCallback {
@@ -90,8 +90,8 @@ public class TrackingHelperMap extends FragmentActivity implements OnMapReadyCal
         PusherOptions options = new PusherOptions();
         options.setCluster(PUSHER_API_CLUSTER);
         pusher = new Pusher(PUSHER_API_KEY, options);
-        Channel channel = pusher.subscribe(PUSHER_CHANEL_NAME + trackedHelperId + "_" + parentID);
-        channel.bind(PUSHER_EVENT_NAME, new SubscriptionEventListener() {
+        Channel channel = pusher.subscribe(PUSHER_TRACKING_CHANEL_NAME + trackedHelperId + "_" + parentID);
+        channel.bind(PUSHER_TRACKING_EVENT_NAME, new SubscriptionEventListener() {
             @Override
             public void onEvent(String channelName, String eventName, final String data) {
                 try {

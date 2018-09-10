@@ -104,7 +104,7 @@ public class ParentWaitingActivity extends AppCompatActivity implements ParentWa
                 if (request_id != -1)
                     presenter.delivered(request_id);
         } else {
-            Toast.makeText(ParentWaitingActivity.this, "You are far a way to pick up", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ParentWaitingActivity.this, getResources().getString(R.string.far_away_error), Toast.LENGTH_SHORT).show();
         }
     }
 

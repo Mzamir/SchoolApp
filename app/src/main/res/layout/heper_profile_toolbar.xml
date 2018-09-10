@@ -37,7 +37,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginStart="10dp"
             android:gravity="center_vertical"
-            android:text="Schools"
+            android:text="@string/schools"
             android:textColor="@color/main_background_color"
             android:textSize="18sp" />
 

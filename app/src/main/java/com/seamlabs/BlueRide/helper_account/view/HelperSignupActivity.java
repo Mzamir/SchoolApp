@@ -31,7 +31,6 @@ import android.widget.Toast;
 import com.seamlabs.BlueRide.BuildConfig;
 import com.seamlabs.BlueRide.MainActivity;
 import com.seamlabs.BlueRide.MyActivity;
-import com.seamlabs.BlueRide.MyApplication;
 import com.seamlabs.BlueRide.helper_account.presenter.HelperRegistrationPresenter;
 import com.seamlabs.BlueRide.parent_flow.account.view.ParentSignupActivity;
 import com.seamlabs.BlueRide.R;
@@ -230,7 +229,7 @@ public class HelperSignupActivity extends MyActivity implements HelperRegistrati
                     , id_number_edx.getText().toString()
                     , selectedCountryCode + phone_edx.getText().toString());
         } else {
-            Toast.makeText(this, "You need to accept terms and conditions", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.accept_terms), Toast.LENGTH_SHORT).show();
 
         }
 
@@ -266,7 +265,7 @@ public class HelperSignupActivity extends MyActivity implements HelperRegistrati
         try {
             startActivity(pdfIntent);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(this, "No Application available to view PDF", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.no_app_to_PDF), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -316,8 +315,8 @@ public class HelperSignupActivity extends MyActivity implements HelperRegistrati
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                showExplanation("Permission Needed",
-                        "In order to read terms and conditions, We need your permission to access your storage",
+                showExplanation(getResources().getString(R.string.permission_needed),
+                        getResources().getString(R.string.terms_permission_explanation),
                         Manifest.permission.READ_EXTERNAL_STORAGE, REQUEST_PERMISSION_EXTERNAL_STORAGE);
             } else {
                 requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, REQUEST_PERMISSION_EXTERNAL_STORAGE);
@@ -351,7 +350,7 @@ public class HelperSignupActivity extends MyActivity implements HelperRegistrati
             case REQUEST_PERMISSION_EXTERNAL_STORAGE:
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Permission Granted!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getResources().getString(R.string.permission_granted), Toast.LENGTH_SHORT).show();
                     performTermsAndConditionsAction();
                 } else {
                     boolean showRationale = false;
@@ -359,9 +358,9 @@ public class HelperSignupActivity extends MyActivity implements HelperRegistrati
                         showRationale = shouldShowRequestPermissionRationale(permissions[0]);
                     }
                     if (!showRationale) {
-                        showSnackBar("Permission Denied!", true);
+                        showSnackBar(getResources().getString(R.string.permission_denied), true);
                     } else if (Manifest.permission.READ_EXTERNAL_STORAGE.equals(permissions[0])) {
-                        Toast.makeText(this, "Permission Denied!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getResources().getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
                     }
                 }
         }
@@ -373,7 +372,7 @@ public class HelperSignupActivity extends MyActivity implements HelperRegistrati
         snackbar.show();
 
         if (showAction) {
-            snackbar.setAction("Grantee", new View.OnClickListener() {
+            snackbar.setAction(getResources().getString(R.string.allow_permission), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,

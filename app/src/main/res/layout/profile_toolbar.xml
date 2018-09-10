@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
-    android:gravity="center_vertical">
+    android:gravity="start|center_vertical">
 
     <LinearLayout
         android:id="@+id/profile_toolbar_layout"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:gravity="center_vertical"
+        android:gravity="start|center_vertical"
         android:orientation="horizontal"
         android:visibility="visible">
 
@@ -50,17 +50,17 @@
             android:layout_height="60dp"
             android:layout_marginEnd="5dp"
             android:layout_marginStart="10dp"
-            android:gravity="center_vertical"
+            android:gravity="start"
             android:orientation="horizontal">
 
             <com.seamlabs.BlueRide.widgets.CairoTextView
                 android:id="@+id/user_profile_name"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="start"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="Schools"
+                android:gravity="start|center_vertical"
+                android:text="@string/schools"
                 android:textColor="@color/main_background_color"
                 android:textSize="18sp" />
 

@@ -47,6 +47,8 @@ import org.greenrobot.eventbus.Subscribe;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.seamlabs.BlueRide.utils.Constants.ARABIC;
+import static com.seamlabs.BlueRide.utils.Constants.ENGLISH;
 import static com.seamlabs.BlueRide.utils.Constants.EVENT_PICTURE_CHANGED;
 import static com.seamlabs.BlueRide.utils.Constants.HELPER_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.Constants.MENTOR_USER_TYPE;
@@ -57,7 +59,7 @@ import static com.seamlabs.BlueRide.utils.Constants.TEACHER_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.UserSettingsPreference.getUserType;
 import static com.seamlabs.BlueRide.utils.UserSettingsPreference.setUserType;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends MyActivity
         implements NavigationView.OnNavigationItemSelectedListener, ParentProfileFragment.onEditProfileClickListener, MyFragment.onNavigationIconClickListener {
 
     String TAG = MainActivity.class.getSimpleName();
@@ -112,6 +114,7 @@ public class MainActivity extends AppCompatActivity
 //        getSupportActionBar().setIcon(R.mipmap.school_ico);
         userProfileModel = UserSettingsPreference.getSavedUserProfile(this);
         drawer = findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
@@ -152,7 +155,7 @@ public class MainActivity extends AppCompatActivity
                             return;
                         }
                 }
-                Toast.makeText(MainActivity.this, "You don't have another account to switch", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, getResources().getString(R.string.you_dont_have_another_account), Toast.LENGTH_SHORT).show();
             }
         });
         navigationView.setNavigationItemSelectedListener(this);
@@ -264,7 +267,10 @@ public class MainActivity extends AppCompatActivity
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            if (UserSettingsPreference.getUserLanguage(this).equals(ENGLISH))
             drawer.closeDrawer(GravityCompat.START);
+//            else if (UserSettingsPreference.getUserLanguage(this).equals(ARABIC))
+//                drawer.closeDrawer(GravityCompat.END);
         } else {
             if (fragmentManager.getBackStackEntryCount() > 0) {
                 fragmentManager.popBackStack();
@@ -314,6 +320,8 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_tracking:
                 showTrackingHelperFragment();
                 break;
+            case R.id.nav_notification:
+                break;
             case R.id.nav_setting:
                 showSettingFragment();
                 break;
@@ -336,7 +344,10 @@ public class MainActivity extends AppCompatActivity
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+//        if (UserSettingsPreference.getUserLanguage(this).equals(ENGLISH))
         drawer.closeDrawer(GravityCompat.START);
+//        else if (UserSettingsPreference.getUserLanguage(this).equals(ARABIC))
+//            drawer.closeDrawer(GravityCompat.END);
         return true;
     }
 
@@ -361,7 +372,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onNavigationIconClick() {
-        drawer.openDrawer(Gravity.LEFT);
+//        if (UserSettingsPreference.getUserLanguage(this).equals(ENGLISH))
+        drawer.openDrawer(GravityCompat.START);
+//        else if (UserSettingsPreference.getUserLanguage(this).equals(ARABIC))
+//            drawer.openDrawer(GravityCompat.END);
+//        drawer.openDrawer(Gravity.LEFT);
     }
 
     @Subscribe
@@ -383,8 +398,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-//        if (EventBus.getDefault().isRegistered(this))
-//            EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -393,13 +406,6 @@ public class MainActivity extends AppCompatActivity
         if (EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().unregister(this);
     }
-
-    //    @Override
-//    protected void onStop() {
-//        super.onDestroy();
-//        if (EventBus.getDefault().isRegistered(this))
-//            EventBus.getDefault().unregister(this);
-//    }
 
     @Override
     protected void onResume() {

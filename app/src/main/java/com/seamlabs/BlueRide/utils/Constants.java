@@ -18,6 +18,7 @@ public class Constants {
     public static final String SHARED_USER_SETTING = "SHARED_USER_SETTING";
     public static final String SHARED_USER_LOGGING_STATE = "SHARED_USER_LOGGING_STATE";
     public static final String SHARED_USER_TYPE = "SHARED_USER_TYPE";
+    public static final String SHARED_USER_LANGUAGE= "SHARED_USER_LANGUAGE";
 
     // Shared preference for pending students
     public static final String SHARED_PENDING_STUDENTS = "SHARED_PENDING_STUDENTS";
@@ -58,8 +59,8 @@ public class Constants {
     public static final String TRACKING_FRAGMENT = "TRACKING_FRAGMENT";
 
     // Pick up distance
-    public static double LARGE_DISTANCE = 50.0;
-    public static double SMALL_DISTANCE = 30.0;
+    public static double LARGE_DISTANCE;
+    public static double SMALL_DISTANCE;
 
     // notification
     // local notification
@@ -94,4 +95,9 @@ public class Constants {
 
     // Events
     public static final String EVENT_PICTURE_CHANGED = "ProfilePictureChanged";
+
+    // Languages
+    public static final String ARABIC = "ar";
+    public static final String ENGLISH = "en";
+
 }

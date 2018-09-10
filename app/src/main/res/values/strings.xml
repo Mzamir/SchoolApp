@@ -64,7 +64,40 @@
     <string name="confirm_password_hint">Confirm password</string>
     <string name="no_requests_to_track">There is no request to track right now.</string>
     <string name="terms_conditions">Read terms and conditions</string>
-
+    <string name="Language">Language</string>
+    <string name="en">English</string>
+    <string name="ar">Arabic</string>
+    <string name="home">Home</string>
+    <string name="nav_add_helper">Add helper</string>
+    <string name="nav_tracking">Tracking</string>
+    <string name="nav_pending_students">Pending students</string>
+    <string name="nav_setting">Settings</string>
+    <string name="nav_logout">Logout</string>
+    <string name="you_dont_have_another_account">You don\'t have another account to switch</string>
+    <string name="no_app_to_PDF">No Application available to view PDF</string>
+    <string name="permission_granted">Permission Granted!</string>
+    <string name="accept_terms">You need to accept terms and conditions</string>
+    <string name="permission_denied">Permission Denied!</string>
+    <string name="cant_deliver_students">You can\'t deliver this student</string>
+    <string name="deliver_non_student_error">Select the school and your students first</string>
+    <string name="far_away_error">You are too far away to pick up</string>
+    <string name="request_sent">Pick request sent successfully</string>
+    <string name="request_canceld">Request cancelled</string>
+    <string name="enter_valid_data">Enter valid data</string>
+    <string name="changes_saved">Changes saved</string>
+    <string name="verification_code_sent">Code successfully sent</string>
+    <string name="already_in_request">Already in request</string>
+    <string name="changed_nothing">You changed nothing</string>
+    <string name="permission_needed">Permission Needed</string>
+    <string name="terms_permission_explanation">In order to read terms and conditions, We need your permission to access your storage</string>
+    <string name="picture_permssion_explanation">In order to continue and change picture, We need your permission to access your storage</string>
+    <string name="location_permission_explanation">In order to continue and start picking your students, We need your permission to access the location service</string>
+    <string name="allow_permission">Allow</string>
+    <string name="no_pending_students">There is no pending students right now</string>
+    <string name="schools">Schools</string>
+    <string name="students_requests">Student requests</string>
+    <string name="notification">Messages</string>
+    <string name="basic_information">Basic information</string>
     <array name="phoneCodes">
         <item>"+966"</item>
         <item>"+02"</item>

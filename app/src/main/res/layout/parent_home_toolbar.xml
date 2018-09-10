@@ -57,7 +57,7 @@
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Schools"
+                android:text="@string/schools"
                 android:textColor="@color/main_background_color"
                 android:textSize="18sp" />
 

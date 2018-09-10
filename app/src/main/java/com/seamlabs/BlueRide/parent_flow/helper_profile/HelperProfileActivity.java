@@ -221,7 +221,7 @@ public class HelperProfileActivity extends AppCompatActivity implements HelperPr
 
     @Override
     public void onSuccessAssigningHelper() {
-        Toast.makeText(this, "Saved Successfully", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getResources().getString(R.string.changes_saved), Toast.LENGTH_SHORT).show();
 //        onBackPressed();
         try {
             presenter.getHelperProfile(helperResponseModel.getId());

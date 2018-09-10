@@ -90,8 +90,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ButterKnife.bind(this);
         presenter = new ParentPickUpPresenter(this, new ParentPickUpInteractor());
         schoolModel = (SchoolModel) getIntent().getSerializableExtra(SELECTED_SCHOOL_MODEL);
-        LARGE_DISTANCE = schoolModel.getBig_zone();
-        SMALL_DISTANCE = schoolModel.getSmall_zone();
+//        LARGE_DISTANCE = schoolModel.getBig_zone();
+//        SMALL_DISTANCE = schoolModel.getSmall_zone();
         parentPickUpRequestModel = (ParentPickUpRequestModel) getIntent().getSerializableExtra(PICK_UP_REQUEST_MODEL);
         destinationLocation = new LatLng(Double.parseDouble(schoolModel.getschoolLat()), Double.parseDouble(schoolModel.getschoolLong()));
         Log.i(TAG, "onLocationChanged " + destinationLocation.latitude + " " + destinationLocation.longitude);
@@ -125,7 +125,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         temp_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MapsActivity.this, "You are far a way to pick up", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapsActivity.this, getResources().getString(R.string.far_away_error), Toast.LENGTH_SHORT).show();
             }
         });
         setUpLocationManager();
@@ -182,7 +182,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             Log.i(TAG, "onLocationChanged " + "Distance " + remainingDistance);
 
-            if (remainingDistance <= SMALL_DISTANCE) {
+            if (remainingDistance <= schoolModel.getSmall_zone()) {
                 if (!IsParentMadeRequest()) {
                     presenter.parentPickUpRequest(parentPickUpRequestModel);
                     school_notified.setVisibility(View.VISIBLE);
@@ -197,7 +197,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     temp_button.setVisibility(View.GONE);
                     pick_up.setVisibility(View.VISIBLE);
                 }
-            } else if (remainingDistance <= LARGE_DISTANCE) {
+            } else if (remainingDistance <= schoolModel.getBig_zone()) {
                 if (!IsParentMadeRequest()) {
                     presenter.parentPickUpRequest(parentPickUpRequestModel);
                     school_notified.setVisibility(View.VISIBLE);
@@ -301,13 +301,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.addCircle(new CircleOptions().center(destinationLocation)
                 .fillColor(getResources().getColor(R.color.map_yellow))
-                .radius(LARGE_RADIUSE)
+                .radius(schoolModel.getBig_zone())
                 .strokeColor(Color.BLACK)
                 .strokeWidth(5));
 
         mMap.addCircle(new CircleOptions().center(destinationLocation)
                 .fillColor(getResources().getColor(R.color.map_green))
-                .radius(SMALL_RADIUSE)
+                .radius(schoolModel.getSmall_zone())
                 .strokeColor(Color.BLACK)
                 .strokeWidth(5));
         DrawMarker.getInstance(this).draw(mMap, destinationLocation, R.drawable.map_destination, "Destination Location");
@@ -339,7 +339,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onSuccessPickUpRequest(ParentPickUpResponseModel responseModel) {
         this.request_id = responseModel.getid();
         saveIsParentMadeRequest(true);
-        Toast.makeText(this, "Pick request sent successfully", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getResources().getString(R.string.request_sent), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -351,7 +351,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onSuccessCancelingRequest(String success) {
         if (success.isEmpty()) {
-            Toast.makeText(this, "Request cancelled", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.request_canceld), Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, success, Toast.LENGTH_SHORT).show();
         }

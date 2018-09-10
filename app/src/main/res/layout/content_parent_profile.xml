@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="Basic information"
+        android:text="@string/basic_information"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,6 +58,54 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phone_number" />
 
+    <LinearLayout
+        android:id="@+id/language_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_number">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/gray"
+            android:tint="@color/gray"></View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.seamlabs.BlueRide.widgets.CairoBoldTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="2"
+                android:gravity="start"
+                android:text="@string/Language"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phone_number" />
+
+            <com.seamlabs.BlueRide.widgets.CairoBoldTextView
+                android:id="@+id/language_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/ar"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phone_number" />
+        </LinearLayout>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/helpers_layout"
@@ -98,7 +146,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/id_number">
+        app:layout_constraintTop_toBottomOf="@+id/language_layout">
 
         <View
             android:layout_width="match_parent"

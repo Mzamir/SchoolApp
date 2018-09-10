@@ -99,7 +99,7 @@ public class ParentHomeFragment extends MyFragment implements ParentHomeViewComm
                         navigateToPickingScreen();
                     }
                 } else {
-                    showSnackBar("Select the school and your students first", false);
+                    showSnackBar(getResources().getString(R.string.deliver_non_student_error), false);
                 }
             }
         });
@@ -174,7 +174,8 @@ public class ParentHomeFragment extends MyFragment implements ParentHomeViewComm
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
-                showExplanation("Permission Needed", "In order to continue and start picking your students, We need your permission to access the location service", Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_PERMISSION_GPS_STATE);
+                showExplanation(getResources().getString(R.string.permission_needed),
+                        getString(R.string.location_permission_explanation), Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_PERMISSION_GPS_STATE);
             } else {
                 requestPermission(Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_PERMISSION_GPS_STATE);
             }
@@ -192,14 +193,14 @@ public class ParentHomeFragment extends MyFragment implements ParentHomeViewComm
             case REQUEST_PERMISSION_GPS_STATE:
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getContext(), "Permission Granted!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getResources().getString(R.string.permission_granted), Toast.LENGTH_SHORT).show();
                     navigateToPickingScreen();
                 } else {
                     boolean showRationale = shouldShowRequestPermissionRationale(permissions[0]);
                     if (!showRationale) {
-                        showSnackBar("Permission Denied!", true);
+                        showSnackBar(getResources().getString(R.string.permission_denied), true);
                     } else if (Manifest.permission.ACCESS_FINE_LOCATION.equals(permissions[0])) {
-                        Toast.makeText(getContext(), "Permission Denied!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getResources().getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
                     }
                 }
         }

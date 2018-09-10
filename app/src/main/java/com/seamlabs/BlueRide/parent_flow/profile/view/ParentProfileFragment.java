@@ -40,21 +40,27 @@ import com.seamlabs.BlueRide.parent_flow.profile.adapter.ProfileHelpersRecyclerV
 import com.seamlabs.BlueRide.parent_flow.profile.adapter.ProfileStudentRecyclerViewAdapter;
 import com.seamlabs.BlueRide.parent_flow.profile.presenter.ParentProfileInteactor;
 import com.seamlabs.BlueRide.parent_flow.profile.presenter.ParentProfilePresenter;
+import com.seamlabs.BlueRide.utils.LocaleUtils;
 import com.seamlabs.BlueRide.utils.UserSettingsPreference;
 import com.seamlabs.BlueRide.utils.Utility;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.seamlabs.BlueRide.parent_flow.profile.view.EditProfileFragment.REQUEST_PERMISSION_EXTERNAL_STORAGE;
 import static com.seamlabs.BlueRide.parent_flow.profile.view.EditProfileFragment.RESULT_LOAD_IMAGE;
+import static com.seamlabs.BlueRide.utils.Constants.ARABIC;
+import static com.seamlabs.BlueRide.utils.Constants.ENGLISH;
 import static com.seamlabs.BlueRide.utils.Constants.HELPER_ACCOUNT;
 import static com.seamlabs.BlueRide.utils.Constants.MENTOR_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.Constants.STUDENTS_LIST;
 import static com.seamlabs.BlueRide.utils.Constants.TEACHER_USER_TYPE;
+import static com.seamlabs.BlueRide.utils.UserSettingsPreference.getUserLanguage;
+import static com.seamlabs.BlueRide.utils.UserSettingsPreference.setUserLanguage;
 
 public class ParentProfileFragment extends MyFragment implements ParentProfileViewCommunicator {
 
@@ -70,11 +76,16 @@ public class ParentProfileFragment extends MyFragment implements ParentProfileVi
     TextView phone_number;
     @BindView(R.id.id_number)
     TextView id_number;
+    @BindView(R.id.language_text)
+    TextView language_text;
 
     @BindView(R.id.helpers_layout)
     LinearLayout helpers_layout;
     @BindView(R.id.students_layout)
     LinearLayout students_layout;
+
+    @BindView(R.id.language_layout)
+    LinearLayout language_layout;
 
     @BindView(R.id.students_recyclerView)
     RecyclerView students_recyclerView;
@@ -159,7 +170,35 @@ public class ParentProfileFragment extends MyFragment implements ParentProfileVi
         }
         bindBasicDateToViews(userProfileModel);
 
+        if (getUserLanguage(activity).equals(ENGLISH)) {
+            language_text.setText(getResources().getString(R.string.ar));
+        } else {
+            language_text.setText(getResources().getString(R.string.en));
+        }
+        language_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshLanguageState();
+            }
+        });
         return view;
+    }
+
+    private void refreshLanguageState() {
+        LocaleUtils.setLocale(new Locale(ENGLISH));
+        if (getUserLanguage(activity) != null) {
+            if (getUserLanguage(activity).equals(ENGLISH)) {
+                setUserLanguage(activity, ARABIC);
+                language_text.setText(getResources().getString(R.string.en));
+                LocaleUtils.setLocale(new Locale(ARABIC));
+            } else if (getUserLanguage(activity).equals(ARABIC)) {
+                setUserLanguage(activity, ENGLISH);
+                language_text.setText(getResources().getString(R.string.ar));
+                LocaleUtils.setLocale(new Locale(ENGLISH));
+            }
+        }
+        LocaleUtils.updateConfig(activity.getApplication(), activity.getBaseContext().getResources().getConfiguration());
+        activity.recreate();
     }
 
 
@@ -273,8 +312,8 @@ public class ParentProfileFragment extends MyFragment implements ParentProfileVi
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                showExplanation("Permission Needed",
-                        "In order to continue and change your picture, We need your permission to access your storage",
+                showExplanation(getResources().getString(R.string.permission_needed),
+                        getResources().getString(R.string.picture_permssion_explanation),
                         Manifest.permission.READ_EXTERNAL_STORAGE, REQUEST_PERMISSION_EXTERNAL_STORAGE);
             } else {
                 requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, REQUEST_PERMISSION_EXTERNAL_STORAGE);
@@ -339,14 +378,14 @@ public class ParentProfileFragment extends MyFragment implements ParentProfileVi
             case REQUEST_PERMISSION_EXTERNAL_STORAGE:
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getContext(), "Permission Granted!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getResources().getString(R.string.permission_granted), Toast.LENGTH_SHORT).show();
                     performCameraAndGalleyAction();
                 } else {
                     boolean showRationale = shouldShowRequestPermissionRationale(permissions[0]);
                     if (!showRationale) {
-                        showSnackBar("Permission Denied!", true);
+                        showSnackBar(getResources().getString(R.string.permission_denied), true);
                     } else if (Manifest.permission.READ_EXTERNAL_STORAGE.equals(permissions[0])) {
-                        Toast.makeText(getContext(), "Permission Denied!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getResources().getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
                     }
                 }
         }

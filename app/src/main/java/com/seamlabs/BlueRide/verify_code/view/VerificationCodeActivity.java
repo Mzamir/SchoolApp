@@ -104,7 +104,7 @@ public class VerificationCodeActivity extends MyActivity implements Verification
 
     @Override
     public void onSuccessResendCode() {
-        Toast.makeText(this, "Code successfully sent", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getResources().getString(R.string.verification_code_sent), Toast.LENGTH_SHORT).show();
     }
 
     @Override

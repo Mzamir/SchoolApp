@@ -73,7 +73,7 @@ public class StudentRecyclerAdapter extends RecyclerView.Adapter<StudentRecycler
                     int position = getAdapterPosition();
                     StudentModel studentModel = students.get(position);
                     if (studentModel.isIn_request()) {
-                        Toast.makeText(getMyApplicationContext(), "Already in request", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getMyApplicationContext(),context.getResources().getString(R.string.already_in_request), Toast.LENGTH_SHORT).show();
                     } else {
                         studentModel.setMarked(!studentModel.isMarked());
                         notifyItemChanged(position);

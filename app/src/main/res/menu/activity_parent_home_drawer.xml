@@ -7,30 +7,34 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@mipmap/home_ico"
-            android:title="Home" />
+            android:title="@string/home" />
         <item
             android:id="@+id/nav_add_helper"
             android:icon="@mipmap/helper_ico"
-            android:title="Add helper" />
+            android:title="@string/nav_add_helper" />
 
         <item
             android:id="@+id/nav_tracking"
             android:icon="@mipmap/helper_ico"
-            android:title="Tracking" />
+            android:title="@string/nav_tracking" />
 
         <item
             android:id="@+id/nav_pending_students"
             android:icon="@mipmap/student_ico"
             android:visible="false"
-            android:title="Pending students" />
+            android:title="@string/nav_pending_students" />
+        <item
+            android:id="@+id/nav_notification"
+            android:icon="@mipmap/setting_ico"
+            android:title="@string/notification" />
         <item
             android:id="@+id/nav_setting"
             android:icon="@mipmap/setting_ico"
-            android:title="Settings" />
+            android:title="@string/nav_setting" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@mipmap/logout_ico"
-            android:title="Logout" />
+            android:title="@string/nav_logout" />
     </group>
 
 

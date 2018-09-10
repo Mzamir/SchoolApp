@@ -14,9 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.seamlabs.BlueRide.MyApplication.getMyApplicationContext;
+import static com.seamlabs.BlueRide.utils.Constants.ENGLISH;
 import static com.seamlabs.BlueRide.utils.Constants.PARENT_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.Constants.SHARED_PENDING_STUDENTS;
 import static com.seamlabs.BlueRide.utils.Constants.SHARED_PENDING_STUDENTS_LIST;
+import static com.seamlabs.BlueRide.utils.Constants.SHARED_USER_LANGUAGE;
 import static com.seamlabs.BlueRide.utils.Constants.SHARED_USER_LOGGING_STATE;
 import static com.seamlabs.BlueRide.utils.Constants.SHARED_USER_SETTING;
 import static com.seamlabs.BlueRide.utils.Constants.SHARED_USER_TYPE;
@@ -47,6 +49,16 @@ public class UserSettingsPreference {
 
     public static String getUserType(Context context) {
         return getUserSettingsSharedPreferences(context).getString(SHARED_USER_TYPE, PARENT_USER_TYPE);
+    }
+
+    public static void setUserLanguage(Context context, String userType) {
+        SharedPreferences.Editor editor = getUserSettingsSharedPreferences(context).edit();
+        editor.putString(SHARED_USER_LANGUAGE, userType);
+        editor.commit();
+    }
+
+    public static String getUserLanguage(Context context) {
+        return getUserSettingsSharedPreferences(context).getString(SHARED_USER_LANGUAGE, ENGLISH);
     }
 
     public static void saveUserProfile(Context context, UserResponseModel userProfileModel) {

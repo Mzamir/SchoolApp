@@ -266,7 +266,7 @@ public class EditProfileFragment extends MyFragment implements EditProfileViewCo
 
     @Override
     public void onSuccessEditProfile() {
-        Toast.makeText(activity, "Changes saved", Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, getResources().getString(R.string.changes_saved), Toast.LENGTH_SHORT).show();
 //        Intent intent = new Intent(activity, MainActivity.class);
 //        intent.putExtra(FRAGMENT_TO_SHOW, PROFILE_FRAGMENT);
 //        startActivity(intent);
@@ -330,7 +330,7 @@ public class EditProfileFragment extends MyFragment implements EditProfileViewCo
                         confirm_password = requestModel.getConfirm_password();
                         somethingUpdated = true;
                     } else {
-                        Toast.makeText(activity, "Enter valid data", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, getResources().getString(R.string.enter_valid_data), Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -347,7 +347,7 @@ public class EditProfileFragment extends MyFragment implements EditProfileViewCo
             if (!imagePath.isEmpty())
                 presenter.editProfile(imagePath, true);
             else
-                showSnackBar("You changed nothing", false);
+                showSnackBar(getResources().getString(R.string.changed_nothing), false);
         }
     }
 
@@ -438,8 +438,8 @@ public class EditProfileFragment extends MyFragment implements EditProfileViewCo
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                showExplanation("Permission Needed",
-                        "In order to continue and change your picture, We need your permission to access your storage",
+                showExplanation(getString(R.string.permission_needed),
+                        getResources().getString(R.string.picture_permssion_explanation),
                         Manifest.permission.READ_EXTERNAL_STORAGE, REQUEST_PERMISSION_EXTERNAL_STORAGE);
             } else {
                 requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, REQUEST_PERMISSION_EXTERNAL_STORAGE);
@@ -477,14 +477,14 @@ public class EditProfileFragment extends MyFragment implements EditProfileViewCo
             case REQUEST_PERMISSION_EXTERNAL_STORAGE:
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getContext(), "Permission Granted!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getResources().getString(R.string.permission_granted), Toast.LENGTH_SHORT).show();
                     performCameraAndGalleyAction();
                 } else {
                     boolean showRationale = shouldShowRequestPermissionRationale(permissions[0]);
                     if (!showRationale) {
-                        showSnackBar("Permission Denied!", true);
+                        showSnackBar(getResources().getString(R.string.permission_denied), true);
                     } else if (Manifest.permission.READ_EXTERNAL_STORAGE.equals(permissions[0])) {
-                        Toast.makeText(getContext(), "Permission Denied!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getResources().getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
                     }
                 }
         }

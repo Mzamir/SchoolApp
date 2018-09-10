@@ -105,7 +105,7 @@ public class MentorStudentsRecyclerViewAdapter extends RecyclerView.Adapter<Ment
                             showDeliverAction();
                             notifyItemChanged(position);
                         } else {
-                            Toast.makeText(MyApplication.getMyApplicationContext(), "You can't deliver this student", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MyApplication.getMyApplicationContext(), context.getResources().getString(R.string.cant_deliver_students), Toast.LENGTH_SHORT).show();
                         }
                     } else if (UserSettingsPreference.getUserType(MyApplication.getMyApplicationContext()).equals(TEACHER_USER_TYPE)) {
                         if (studentModel.getRequestState().equals(PARENT_ARRIVED_STATE) || studentModel.getRequestState().equals(REPORTED_STATE)) {
@@ -113,7 +113,7 @@ public class MentorStudentsRecyclerViewAdapter extends RecyclerView.Adapter<Ment
                             showDeliverAction();
                             notifyItemChanged(position);
                         } else {
-                            Toast.makeText(MyApplication.getMyApplicationContext(), "You can't deliver this student", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MyApplication.getMyApplicationContext(), context.getResources().getString(R.string.cant_deliver_students), Toast.LENGTH_SHORT).show();
                         }
                     }
                 }

@@ -21,14 +21,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pusher.pushnotifications.PushNotifications;
 import com.seamlabs.BlueRide.mentor_home.view.MentorHomeFragment;
 import com.seamlabs.BlueRide.mentor_home.view.MentorPendingFragment;
 import com.seamlabs.BlueRide.network.response.UserResponseModel;
+import com.seamlabs.BlueRide.notification.view.NotificationFragment;
 import com.seamlabs.BlueRide.parent_flow.home.view.ParentHomeFragment;
 import com.seamlabs.BlueRide.parent_flow.account.view.ParentSignInActivity;
 import com.seamlabs.BlueRide.parent_flow.add_helper.view.AddHelperActivity;
@@ -60,7 +63,7 @@ import static com.seamlabs.BlueRide.utils.UserSettingsPreference.getUserType;
 import static com.seamlabs.BlueRide.utils.UserSettingsPreference.setUserType;
 
 public class MainActivity extends MyActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ParentProfileFragment.onEditProfileClickListener, MyFragment.onNavigationIconClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ParentProfileFragment.onEditProfileClickListener, MyFragment.onNavigationIconClickListener, ParentHomeFragment.onNotificationIconClickListener {
 
     String TAG = MainActivity.class.getSimpleName();
 
@@ -88,6 +91,7 @@ public class MainActivity extends MyActivity
     TextView toolbar_subtitle;
     @BindView(R.id.toolbar_logo)
     SimpleDraweeView toolbar_logo;
+
     String userType;
 
     UserResponseModel userProfileModel;
@@ -98,6 +102,8 @@ public class MainActivity extends MyActivity
     Button nav_header_switchaccount;
     DrawerLayout drawer;
     NavigationView navigationView;
+
+    Intent notificationIntent = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +117,7 @@ public class MainActivity extends MyActivity
 //        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+//        notificationIntent = getIntent();
 //        getSupportActionBar().setIcon(R.mipmap.school_ico);
         userProfileModel = UserSettingsPreference.getSavedUserProfile(this);
         drawer = findViewById(R.id.drawer_layout);
@@ -133,6 +140,7 @@ public class MainActivity extends MyActivity
         if (userProfileModel.getImages().size() > 0) {
             nav_header_icon.setImageURI(Uri.parse(userProfileModel.getImages().get(0).getPath()));
         }
+
         nav_header_switchaccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,6 +187,7 @@ public class MainActivity extends MyActivity
         profile_toolbar_layout.setVisibility(View.GONE);
         if (userType.equals(PARENT_USER_TYPE) || userType.equals(HELPER_USER_TYPE)) {
             fragment = new ParentHomeFragment();
+            ((ParentHomeFragment) fragment).setOnNotificationIconClickListener(this);
         } else if (userType.equals(MENTOR_USER_TYPE) || userType.equals(TEACHER_USER_TYPE)) {
             fragment = new MentorHomeFragment();
         }
@@ -232,6 +241,12 @@ public class MainActivity extends MyActivity
         fragmentManager.beginTransaction().replace(R.id.frameLayout, fragment, EditProfileFragment.class.getSimpleName())
                 .addToBackStack(null).commit();
 
+    }
+
+    private void showNotificationFragment() {
+        fragment = new NotificationFragment();
+
+        replaceFragment(fragment);
     }
 
     private void customizeToolbarBasedOnUserType(String currentUserType) {
@@ -321,6 +336,7 @@ public class MainActivity extends MyActivity
                 showTrackingHelperFragment();
                 break;
             case R.id.nav_notification:
+                showNotificationFragment();
                 break;
             case R.id.nav_setting:
                 showSettingFragment();
@@ -412,5 +428,10 @@ public class MainActivity extends MyActivity
         super.onResume();
         if (EventBus.getDefault().isRegistered(this) == false)
             EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onNotificationIconClick() {
+        showNotificationFragment();
     }
 }

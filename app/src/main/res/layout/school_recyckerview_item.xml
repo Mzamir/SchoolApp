@@ -16,6 +16,7 @@
         android:elevation="5dp">
 
         <FrameLayout
+            android:clipToPadding="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/icons_padding">
@@ -27,6 +28,7 @@
                 android:src="@mipmap/logo"
                 app:actualImageResource="@mipmap/logo"
                 app:placeholderImage="@mipmap/logo"
+                android:scaleType="centerCrop"
                 app:roundedCornerRadius="@dimen/roundedCornerRadius"
                 fresco:viewAspectRatio="1.33" />
 

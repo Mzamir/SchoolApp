@@ -22,6 +22,7 @@ import static com.seamlabs.BlueRide.utils.Constants.ENGLISH;
 import static com.seamlabs.BlueRide.utils.Constants.PUSHER_API_CLUSTER;
 import static com.seamlabs.BlueRide.utils.Constants.PUSHER_API_ID;
 import static com.seamlabs.BlueRide.utils.Constants.PUSHER_API_KEY;
+import static com.seamlabs.BlueRide.utils.Constants.PUSHER_BEAMS_INSTANCE_ID;
 
 
 public class MyApplication extends Application {
@@ -34,6 +35,9 @@ public class MyApplication extends Application {
         Fresco.initialize(this);
         context = getApplicationContext();
         Realm.init(this);
+
+        PushNotifications.start(getApplicationContext(), PUSHER_BEAMS_INSTANCE_ID);
+
 
         LocaleUtils.setLocale(new Locale(UserSettingsPreference.getUserLanguage(this)));
         LocaleUtils.updateConfig(this, getBaseContext().getResources().getConfiguration());
@@ -58,6 +62,7 @@ public class MyApplication extends Application {
     public static Context getMyApplicationContext() {
         return context;
     }
+
 
 
 }

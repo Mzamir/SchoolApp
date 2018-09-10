@@ -75,7 +75,7 @@
             android:name=".MyActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <service android:name=".push_notification.NotificationsMessagingService">
+        <service android:name=".notification.NotificationsMessagingService">
             <intent-filter android:priority="1">
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

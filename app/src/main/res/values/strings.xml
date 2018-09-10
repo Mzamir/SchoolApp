@@ -98,6 +98,8 @@
     <string name="students_requests">Student requests</string>
     <string name="notification">Messages</string>
     <string name="basic_information">Basic information</string>
+    <string name="parent_toolbar_title">Please select your son/daughter school</string>
+    <string name="start">Start</string>
     <array name="phoneCodes">
         <item>"+966"</item>
         <item>"+02"</item>

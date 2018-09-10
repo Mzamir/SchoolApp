@@ -99,6 +99,8 @@
     <string name="students_requests">عدد الطلبات</string>
     <string name="notification">الرسائل</string>
     <string name="basic_information">المعلومات الأساسية</string>
+    <string name="parent_toolbar_title">يرجى اختيار مدرسة ابنك/ابنتك</string>
+    <string name="start">Start</string>
     <array name="phoneCodes">
         <item>"+966"</item>
         <item>"+02"</item>

@@ -22,7 +22,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pusher.client.Pusher;
@@ -30,6 +32,7 @@ import com.pusher.client.PusherOptions;
 import com.pusher.client.channel.Channel;
 import com.pusher.client.channel.SubscriptionEventListener;
 import com.seamlabs.BlueRide.MyFragment;
+import com.seamlabs.BlueRide.network.response.UserResponseModel;
 import com.seamlabs.BlueRide.parent_flow.pick_up.view.MapsActivity;
 import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.network.requests.ParentPickUpRequestModel;
@@ -39,6 +42,8 @@ import com.seamlabs.BlueRide.parent_flow.home.model.SchoolModel;
 import com.seamlabs.BlueRide.parent_flow.home.model.StudentModel;
 import com.seamlabs.BlueRide.parent_flow.home.presenter.ParentHomeInteractor;
 import com.seamlabs.BlueRide.parent_flow.home.presenter.ParentHomePresenter;
+import com.seamlabs.BlueRide.parent_flow.profile.view.ParentProfileFragment;
+import com.seamlabs.BlueRide.utils.UserSettingsPreference;
 import com.seamlabs.BlueRide.utils.Utility;
 
 import org.json.JSONException;
@@ -70,6 +75,11 @@ public class ParentHomeFragment extends MyFragment implements ParentHomeViewComm
     @BindView(R.id.startPickup)
     Button startPickup;
 
+    @BindView(R.id.notification_count)
+    TextView notification_count;
+    @BindView(R.id.notification_icon_layout)
+    FrameLayout notification_icon_layout;
+
     @BindView(R.id.parent_home_toolbar)
     Toolbar parent_home_toolbar;
     @BindView(R.id.navigation_icon)
@@ -80,6 +90,21 @@ public class ParentHomeFragment extends MyFragment implements ParentHomeViewComm
     StudentRecyclerAdapter studentRecyclerAdapter;
     ArrayList<SchoolModel> schoolsList = new ArrayList<>();
     ArrayList<StudentModel> studentList = new ArrayList<>();
+
+    public interface onNotificationIconClickListener {
+        void onNotificationIconClick();
+
+    }
+
+    onNotificationIconClickListener onNotificationIconClickListener;
+
+    public onNotificationIconClickListener getOnNotificationIconClickListener() {
+        return onNotificationIconClickListener;
+    }
+
+    public void setOnNotificationIconClickListener(onNotificationIconClickListener onNotificationIconClickListener) {
+        this.onNotificationIconClickListener = onNotificationIconClickListener;
+    }
 
     @Nullable
     @Override
@@ -109,6 +134,20 @@ public class ParentHomeFragment extends MyFragment implements ParentHomeViewComm
                 if (getNavigationIconClickListener() != null) {
                     getNavigationIconClickListener().onNavigationIconClick();
                 }
+            }
+        });
+        UserResponseModel userProfileModel = UserSettingsPreference.getSavedUserProfile(getActivity());
+        if (userProfileModel.getUnreadNotifications() > 0) {
+            notification_count.setText(userProfileModel.getUnreadNotifications());
+            notification_count.setVisibility(View.VISIBLE);
+        } else {
+            notification_count.setVisibility(View.GONE);
+        }
+        notification_icon_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onNotificationIconClickListener!=null)
+                    onNotificationIconClickListener.onNotificationIconClick();
             }
         });
         return view;

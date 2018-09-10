@@ -71,8 +71,9 @@ public class Constants {
 
     // pusher notification
     public static final String PUSHER_API_ID = "554913";
+    public static final String PUSHER_BEAMS_INSTANCE_ID= "602b2180-d476-4c1f-8ca2-fa42230aaaef";
+    public static final String PUSHER_APP_SECRET = "7CDA2D489F2DAFBC1DF03184EFC5A45";
     public static final String PUSHER_API_KEY = "c9b4f87836c5d3ad204a";
-    public static final String PUSHER_APP_SECRET = "f924a41bf95e93dace41";
     public static final String PUSHER_API_CLUSTER = "eu";
 
 

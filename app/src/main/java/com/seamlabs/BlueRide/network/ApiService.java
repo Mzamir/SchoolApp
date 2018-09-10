@@ -12,6 +12,7 @@ import com.seamlabs.BlueRide.network.response.HelperProfileResponseModel;
 import com.seamlabs.BlueRide.network.response.HelperResponseModel;
 import com.seamlabs.BlueRide.network.response.MentorDeliverStudentsResponseModel;
 import com.seamlabs.BlueRide.network.response.MentorQueueResponseModel;
+import com.seamlabs.BlueRide.network.response.NotificationResponseModel;
 import com.seamlabs.BlueRide.network.response.ParentArrivedResponseModel;
 import com.seamlabs.BlueRide.network.response.ParentPickUpResponseModel;
 import com.seamlabs.BlueRide.network.response.SchoolsResponse;
@@ -186,4 +187,7 @@ public interface ApiService {
 
     @GET
     Single<CheckRequestStateResponseModel> checkIfCanReceive(@Url() String id);
+
+    @GET("notifications")
+    Single<Response<ArrayList<NotificationResponseModel>>> getNotification();
 }

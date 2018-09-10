@@ -6,22 +6,22 @@
     android:background="@color/colorPrimary"
     android:gravity="center_vertical">
 
-    <LinearLayout
-        android:id="@+id/parent_toolbar_layout"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:visibility="visible">
+        android:layout_height="100dp">
 
         <LinearLayout
             android:id="@+id/navigation_icon"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:gravity="start">
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="start"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -34,24 +34,34 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/toolbar_logo"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:adjustViewBounds="true"
             android:contentDescription="new post image"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_school_ico"
             android:visibility="visible"
             app:actualImageScaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/navigation_icon"
+            app:layout_constraintTop_toTopOf="parent"
             app:placeholderImage="@drawable/ic_school_ico" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/toolbar_title_layout"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="5dp"
-            android:layout_marginStart="10dp"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/notification_icon_layout"
+            app:layout_constraintStart_toEndOf="@+id/toolbar_logo"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.seamlabs.BlueRide.widgets.CairoTextView
                 android:id="@+id/toolbar_title"
@@ -65,10 +75,43 @@
                 android:id="@+id/toolbar_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select the school to start picking up your students"
+                android:text="@string/parent_toolbar_title"
                 android:textColor="@color/main_background_color"
                 android:textSize="12sp"
                 android:visibility="visible" />
         </LinearLayout>
-    </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/notification_icon_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/toolbar_title_layout"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/notification_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/notification" />
+
+            <TextView
+                android:id="@+id/notification_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:layout_marginStart="5dp"
+                android:text="1"
+                android:textColor="@color/red"
+                android:visibility="gone" />
+        </FrameLayout>
+
+
+    </android.support.constraint.ConstraintLayout>
+
 </android.support.v7.widget.Toolbar>

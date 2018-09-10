@@ -26,7 +26,7 @@ public class LocalNoificationCreator {
 
     public static void notifyParrentArrived() {
         Intent intent = new Intent(getMyApplicationContext(), ParentPickUpActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // See https://developer.android.com/training/notify-user/navigation for better navigation
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(getMyApplicationContext(), 0, intent, 0);
 
         // Setup Ringtone & Vibrate

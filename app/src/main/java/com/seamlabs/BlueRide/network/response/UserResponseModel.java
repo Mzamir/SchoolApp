@@ -21,7 +21,7 @@ public class UserResponseModel extends BaseResponse {
     private double lat;
     @SerializedName("long")
     private double lon;
-
+    int unreadNotifications;
     private ArrayList<ImagesResponseModel> images = new ArrayList<>();
     private ArrayList<RolesResponseModel> roles = new ArrayList<>();
     private ArrayList<SchoolsResponse> schools = new ArrayList<>();
@@ -152,5 +152,13 @@ public class UserResponseModel extends BaseResponse {
 
     public void setLon(double lon) {
         this.lon = lon;
+    }
+
+    public int getUnreadNotifications() {
+        return unreadNotifications;
+    }
+
+    public void setUnreadNotifications(int unreadNotifications) {
+        this.unreadNotifications = unreadNotifications;
     }
 }

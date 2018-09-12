@@ -69,16 +69,26 @@ public class MentorStudentsRecyclerViewAdapter extends RecyclerView.Adapter<Ment
         holder.student_class.setText(String.valueOf(studentModel.getClass_name()));
         holder.student_grade.setText(String.valueOf(studentModel.getGrade_name()));
         holder.student_name.setText(studentModel.getStudentName());
+
+        // TODO user setStudentsState function instead
         if (studentModel.getRequestState().equals(PENDING_STATE)) {
             holder.student_state.setTextColor(context.getResources().getColor(R.color.pending_state));
+            holder.student_state.setText(context.getResources().getString(R.string.pending_state));
         } else if (studentModel.getRequestState().equals(PARENT_ARRIVED_STATE)) {
             holder.student_state.setTextColor(context.getResources().getColor(R.color.parent_arrived));
+            holder.student_state.setText(context.getResources().getString(R.string.parent_arrived_state));
         } else if (studentModel.getRequestState().equals(REPORTED_STATE)) {
             holder.student_state.setTextColor(context.getResources().getColor(R.color.report_state));
-        } else if (studentModel.getRequestState().equals(REPORTED_STATE)) {
-            holder.student_state.setTextColor(context.getResources().getColor(R.color.report_state));
+            holder.student_state.setText(context.getResources().getString(R.string.reported_state));
+        } else if (studentModel.getRequestState().equals(DELIVERD_TO_SUPERVISON)) {
+            holder.student_state.setTextColor(context.getResources().getColor(R.color.deliverd_to_supervisor));
+            holder.student_state.setText(context.getResources().getString(R.string.deliverd_to_supervisor_state));
         }
-        holder.student_state.setText(studentModel.getRequestState());
+    }
+
+    private void setStudentsState(StudentsViewHolderLayout holder, int color, String text) {
+        holder.student_state.setTextColor(color);
+        holder.student_state.setText(text);
     }
 
     @Override

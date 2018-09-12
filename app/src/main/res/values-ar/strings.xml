@@ -4,24 +4,26 @@
     <string name="art_work">art_work</string>
     <string name="welcome_to_school">Welcome to school</string>
     <string name="skip_this">Skip this</string>
-    <string name="email_hint">البريد الإلكتروني</string>
-    <string name="signup">إنشاء حساب</string>
+    <string name="email_hint">الرجاء كتابة البريد الالكتروني</string>
+    <string name="signup">تسجيل حساب جديد</string>
+    <string name="signup_description">الرجاء تعبئة البيانات التالية\n لتسجيل الدخول جديد</string>
     <string name="mobile_hint">رقم الهاتف</string>
-    <string name="id_number_hint">الرقم القومي</string>
-    <string name="password_hint">كلمة المرور</string>
-    <string name="username_hint">الأسم بالكامل</string>
+    <string name="id_number_hint">الرجاء كتابة رقم الهوية</string>
+    <string name="password_hint">الرجاء كتابة كلمة المرور</string>
+    <string name="username_hint">الرجاء كتابة اسم المستخدم</string>
     <string name="signin">تسجيل الدخول</string>
+    <string name="signin_description">بإمكانك تنظيم عملية الإنصراف لابنك وابنتك\nبضغطة زر لضمان سلامتهم</string>
     <string name="verify_number">تحقق من رقم الهاتف</string>
-    <string name="verify_number_message">Please enter you valid phone number below \n to complete verification</string>
+    <string name="verify_number_message">يرجى إدخال رقم هاتفك المحمول الصحيح أدناه\nلإرسال رمز التحقق</string>
     <string name="verify_btn">تحقق</string>
-    <string name="enter_4_digits">قم بإدخال ال 5 أرقام</string>
-    <string name="received_code_title">قمت باستلام رسالة التحقق!</string>
-    <string name="received_code_message">قمنا بإرسال رسالة إلي رقم الهاتف الخاص بك</string>
-    <string name="resend_code">إعادة إرسال</string>
-    <string name="forget_password">لا تتذكر كلمة المرور؟</string>
-    <string name="welcome_user">Welcome Ahmed</string>
-    <string name="add_first_helper">قم بإضافة المساعد الخاص بك</string>
-    <string name="helper_username_hint">الإسم</string>
+    <string name="enter_4_digits">ادخل 5 ارقام</string>
+    <string name="received_code_title">تحقق من صندوق الرسائل القصيرة الخاصة بك!</string>
+    <string name="received_code_message">تم إرسال رمز التحقق تلقائيًا إلى رقم \nهاتفك المحمول</string>
+    <string name="resend_code">اعادة إرسال رمز التحقق</string>
+    <string name="forget_password">نسيت كلمة المرور؟</string>
+    <string name="welcome_user">أهلًا</string>
+    <string name="add_first_helper">يرجى إضافة المساعد الأول الخاص بك لإنشاء ملف التعريف الخاص بك</string>
+    <string name="helper_username_hint">الرجاء كتابة اسم المستخدم</string>
     <string name="helper_id_number_hint">الرقم القومي للمساعد</string>
     <string name="add_helper">أضف مساعد</string>
     <string name="title_activity_parent_home">ParentHomeActivity</string>
@@ -52,8 +54,8 @@
     <string name="always">دائمًا</string>
     <string name="Save">حفظ</string>
     <string name="title_activity_maps">Map</string>
-    <string name="pick_up">ألتفط</string>
-    <string name="cancel">ألغاء</string>
+    <string name="pick_up">استلام</string>
+    <string name="cancel">إلغاء</string>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
@@ -68,8 +70,8 @@
     <string name="Language">اللغة</string>
     <string name="en">الأنجليزية</string>
     <string name="ar">العربية</string>
-    <string name="home">الرئيسية</string>
-    <string name="nav_add_helper">أضف مساعد</string>
+    <string name="home">الصفحة الرئيسية</string>
+    <string name="nav_add_helper">إضافة مساعد</string>
     <string name="nav_tracking">تتبع</string>
     <string name="nav_pending_students">قيد الانتظار</string>
     <string name="nav_setting">الإعدادات</string>
@@ -101,8 +103,20 @@
     <string name="basic_information">المعلومات الأساسية</string>
     <string name="parent_toolbar_title">يرجى اختيار مدرسة ابنك/ابنتك</string>
     <string name="start">Start</string>
+    <string name="add_helper_mobile_hint">الرجاء كتابة رقم جوال المساعد</string>
+    <string name="later">لاحقًا</string>
+    <string name="school_notified">تم إشعار المدرسة</string>
+    <string name="no_notifications">ليس لديك أي رسائل</string>
+    <string name="your_notification">الرسائل</string>
+    <string name="need_to_signup">هذا المستخدم غير موجود</string>
+    <string name="pending_state">إستعد</string>
+    <string name="parent_arrived_state">يلا</string>
+    <string name="reported_state">استعجل!</string>
+    <string name="deliverd_to_supervisor_state">مع المشرف</string>
+    <string name="grade">مستوى</string>
+    <string name="student_class">الفصل</string>
     <array name="phoneCodes">
         <item>"+966"</item>
-        <item>"+02"</item>
+        <item>"+2"</item>
     </array>
 </resources>

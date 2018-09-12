@@ -20,4 +20,6 @@ public interface ParentHomeViewCommunicator {
 //    void onSuccessPickUpRequest(ParentPickUpResponseModel responseModel);
 
     void getStudentsForASchool(String schoolId);
+
+    void onSuccessGettingUserData() ;
 }

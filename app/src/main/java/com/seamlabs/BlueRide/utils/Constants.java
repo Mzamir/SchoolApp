@@ -18,7 +18,7 @@ public class Constants {
     public static final String SHARED_USER_SETTING = "SHARED_USER_SETTING";
     public static final String SHARED_USER_LOGGING_STATE = "SHARED_USER_LOGGING_STATE";
     public static final String SHARED_USER_TYPE = "SHARED_USER_TYPE";
-    public static final String SHARED_USER_LANGUAGE= "SHARED_USER_LANGUAGE";
+    public static final String SHARED_USER_LANGUAGE = "SHARED_USER_LANGUAGE";
 
     // Shared preference for pending students
     public static final String SHARED_PENDING_STUDENTS = "SHARED_PENDING_STUDENTS";
@@ -71,7 +71,7 @@ public class Constants {
 
     // pusher notification
     public static final String PUSHER_API_ID = "554913";
-    public static final String PUSHER_BEAMS_INSTANCE_ID= "602b2180-d476-4c1f-8ca2-fa42230aaaef";
+    public static final String PUSHER_BEAMS_INSTANCE_ID = "602b2180-d476-4c1f-8ca2-fa42230aaaef";
     public static final String PUSHER_APP_SECRET = "7CDA2D489F2DAFBC1DF03184EFC5A45";
     public static final String PUSHER_API_KEY = "c9b4f87836c5d3ad204a";
     public static final String PUSHER_API_CLUSTER = "eu";
@@ -96,6 +96,7 @@ public class Constants {
 
     // Events
     public static final String EVENT_PICTURE_CHANGED = "ProfilePictureChanged";
+    public static final String EVENT_NOTIFICATION_RECEIVED = "newNotificationHasBeenReceived";
 
     // Languages
     public static final String ARABIC = "ar";

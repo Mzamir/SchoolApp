@@ -16,7 +16,7 @@ public class UserResponseModel extends BaseResponse {
     private int status;
     private String authy_code;
     private String token;
-
+    int is_verified ;
     private String address;
     private double lat;
     @SerializedName("long")
@@ -160,5 +160,13 @@ public class UserResponseModel extends BaseResponse {
 
     public void setUnreadNotifications(int unreadNotifications) {
         this.unreadNotifications = unreadNotifications;
+    }
+
+    public int getIs_verified() {
+        return is_verified;
+    }
+
+    public void setIs_verified(int is_verified) {
+        this.is_verified = is_verified;
     }
 }

@@ -34,11 +34,12 @@ public class Utility {
     }
 
     public static void showProgressDialog(Context context) {
+
         try {
             if (progressDialog == null)
                 progressDialog = new ProgressDialog(context, R.style.progressDialog);
             progressDialog.setCancelable(false); // disable dismiss by tapping outside of the dialog
-            if (!progressDialog.isShowing()) {
+            if (progressDialog.isShowing() == false) {
                 progressDialog.show();
             }
         } catch (Exception e) {
@@ -48,9 +49,14 @@ public class Utility {
     }
 
     public static void hideProgressDialog() {
-        if (progressDialog != null)
-            if (progressDialog.isShowing())
-                progressDialog.dismiss();
+        try {
+            if (progressDialog != null)
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
+        }catch (Exception e) {
+            Log.i("Utility", "Dialog Exception " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public static boolean isEmailValid(String email) {

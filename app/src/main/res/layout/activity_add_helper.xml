@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/icons_padding"
                     android:drawableStart="@drawable/ic_mobile_ico"
-                    android:hint="@string/mobile_hint"
+                    android:hint="@string/add_helper_mobile_hint"
                     android:inputType="phone" />
             </android.support.design.widget.TextInputLayout>
 
@@ -148,7 +148,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:text="Later"
+            android:text="@string/later"
             android:textColor="@color/gray"
             android:textSize="16dp"
             app:layout_constraintEnd_toEndOf="parent"

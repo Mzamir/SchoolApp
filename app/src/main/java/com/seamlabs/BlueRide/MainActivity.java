@@ -245,7 +245,7 @@ public class MainActivity extends MyActivity
 
     private void showNotificationFragment() {
         fragment = new NotificationFragment();
-
+        fragment.setNavigationIconClickListener(this);
         replaceFragment(fragment);
     }
 
@@ -269,12 +269,14 @@ public class MainActivity extends MyActivity
         MenuItem add_helper = menu.findItem(R.id.nav_add_helper);
         MenuItem pendingStudents = menu.findItem(R.id.nav_pending_students);
         MenuItem trackingHelper = menu.findItem(R.id.nav_tracking);
+        MenuItem notificationItem = menu.findItem(R.id.nav_notification);
         if (!userType.equals(PARENT_USER_TYPE)) {
             if (userType.equals(MENTOR_USER_TYPE)) {
                 pendingStudents.setVisible(true);
             }
             add_helper.setVisible(false);
             trackingHelper.setVisible(false);
+            notificationItem.setVisible(false);
         }
     }
 
@@ -360,10 +362,7 @@ public class MainActivity extends MyActivity
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-//        if (UserSettingsPreference.getUserLanguage(this).equals(ENGLISH))
         drawer.closeDrawer(GravityCompat.START);
-//        else if (UserSettingsPreference.getUserLanguage(this).equals(ARABIC))
-//            drawer.closeDrawer(GravityCompat.END);
         return true;
     }
 
@@ -388,11 +387,7 @@ public class MainActivity extends MyActivity
 
     @Override
     public void onNavigationIconClick() {
-//        if (UserSettingsPreference.getUserLanguage(this).equals(ENGLISH))
         drawer.openDrawer(GravityCompat.START);
-//        else if (UserSettingsPreference.getUserLanguage(this).equals(ARABIC))
-//            drawer.openDrawer(GravityCompat.END);
-//        drawer.openDrawer(Gravity.LEFT);
     }
 
     @Subscribe

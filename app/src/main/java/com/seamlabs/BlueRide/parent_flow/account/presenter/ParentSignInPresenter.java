@@ -30,6 +30,7 @@ public class ParentSignInPresenter implements ParentRegistrationInteractor.OnPar
     @Override
     public void onSuccess(int status) {
         if (view != null) {
+            view.hideProgress();
             view.navigateToParentHome(status);
         }
     }

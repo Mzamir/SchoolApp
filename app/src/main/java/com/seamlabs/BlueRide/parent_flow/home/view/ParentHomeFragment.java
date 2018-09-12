@@ -18,6 +18,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,9 +44,11 @@ import com.seamlabs.BlueRide.parent_flow.home.model.StudentModel;
 import com.seamlabs.BlueRide.parent_flow.home.presenter.ParentHomeInteractor;
 import com.seamlabs.BlueRide.parent_flow.home.presenter.ParentHomePresenter;
 import com.seamlabs.BlueRide.parent_flow.profile.view.ParentProfileFragment;
+import com.seamlabs.BlueRide.utils.MessageEvent;
 import com.seamlabs.BlueRide.utils.UserSettingsPreference;
 import com.seamlabs.BlueRide.utils.Utility;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,6 +57,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.seamlabs.BlueRide.utils.Constants.EVENT_NOTIFICATION_RECEIVED;
+import static com.seamlabs.BlueRide.utils.Constants.EVENT_PICTURE_CHANGED;
 import static com.seamlabs.BlueRide.utils.Constants.PICK_UP_REQUEST_MODEL;
 import static com.seamlabs.BlueRide.utils.Constants.PUSHER_API_CLUSTER;
 import static com.seamlabs.BlueRide.utils.Constants.PUSHER_API_KEY;
@@ -114,6 +119,7 @@ public class ParentHomeFragment extends MyFragment implements ParentHomeViewComm
         ((AppCompatActivity) getActivity()).setSupportActionBar(parent_home_toolbar);
         initializeView();
         presenter = new ParentHomePresenter(this, new ParentHomeInteractor());
+        presenter.updateUserData();
         presenter.getParentSchools();
 
         startPickup.setOnClickListener(new View.OnClickListener() {
@@ -136,17 +142,11 @@ public class ParentHomeFragment extends MyFragment implements ParentHomeViewComm
                 }
             }
         });
-        UserResponseModel userProfileModel = UserSettingsPreference.getSavedUserProfile(getActivity());
-        if (userProfileModel.getUnreadNotifications() > 0) {
-            notification_count.setText(userProfileModel.getUnreadNotifications());
-            notification_count.setVisibility(View.VISIBLE);
-        } else {
-            notification_count.setVisibility(View.GONE);
-        }
+
         notification_icon_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onNotificationIconClickListener!=null)
+                if (onNotificationIconClickListener != null)
                     onNotificationIconClickListener.onNotificationIconClick();
             }
         });
@@ -207,6 +207,17 @@ public class ParentHomeFragment extends MyFragment implements ParentHomeViewComm
     @Override
     public void getStudentsForASchool(String schoolId) {
         presenter.getParentStudentForASchool(schoolId);
+    }
+
+    @Override
+    public void onSuccessGettingUserData() {
+        UserResponseModel userProfileModel = UserSettingsPreference.getSavedUserProfile(getActivity());
+        if (userProfileModel.getUnreadNotifications() > 0) {
+            notification_count.setText(userProfileModel.getUnreadNotifications());
+            notification_count.setVisibility(View.VISIBLE);
+        } else {
+            notification_count.setVisibility(View.GONE);
+        }
     }
 
     private boolean checkGPSPermission() {
@@ -291,6 +302,18 @@ public class ParentHomeFragment extends MyFragment implements ParentHomeViewComm
                     startActivity(intent);
                 }
             });
+        }
+    }
+
+    @Subscribe
+    public void onEvent(MessageEvent event) {
+        try {
+            if (event.getMessage().equals(EVENT_NOTIFICATION_RECEIVED)) {
+                int notificationCounter = Integer.parseInt(notification_count.getText().toString());
+                notification_count.setText(String.valueOf(notificationCounter + 1));
+            }
+        } catch (Exception e) {
+            Log.i(TAG, "Change picture" + e.getMessage().toString());
         }
     }
 

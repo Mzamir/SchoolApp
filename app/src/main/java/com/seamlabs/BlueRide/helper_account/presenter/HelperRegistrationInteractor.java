@@ -56,6 +56,7 @@ public class HelperRegistrationInteractor {
                                 return;
                             }
                         }
+
                         if (responseModel.getErrors() != null) {
                             listener.onError(responseModel.getErrors());
                             Log.i(TAG, "Error " + responseModel.getErrors());

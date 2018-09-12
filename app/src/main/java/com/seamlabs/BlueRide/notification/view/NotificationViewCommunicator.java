@@ -12,5 +12,5 @@ public interface NotificationViewCommunicator {
 
     void onErrorGettingNotifications(String errorMessage);
 
-    void onSuccessGetttingNotifications(ArrayList<NotificationResponseModel> notificationsList);
+    void onSuccessGettingNotifications(ArrayList<NotificationResponseModel> notificationsList);
 }

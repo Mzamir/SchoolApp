@@ -85,6 +85,17 @@ public class ParentHomePresenter implements ParentHomeInteractor.OnGettingParent
         }
     }
 
+    public void updateUserData() {
+        interactor.updateUserData(this);
+    }
+
+    @Override
+    public void onSuccessGettingUserData() {
+        if (view != null) {
+            view.onSuccessGettingUserData();
+        }
+    }
+
     private ArrayList<SchoolModel> convertResponseToModel(ArrayList<SchoolsResponse> schoolsResponseList) {
         ArrayList<SchoolModel> schoolModels = new ArrayList<>();
         for (SchoolsResponse schoolsResponse : schoolsResponseList) {

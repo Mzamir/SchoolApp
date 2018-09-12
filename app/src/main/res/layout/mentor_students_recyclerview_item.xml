@@ -53,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
-                    android:text="Grade 1"
+                    android:text="@string/grade"
                     android:textColor="@color/gray"
                     android:textSize="12sp" />
 
@@ -61,7 +61,7 @@
                     android:id="@+id/student_class"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Class 1"
+                    android:text="@string/student_class"
                     android:textColor="@color/gray"
                     android:textSize="12sp" />
 
@@ -72,7 +72,7 @@
                 android:id="@+id/student_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pending"
+                android:text="@string/pending_state"
                 android:textColor="@color/green"
                 android:textStyle="bold" />
         </LinearLayout>

@@ -7,17 +7,26 @@
     android:orientation="vertical"
     tools:context=".mentor_home.view.MentorHomeActivity">
 
-    <include layout="@layout/profile_toolbar"></include>
-
+    <include layout="@layout/notification_toolbar_layout"></include>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/students_recyclerView"
+        android:id="@+id/notification_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="16dp"
+        android:layout_margin="8dp"
         android:scrollbars="vertical"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/schools_layout"></android.support.v7.widget.RecyclerView>
 
+
+    <com.seamlabs.BlueRide.widgets.CairoTextView
+        android:id="@+id/no_notifications_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/no_notifications"
+        android:textSize="20dp"
+        android:visibility="gone" />
 
 </LinearLayout>

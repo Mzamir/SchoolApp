@@ -1,6 +1,8 @@
 package com.seamlabs.BlueRide.parent_flow.account.view;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +14,7 @@ import com.seamlabs.BlueRide.MainActivity;
 import com.seamlabs.BlueRide.MyActivity;
 import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.helper_account.view.ActivityWebView;
+import com.seamlabs.BlueRide.network.response.UserResponseModel;
 import com.seamlabs.BlueRide.parent_flow.account.presenter.ParentRegistrationInteractor;
 import com.seamlabs.BlueRide.parent_flow.account.presenter.ParentSignInPresenter;
 import com.seamlabs.BlueRide.utils.PrefUtils;
@@ -23,6 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.seamlabs.BlueRide.MyApplication.getMyApplicationContext;
+import static com.seamlabs.BlueRide.utils.Constants.ADMIN_LOGIN_ERROR;
 import static com.seamlabs.BlueRide.utils.Constants.USER_ID;
 import static com.seamlabs.BlueRide.utils.Constants.USER_NATIONAL_ID;
 
@@ -71,7 +75,7 @@ public class ParentSignInActivity extends MyActivity implements ParentRegistrati
         forget_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ParentSignInActivity.this , ActivityWebView.class));
+                startActivity(new Intent(ParentSignInActivity.this, ActivityWebView.class));
             }
         });
     }
@@ -95,17 +99,42 @@ public class ParentSignInActivity extends MyActivity implements ParentRegistrati
 
     @Override
     public void navigateToParentHome(int status) {
-        if (status == 0) {
-            Intent intent = new Intent(this, VerificationCodeActivity.class);
-            intent.putExtra(USER_NATIONAL_ID, UserSettingsPreference.getSavedUserProfile(this).getNational_id());
-            intent.putExtra(USER_ID, UserSettingsPreference.getSavedUserProfile(this).getId());
-            startActivity(intent);
-            finish();
-        } else {
+
+        UserResponseModel userResponseModel = UserSettingsPreference.getSavedUserProfile(this);
+        if (userResponseModel.getStatus() == 1 && userResponseModel.getIs_verified() == 1) {
             UserSettingsPreference.updateLoginState(getMyApplicationContext(), true);
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
+        } else if (userResponseModel.getStatus() == 0 && userResponseModel.getIs_verified() == 0) {
+            if (userResponseModel.getAuthy_code() == null) {
+                showSnackBar(getResources().getString(R.string.need_to_signup), true);
+            } else {
+                Intent intent = new Intent(this, VerificationCodeActivity.class);
+                intent.putExtra(USER_NATIONAL_ID, userResponseModel.getNational_id());
+                intent.putExtra(USER_ID, userResponseModel.getId());
+                startActivity(intent);
+                finish();
+            }
+
+        } else if (userResponseModel.getStatus() == 0 && userResponseModel.getIs_verified() == 1) {
+            showSnackBar(ADMIN_LOGIN_ERROR, false);
+        }
+    }
+
+    public void showSnackBar(String message, boolean showAction) {
+        Snackbar snackbar = Snackbar
+                .make(this.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
+        snackbar.show();
+        if (showAction) {
+            snackbar.setAction(getResources().getString(R.string.signup), new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ParentSignInActivity.this, ParentSignupActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
         }
     }
 

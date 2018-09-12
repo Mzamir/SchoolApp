@@ -3,24 +3,26 @@
     <string name="art_work">art_work</string>
     <string name="welcome_to_school">Welcome to school</string>
     <string name="skip_this">Skip this</string>
-    <string name="email_hint">Email</string>
     <string name="signup">Sign Up!</string>
+    <string name="signup_description">Please fill the fields out\nto create an account</string>
+    <string name="email_hint">Please enter your e-mail</string>
     <string name="mobile_hint">Mobile number</string>
-    <string name="id_number_hint">ID number</string>
-    <string name="password_hint">Password</string>
-    <string name="username_hint">Full name</string>
-    <string name="signin">Sign-In!</string>
-    <string name="verify_number">Verify Your Phone Number</string>
-    <string name="verify_number_message">Please enter you valid phone number below \n to complete verification</string>
+    <string name="id_number_hint">Please enter your ID number</string>
+    <string name="password_hint">Please enter your Password</string>
+    <string name="username_hint">Please enter your username</string>
+    <string name="signin">Sign in</string>
+    <string name="signin_description">Now!! You can manage your son/daughter\npickup by one click to enhance their safety</string>
+    <string name="verify_number">Verify Your Mobile Number</string>
+    <string name="verify_number_message">Please enter your valid mobile number below\nto send verification code</string>
     <string name="verify_btn">Verify</string>
     <string name="enter_4_digits">Enter 5 Digit Code</string>
-    <string name="received_code_title">Received a Verification Code!</string>
-    <string name="received_code_message">we are automatically sent you SMS on your mobile numeber</string>
+    <string name="received_code_title">Check your SMS inbox!</string>
+    <string name="received_code_message">Verification code was sent automatically to your \nmobile number</string>
     <string name="resend_code">Resend code</string>
     <string name="forget_password">Forget password?</string>
-    <string name="welcome_user">Welcome Ahmed</string>
-    <string name="add_first_helper">Please add your first helper to \n fill your profile</string>
-    <string name="helper_username_hint">Username</string>
+    <string name="welcome_user">Welcome</string>
+    <string name="add_first_helper">Please add your first helper to \n create your profile</string>
+    <string name="helper_username_hint">Please enter your username</string>
     <string name="helper_id_number_hint">Helper ID</string>
     <string name="add_helper">Add Helper</string>
     <string name="title_activity_parent_home">ParentHomeActivity</string>
@@ -100,8 +102,20 @@
     <string name="basic_information">Basic information</string>
     <string name="parent_toolbar_title">Please select your son/daughter school</string>
     <string name="start">Start</string>
+    <string name="add_helper_mobile_hint">Enter his/her mobile number</string>
+    <string name="later">Later</string>
+    <string name="school_notified">School has been notified</string>
+    <string name="no_notifications">You don\'t have any messages</string>
+    <string name="your_notification">Your messages</string>
+    <string name="need_to_signup">User does not exist</string>
+    <string name="pending_state">Get Ready</string>
+    <string name="parent_arrived_state">Let’s Go</string>
+    <string name="reported_state">Hurry Up!</string>
+    <string name="deliverd_to_supervisor_state">With Supervisor</string>
+    <string name="grade">Grade</string>
+    <string name="student_class">Class</string>
     <array name="phoneCodes">
         <item>"+966"</item>
-        <item>"+02"</item>
+        <item>"+2"</item>
     </array>
 </resources>

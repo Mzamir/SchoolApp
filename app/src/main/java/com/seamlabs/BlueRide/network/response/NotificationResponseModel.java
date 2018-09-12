@@ -2,7 +2,7 @@ package com.seamlabs.BlueRide.network.response;
 
 import com.seamlabs.BlueRide.network.BaseResponse;
 
-public class NotificationResponseModel extends BaseResponse{
+public class NotificationResponseModel{
 
     String school;
     String message;

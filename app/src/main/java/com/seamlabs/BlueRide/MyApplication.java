@@ -34,17 +34,12 @@ public class MyApplication extends Application {
         super.onCreate();
         Fresco.initialize(this);
         context = getApplicationContext();
-        Realm.init(this);
 
         PushNotifications.start(getApplicationContext(), PUSHER_BEAMS_INSTANCE_ID);
-
 
         LocaleUtils.setLocale(new Locale(UserSettingsPreference.getUserLanguage(this)));
         LocaleUtils.updateConfig(this, getBaseContext().getResources().getConfiguration());
 
-        if (PrefUtils.getApiKey(this) != null) {
-            Log.i("TOKEN ", PrefUtils.getApiKey(this));
-        }
     }
 
     @Override

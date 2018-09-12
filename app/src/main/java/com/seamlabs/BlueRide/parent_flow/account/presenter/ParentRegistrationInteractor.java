@@ -1,12 +1,10 @@
 package com.seamlabs.BlueRide.parent_flow.account.presenter;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.seamlabs.BlueRide.network.ApiClient;
 import com.seamlabs.BlueRide.network.ApiService;
 import com.seamlabs.BlueRide.network.response.UserResponseModel;
-import com.seamlabs.BlueRide.parent_flow.profile.model.UserProfileModel;
 import com.seamlabs.BlueRide.utils.PrefUtils;
 import com.seamlabs.BlueRide.utils.UserSettingsPreference;
 
@@ -15,16 +13,11 @@ import org.json.JSONObject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
 import retrofit2.Response;
 
 import static com.seamlabs.BlueRide.MyApplication.getMyApplicationContext;
 import static com.seamlabs.BlueRide.utils.Constants.ADMIN_LOGIN_ERROR;
-import static com.seamlabs.BlueRide.utils.Constants.HELPER_USER_TYPE;
-import static com.seamlabs.BlueRide.utils.Constants.MENTOR_USER_TYPE;
-import static com.seamlabs.BlueRide.utils.Constants.PARENT_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.Constants.SERVER_ERROR;
-import static com.seamlabs.BlueRide.utils.Constants.TEACHER_USER_TYPE;
 
 public class ParentRegistrationInteractor {
 
@@ -128,27 +121,5 @@ public class ParentRegistrationInteractor {
                 });
     }
 
-    private UserProfileModel convertResponseToUserProfileObject(UserResponseModel loginResponse) {
-        UserProfileModel user = new UserProfileModel();
-        user.setId(loginResponse.getId());
-        user.setName(loginResponse.getName());
-        user.setEmail(loginResponse.getEmail());
-        user.setNational_id(loginResponse.getNational_id());
-        user.setPhone(loginResponse.getPhone());
-        user.setCreated_at(loginResponse.getCreated_at());
-        user.setUpdated_at(loginResponse.getUpdated_at());
-        user.setAuthy_code(loginResponse.getAuthy_code());
-        user.setToken(loginResponse.getToken());
-        if (loginResponse.getRoles().get(0).getName().equals("parent")) {
-            user.setRole(PARENT_USER_TYPE);
-        } else if (loginResponse.getRoles().get(0).getName().equals("helper")) {
-            user.setRole(HELPER_USER_TYPE);
-        } else if (loginResponse.getRoles().get(0).getName().equals("mentor")) {
-            user.setRole(MENTOR_USER_TYPE);
-        } else if (loginResponse.getRoles().get(0).getName().equals("teacher")) {
-            user.setRole(TEACHER_USER_TYPE);
-        }
-        return user;
-    }
 
 }

@@ -190,4 +190,7 @@ public interface ApiService {
 
     @GET("notifications")
     Single<Response<ArrayList<NotificationResponseModel>>> getNotification();
+
+    @GET("get_user_data")
+    Single<Response<UserResponseModel>> getUserData();
 }

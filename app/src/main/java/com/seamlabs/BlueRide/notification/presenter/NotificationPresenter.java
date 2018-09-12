@@ -32,7 +32,7 @@ public class NotificationPresenter implements NotificationInteractor.Notificatio
     public void onSuccessGetttingNotifications(ArrayList<NotificationResponseModel> notificationsList) {
         if (view != null) {
             view.hideProgress();
-            view.onSuccessGetttingNotifications(notificationsList);
+            view.onSuccessGettingNotifications(notificationsList);
         }
     }
 }

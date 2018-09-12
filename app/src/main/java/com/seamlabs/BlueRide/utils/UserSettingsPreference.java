@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import com.google.gson.reflect.TypeToken;
 import com.seamlabs.BlueRide.mentor_home.model.MentorStudentModel;
 import com.seamlabs.BlueRide.network.response.UserResponseModel;
-import com.seamlabs.BlueRide.parent_flow.profile.model.UserProfileModel;
 import com.google.gson.Gson;
 
 import java.lang.reflect.Type;

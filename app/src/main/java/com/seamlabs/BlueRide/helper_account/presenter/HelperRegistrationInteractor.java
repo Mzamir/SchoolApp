@@ -44,14 +44,14 @@ public class HelperRegistrationInteractor {
         ApiService apiService = ApiClient.getClient(MyApplication.getMyApplicationContext())
                 .create(ApiService.class);
 
-        apiService.login(email, password)
+        apiService.login(email, password, PrefUtils.getDeviceToken(getMyApplicationContext()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<UserResponseModel>() {
                     @Override
                     public void onSuccess(UserResponseModel responseModel) {
-                        if (responseModel.getRoles().size() == 1) {
-                            if (responseModel.getRoles().get(0).getName().equalsIgnoreCase("admin") || responseModel.getRoles().get(0).getName().equalsIgnoreCase("security")) {
+                        if (responseModel.getLogin_as()!=null) {
+                            if (responseModel.getLogin_as().equalsIgnoreCase("admin") || responseModel.getLogin_as().equalsIgnoreCase("security")) {
                                 listener.onError(ADMIN_LOGIN_ERROR);
                                 return;
                             }
@@ -82,7 +82,7 @@ public class HelperRegistrationInteractor {
     void helperSignup(String name, String email, String password, String national_id, String phone, final OnRegistrationFinishedListener listener) {
         ApiService apiService = ApiClient.getClient(MyApplication.getMyApplicationContext())
                 .create(ApiService.class);
-        apiService.signupHelper(name, email, password, national_id, phone)
+        apiService.signupHelper(name, email, password, national_id, phone, PrefUtils.getDeviceToken(getMyApplicationContext()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<Response>() {
@@ -90,8 +90,8 @@ public class HelperRegistrationInteractor {
                     public void onSuccess(Response response) {
                         if (response.isSuccessful()) {
                             UserResponseModel responseModel = (UserResponseModel) response.body();
-                            if (responseModel.getRoles().size() == 1) {
-                                if (responseModel.getRoles().get(0).getName().equalsIgnoreCase("admin") || responseModel.getRoles().get(0).getName().equalsIgnoreCase("security")) {
+                            if (responseModel.getLogin_as()!=null) {
+                                if (responseModel.getLogin_as().equalsIgnoreCase("admin") || responseModel.getLogin_as().equalsIgnoreCase("security")) {
                                     listener.onError(ADMIN_LOGIN_ERROR);
                                     return;
                                 }

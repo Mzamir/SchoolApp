@@ -11,6 +11,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import static com.seamlabs.BlueRide.utils.Constants.MAPS_SERVER_KEY;
+
 /**
  * Created by ocittwo on 11/14/16.
  *
@@ -85,6 +88,7 @@ public class DrawRoute extends AsyncTask<String, Void, String> {
             iStream.close();
             urlConnection.disconnect();
         }
+
         return data;
     }
 

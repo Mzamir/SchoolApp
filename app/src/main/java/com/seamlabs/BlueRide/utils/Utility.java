@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 
+import com.pusher.pushnotifications.PushNotifications;
+import com.pusher.pushnotifications.fcm.FCMInstanceIDService;
 import com.seamlabs.BlueRide.MyApplication;
 import com.seamlabs.BlueRide.R;
 
@@ -53,7 +55,7 @@ public class Utility {
             if (progressDialog != null)
                 if (progressDialog.isShowing())
                     progressDialog.dismiss();
-        }catch (Exception e) {
+        } catch (Exception e) {
             Log.i("Utility", "Dialog Exception " + e.getMessage());
             e.printStackTrace();
         }
@@ -80,7 +82,7 @@ public class Utility {
         res.updateConfiguration(conf, dm);
     }
 
-    public static String localizeNumber(String originalText) {
+    public static String localizeNumbers(String originalText) {
         try {
             if (getUserLanguage(MyApplication.getMyApplicationContext()).equals(ARABIC)) {
                 char[] arabicChars = {'٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'};
@@ -99,5 +101,17 @@ public class Utility {
             return originalText;
         }
         return originalText;
+    }
+
+    public static String getDeviceToken(Context context) {
+        String androidId = "";
+        try {
+            androidId = androidId + android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+            PrefUtils.storeDeviceToken(context, androidId);
+            Log.i("Utility", "DeviceToken " + androidId);
+        } catch (Exception e) {
+            Log.i("Utility", "DeviceToken exception " + e.getMessage().toString());
+        }
+        return androidId;
     }
 }

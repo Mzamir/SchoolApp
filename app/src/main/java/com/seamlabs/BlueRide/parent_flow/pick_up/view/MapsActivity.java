@@ -34,19 +34,29 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.seamlabs.BlueRide.MainActivity;
+import com.seamlabs.BlueRide.MyApplication;
 import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.maps_directions.DrawMarker;
 import com.seamlabs.BlueRide.maps_directions.DrawRouteMaps;
+import com.seamlabs.BlueRide.network.ApiClient;
+import com.seamlabs.BlueRide.network.ApiService;
+import com.seamlabs.BlueRide.network.BaseResponse;
 import com.seamlabs.BlueRide.network.requests.ParentPickUpRequestModel;
+import com.seamlabs.BlueRide.network.requests.UpdateLocationRequestModel;
 import com.seamlabs.BlueRide.network.response.ParentArrivedResponseModel;
 import com.seamlabs.BlueRide.network.response.ParentPickUpResponseModel;
 import com.seamlabs.BlueRide.parent_flow.home.model.SchoolModel;
 import com.seamlabs.BlueRide.parent_flow.pick_up.presenter.ParentPickUpInteractor;
 import com.seamlabs.BlueRide.parent_flow.pick_up.presenter.ParentPickUpPresenter;
+import com.seamlabs.BlueRide.parent_flow.waiting_student.presenter.ParentWaitingInteractor;
 import com.seamlabs.BlueRide.parent_flow.waiting_student.view.ParentWaitingActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Response;
 
 import static com.seamlabs.BlueRide.utils.Constants.HELPER_LATITUDE;
 import static com.seamlabs.BlueRide.utils.Constants.HELPER_LONGITUDE;
@@ -286,14 +296,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .position(currentLocation)
                     .title("Lat " + currentLocation.latitude + "\n Long " + currentLocation.longitude));
         }
-//        DrawMarker.getInstance(this).draw(mMap, currentLocation, R.drawable.map_car_top_view, "Origin Location");
-
-        LatLngBounds bounds = new LatLngBounds.Builder()
-                .include(currentLocation)
-                .include(destinationLocation).build();
-        Point displaySize = new Point();
-        getWindowManager().getDefaultDisplay().getSize(displaySize);
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, displaySize.x, displaySize.y / 2, 30));
 
     }
 
@@ -302,16 +304,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addCircle(new CircleOptions().center(destinationLocation)
                 .fillColor(getResources().getColor(R.color.map_yellow))
                 .radius(schoolModel.getBig_zone())
-                .strokeColor(Color.BLACK)
+                .strokeColor(getResources().getColor(R.color.big_zone_stoke))
                 .strokeWidth(5));
 
         mMap.addCircle(new CircleOptions().center(destinationLocation)
                 .fillColor(getResources().getColor(R.color.map_green))
                 .radius(schoolModel.getSmall_zone())
-                .strokeColor(Color.BLACK)
+                .strokeColor(getResources().getColor(R.color.small_zone_stoke))
                 .strokeWidth(5));
-        DrawMarker.getInstance(this).draw(mMap, destinationLocation, R.drawable.map_destination, "Destination Location");
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(destinationLocation, 17));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(destinationLocation, 14));
         Log.i(TAG, "drawCircles");
     }
 
@@ -393,4 +394,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onStop() {
         super.onStop();
     }
+
+
 }

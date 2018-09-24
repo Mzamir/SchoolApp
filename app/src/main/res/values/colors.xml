@@ -24,4 +24,6 @@
     <color name="report_state">#b77ac9</color>
     <color name="deliverd_to_supervisor">#0e7efc</color>
 
+    <color name="small_zone_stoke">#3ACA69</color>
+    <color name="big_zone_stoke">#F6A623</color>
 </resources>

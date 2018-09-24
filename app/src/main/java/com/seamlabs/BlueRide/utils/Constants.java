@@ -4,7 +4,10 @@ public class Constants {
     public static final String BASE_URL = "https://blueride.app:555/api/";
     public static final String FORGET_PASSWORD_URL = "https://blueride.app:555/password/reset";
     public static final String BASE_IMAGES_URL = "https://blueride.app:555";
-    public static final String MAPS_SERVER_KEY = "AIzaSyBVEBhWuQ2lAcRkazdAGxWqmLIDcSUdHdI";
+    //debug
+//    public static final String MAPS_SERVER_KEY = "&key=AIzaSyBVEBhWuQ2lAcRkazdAGxWqmLIDcSUdHdI";
+    // release
+    public static final String MAPS_SERVER_KEY = "&key=AIzaSyDjlKZRgVIEJOxxXVp9j-L_JRvq9rys6ss";
     public static final int REALM_DATABASE_VERSION = 1;
     public static final String TERMS_AND_CONDITIONS_FOLDER_NAME = "BlueRide";
     public static final String TERMS_AND_CONDITIONS_FILE_NAME = "TermsAndConditions.pdf";

@@ -1,5 +1,6 @@
 package com.seamlabs.BlueRide.network;
 
+import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.network.requests.AssignStudentsToHelperRequestModel;
 import com.seamlabs.BlueRide.network.requests.CancelPickUpRequestModel;
 import com.seamlabs.BlueRide.network.requests.EditProfileRequestModel;
@@ -49,7 +50,9 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("signup_parent")
-    Single<Response<UserResponseModel>> signUpParent(@Field("national_id") String national_id, @Field("password") String password);
+    Single<Response<UserResponseModel>> signUpParent(@Field("national_id") String national_id,
+                                                     @Field("password") String password,
+                                                     @Field("device_token") String device_token);
 
     @FormUrlEncoded
     @POST("add_helper")
@@ -64,12 +67,15 @@ public interface ApiService {
                                                      @Field("email") String email,
                                                      @Field("password") String password,
                                                      @Field("national_id") String national_id,
-                                                     @Field("phone") String phone);
+                                                     @Field("phone") String phone,
+                                                     @Field("device_token") String device_token);
 
 
     @FormUrlEncoded
     @POST("login")
-    Single<UserResponseModel> login(@Field("email") String email, @Field("password") String password);
+    Single<UserResponseModel> login(@Field("email") String email,
+                                    @Field("password") String password,
+                                    @Field("device_token") String device_token);
 
     @FormUrlEncoded
     @POST("verify_code")
@@ -193,4 +199,11 @@ public interface ApiService {
 
     @GET("get_user_data")
     Single<Response<UserResponseModel>> getUserData();
+
+    @FormUrlEncoded
+    @PUT("switch_account")
+    Single<Response<UserResponseModel>> switchAccount(@Field("login_as") String login_as);
+
+    @POST("logout")
+    Single<Response> logout();
 }

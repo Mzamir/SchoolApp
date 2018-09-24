@@ -41,17 +41,17 @@ public class RouteDrawerTask extends AsyncTask<String, Integer, List<List<HashMa
 
         try {
             jObject = new JSONObject(jsonData[0]);
-            Log.d("RouteDrawerTask", jsonData[0]);
+            Log.i("RouteDrawerTask", jsonData[0]);
             DataRouteParser parser = new DataRouteParser();
-            Log.d("RouteDrawerTask", parser.toString());
+            Log.i("RouteDrawerTask", parser.toString());
 
             // Starts parsing data
             routes = parser.parse(jObject);
-            Log.d("RouteDrawerTask", "Executing routes");
-            Log.d("RouteDrawerTask", routes.toString());
+            Log.i("RouteDrawerTask", "Executing routes");
+            Log.i("RouteDrawerTask", routes.toString());
 
         } catch (Exception e) {
-            Log.d("RouteDrawerTask", e.toString());
+            Log.i("RouteDrawerTask", e.toString());
             e.printStackTrace();
         }
         return routes;
@@ -100,7 +100,7 @@ public class RouteDrawerTask extends AsyncTask<String, Integer, List<List<HashMa
             mMap.addPolyline(lineOptions);
 //            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lineOptions.getPoints().get(1), 15));
         } else {
-            Log.d("onPostExecute", "without Polylines draw");
+            Log.i("onPostExecute", "without Polylines draw");
         }
     }
 

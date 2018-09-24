@@ -1,174 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<ScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".parent_flow.profile.view.ParentProfileActivity">
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <com.seamlabs.BlueRide.widgets.CairoBoldTextView
-        android:id="@+id/cairoTextView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/basic_information"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.seamlabs.BlueRide.widgets.CairoTextView
-        android:id="@+id/email_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:drawablePadding="@dimen/icons_padding"
-        android:drawableStart="@drawable/ic_mail_ico"
-        android:text="@string/email_hint"
-        app:layout_constraintBottom_toTopOf="@+id/phone_number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cairoTextView2" />
-
-    <com.seamlabs.BlueRide.widgets.CairoTextView
-        android:id="@+id/phone_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:drawablePadding="@dimen/icons_padding"
-        android:drawableStart="@drawable/ic_mobile_ico"
-        android:text="@string/mobile_hint"
-        app:layout_constraintBottom_toTopOf="@+id/id_number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email_address" />
-
-    <com.seamlabs.BlueRide.widgets.CairoTextView
-        android:id="@+id/id_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:drawablePadding="@dimen/icons_padding"
-        android:drawableStart="@drawable/ic_id_ico"
-        android:text="@string/id_number_hint"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone_number" />
-
-    <LinearLayout
-        android:id="@+id/language_layout"
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_number">
+        android:layout_height="match_parent"
+        tools:context=".parent_flow.profile.view.ParentProfileActivity">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginEnd="16dp"
+        <com.seamlabs.BlueRide.widgets.CairoBoldTextView
+            android:id="@+id/cairoTextView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/gray"
-            android:tint="@color/gray"></View>
+            android:layout_marginTop="8dp"
+            android:text="@string/basic_information"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.seamlabs.BlueRide.widgets.CairoTextView
+            android:id="@+id/email_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:drawablePadding="@dimen/icons_padding"
+            android:drawableStart="@drawable/ic_mail_ico"
+            android:text="@string/email_hint"
+            app:layout_constraintBottom_toTopOf="@+id/phone_number"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cairoTextView2" />
+
+        <com.seamlabs.BlueRide.widgets.CairoTextView
+            android:id="@+id/phone_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:drawablePadding="@dimen/icons_padding"
+            android:drawableStart="@drawable/ic_mobile_ico"
+            android:text="@string/mobile_hint"
+            app:layout_constraintBottom_toTopOf="@+id/id_number"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/email_address" />
+
+        <com.seamlabs.BlueRide.widgets.CairoTextView
+            android:id="@+id/id_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:drawablePadding="@dimen/icons_padding"
+            android:drawableStart="@drawable/ic_id_ico"
+            android:text="@string/id_number_hint"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phone_number" />
 
         <LinearLayout
+            android:id="@+id/language_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/id_number">
 
-            <com.seamlabs.BlueRide.widgets.CairoBoldTextView
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_weight="2"
-                android:gravity="start"
-                android:text="@string/Language"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/phone_number" />
-
-            <com.seamlabs.BlueRide.widgets.CairoBoldTextView
-                android:id="@+id/language_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginEnd="16dp"
-                android:layout_weight="1"
-                android:gravity="start"
-                android:text="@string/ar"
-                android:textColor="@color/colorPrimary"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/phone_number" />
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/gray"
+                android:tint="@color/gray"></View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.seamlabs.BlueRide.widgets.CairoBoldTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:text="@string/Language"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/phone_number" />
+
+                <com.seamlabs.BlueRide.widgets.CairoBoldTextView
+                    android:id="@+id/language_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:text="@string/ar"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/phone_number" />
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/helpers_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:orientation="vertical"
-        android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@+id/students_layout">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="16dp"
-            android:background="@color/gray"
-            android:tint="@color/gray"></View>
-
-        <com.seamlabs.BlueRide.widgets.CairoBoldTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Your helpers"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/helpers_recyclerView"
+        <LinearLayout
+            android:id="@+id/helpers_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:scrollbars="horizontal"></android.support.v7.widget.RecyclerView>
-    </LinearLayout>
+            android:layout_marginStart="16dp"
+            android:orientation="vertical"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/students_layout">
 
-    <LinearLayout
-        android:id="@+id/students_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/language_layout">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="16dp"
+                android:background="@color/gray"
+                android:tint="@color/gray"></View>
 
-        <View
+            <com.seamlabs.BlueRide.widgets.CairoBoldTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/your_helpers"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/helpers_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:scrollbars="horizontal"></android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/students_layout"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="16dp"
-            android:background="@color/gray"
-            android:tint="@color/gray"></View>
-
-        <com.seamlabs.BlueRide.widgets.CairoBoldTextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Your Students"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginStart="16dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/language_layout">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/students_recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:scrollbars="horizontal"></android.support.v7.widget.RecyclerView>
-    </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="16dp"
+                android:background="@color/gray"
+                android:tint="@color/gray"></View>
+
+            <com.seamlabs.BlueRide.widgets.CairoBoldTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/your_students"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/students_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:scrollbars="horizontal"></android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

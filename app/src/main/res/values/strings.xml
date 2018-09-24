@@ -39,7 +39,7 @@
     <string name="empty_field">Empty field</string>
     <string name="invalid_id">At least 10 characters</string>
     <string name="invalid_password">At least 6 characters</string>
-    <string name="helper">Helper?</string>
+    <string name="are_u_helper">Helper?</string>
     <string name="signup_here">Sign up here</string>
     <string name="have_account">Already user?</string>
     <string name="signup_as_helper">Sign Up as helper!</string>
@@ -114,6 +114,16 @@
     <string name="deliverd_to_supervisor_state">With Supervisor</string>
     <string name="grade">Grade</string>
     <string name="student_class">Class</string>
+    <string name="select">Select</string>
+    <string name="parent">Parent</string>
+    <string name="mentor">Mentor</string>
+    <string name="teacher">Teacher</string>
+    <string name="helper">Helper</string>
+    <string name="edit_your_information">Edit your information</string>
+    <string name="your_students">Your Students</string>
+    <string name="your_helpers">Your helpers</string>
+    <string name="role_switcher_title">Select the account to switch</string>
+
     <array name="phoneCodes">
         <item>"+966"</item>
         <item>"+2"</item>

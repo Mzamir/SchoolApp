@@ -30,6 +30,8 @@ import android.widget.Toast;
 import com.pusher.pushnotifications.PushNotifications;
 import com.seamlabs.BlueRide.mentor_home.view.MentorHomeFragment;
 import com.seamlabs.BlueRide.mentor_home.view.MentorPendingFragment;
+import com.seamlabs.BlueRide.network.ApiClient;
+import com.seamlabs.BlueRide.network.ApiService;
 import com.seamlabs.BlueRide.network.response.UserResponseModel;
 import com.seamlabs.BlueRide.notification.view.NotificationFragment;
 import com.seamlabs.BlueRide.parent_flow.home.view.ParentHomeFragment;
@@ -38,6 +40,7 @@ import com.seamlabs.BlueRide.parent_flow.add_helper.view.AddHelperActivity;
 import com.seamlabs.BlueRide.parent_flow.profile.view.EditProfileFragment;
 import com.seamlabs.BlueRide.parent_flow.profile.view.ParentProfileFragment;
 import com.seamlabs.BlueRide.parent_flow.tracking_helper.view.TrackingHelpersFragment;
+import com.seamlabs.BlueRide.roles_doalog_switcher.UserRolesDialog;
 import com.seamlabs.BlueRide.utils.MessageEvent;
 import com.seamlabs.BlueRide.utils.PrefUtils;
 import com.seamlabs.BlueRide.utils.UserSettingsPreference;
@@ -49,6 +52,10 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Response;
 
 import static com.seamlabs.BlueRide.utils.Constants.ARABIC;
 import static com.seamlabs.BlueRide.utils.Constants.ENGLISH;
@@ -61,6 +68,7 @@ import static com.seamlabs.BlueRide.utils.Constants.SHARED_PENDING_STUDENTS;
 import static com.seamlabs.BlueRide.utils.Constants.TEACHER_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.UserSettingsPreference.getUserType;
 import static com.seamlabs.BlueRide.utils.UserSettingsPreference.setUserType;
+import static com.seamlabs.BlueRide.utils.Utility.getDeviceToken;
 
 public class MainActivity extends MyActivity
         implements NavigationView.OnNavigationItemSelectedListener, ParentProfileFragment.onEditProfileClickListener, MyFragment.onNavigationIconClickListener, ParentHomeFragment.onNotificationIconClickListener {
@@ -104,6 +112,7 @@ public class MainActivity extends MyActivity
     NavigationView navigationView;
 
     Intent notificationIntent = null;
+    UserRolesDialog userRolesDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +129,9 @@ public class MainActivity extends MyActivity
 //        notificationIntent = getIntent();
 //        getSupportActionBar().setIcon(R.mipmap.school_ico);
         userProfileModel = UserSettingsPreference.getSavedUserProfile(this);
+
+        PushNotifications.subscribe(getDeviceToken(this));
+        Log.i("NotificationsService", "Subscribed Email " + userProfileModel.getEmail());
         drawer = findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -144,26 +156,15 @@ public class MainActivity extends MyActivity
         nav_header_switchaccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = 0; i < userProfileModel.getRoles().size(); i++) {
-                    String type = userProfileModel.getRoles().get(i).getName();
-                    if (userType.equals(PARENT_USER_TYPE))
-                        if (type.equals(MENTOR_USER_TYPE)) {
-                            setUserType(MainActivity.this, MENTOR_USER_TYPE);
-                            Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                            return;
-                        }
-                    if (userType.equals(MENTOR_USER_TYPE))
-                        if (type.equals(PARENT_USER_TYPE)) {
-                            setUserType(MainActivity.this, PARENT_USER_TYPE);
-                            Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                            return;
-                        }
-                }
-                Toast.makeText(MainActivity.this, getResources().getString(R.string.you_dont_have_another_account), Toast.LENGTH_SHORT).show();
+                drawer.closeDrawer(GravityCompat.START);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        userRolesDialog = new UserRolesDialog();
+                        userRolesDialog.getNotificationDialog(userProfileModel.getRoles(), MainActivity.this).show();
+                    }
+                }, 200);
+
             }
         });
         navigationView.setNavigationItemSelectedListener(this);
@@ -269,20 +270,18 @@ public class MainActivity extends MyActivity
         MenuItem add_helper = menu.findItem(R.id.nav_add_helper);
         MenuItem pendingStudents = menu.findItem(R.id.nav_pending_students);
         MenuItem trackingHelper = menu.findItem(R.id.nav_tracking);
-        MenuItem notificationItem = menu.findItem(R.id.nav_notification);
         if (!userType.equals(PARENT_USER_TYPE)) {
             if (userType.equals(MENTOR_USER_TYPE)) {
                 pendingStudents.setVisible(true);
             }
             add_helper.setVisible(false);
             trackingHelper.setVisible(false);
-            notificationItem.setVisible(false);
         }
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
 //            if (UserSettingsPreference.getUserLanguage(this).equals(ENGLISH))
             drawer.closeDrawer(GravityCompat.START);
@@ -337,9 +336,6 @@ public class MainActivity extends MyActivity
             case R.id.nav_tracking:
                 showTrackingHelperFragment();
                 break;
-            case R.id.nav_notification:
-                showNotificationFragment();
-                break;
             case R.id.nav_setting:
                 showSettingFragment();
                 break;
@@ -349,19 +345,20 @@ public class MainActivity extends MyActivity
                 replaceFragment(fragment);
                 break;
             case R.id.nav_logout:
-                startActivity(new Intent(MainActivity.this, ParentSignInActivity.class));
-                UserSettingsPreference.getUserSettingsSharedPreferences(MyApplication.getMyApplicationContext()).edit().clear().commit();
-                PrefUtils.getPrefUtilsSharedPreferences(MyApplication.getMyApplicationContext()).edit().clear().commit();
-                SharedPreferences sharedPreferences =
-                        getSharedPreferences(SHARED_PENDING_STUDENTS, Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.clear().commit();
+                Intent intent1 = new Intent(MainActivity.this, ParentSignInActivity.class);
+                intent1.putExtra("ComingFromWhere", "Lgout");
+                try {
+                    performLogout();
+                } catch (Exception e) {
+                    Log.i(TAG, "Logout exception " + e.getMessage().toString());
+                }
+                startActivity(intent1);
                 finish();
                 break;
             default:
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -428,5 +425,26 @@ public class MainActivity extends MyActivity
     @Override
     public void onNotificationIconClick() {
         showNotificationFragment();
+    }
+
+    public void performLogout() {
+        ApiService apiService = ApiClient.getClient(MyApplication.getMyApplicationContext())
+                .create(ApiService.class);
+        apiService.logout()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<Response>() {
+                    @Override
+                    public void onSuccess(Response mainResponse) {
+                        if (mainResponse.isSuccessful()) {
+                            Log.i(TAG, "Logout Successful");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i(TAG, "Logout exception " + e.getMessage().toString());
+                    }
+                });
     }
 }

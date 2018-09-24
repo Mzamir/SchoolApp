@@ -84,7 +84,7 @@ public class AddHelperActivity extends MyActivity implements AddHelperView {
         setContentView(R.layout.activity_add_helper);
         ButterKnife.bind(this);
         presenter = new AddHelperPresenter(this, new AddHelperInteractor());
-        username.setText("Welcome " + UserSettingsPreference.getSavedUserProfile(this).getName());
+        username.setText( getResources().getString(R.string.welcome_user) + UserSettingsPreference.getSavedUserProfile(this).getName());
         add_helper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

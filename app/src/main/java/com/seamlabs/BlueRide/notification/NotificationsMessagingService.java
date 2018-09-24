@@ -28,4 +28,5 @@ public class NotificationsMessagingService extends MessagingService {
         Log.i("NotificationsService", "OnBind");
         return super.onBind(i);
     }
+
 }

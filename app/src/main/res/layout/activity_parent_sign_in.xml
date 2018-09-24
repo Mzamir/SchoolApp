@@ -2,9 +2,9 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/parent_layout"
     android:background="@color/main_background_color"
     tools:context=".parent_flow.account.view.ParentSignInActivity">
 
@@ -72,7 +72,7 @@
             android:inputType="textEmailAddress" />
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <FrameLayout
         android:id="@+id/password_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -82,16 +82,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email_layout">
 
-        <com.seamlabs.BlueRide.widgets.CairoEditText
-            android:id="@+id/password_edx"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/ic_show_pass_ico"
+            android:layout_height="match_parent">
+
+            <com.seamlabs.BlueRide.widgets.CairoEditText
+                android:id="@+id/password_edx"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/icons_padding"
+                android:drawableStart="@drawable/ic_password_ico"
+                android:hint="@string/password_hint"
+                android:inputType="textPassword" />
+        </android.support.design.widget.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/show_password"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="5dp"
             android:drawablePadding="@dimen/icons_padding"
-            android:drawableStart="@drawable/ic_password_ico"
-            android:hint="@string/password_hint"
-            android:inputType="textPassword" />
-    </android.support.design.widget.TextInputLayout>
+            android:src="@drawable/ic_show_pass_ico" />
+    </FrameLayout>
+
 
     <com.seamlabs.BlueRide.widgets.CairoTextView
         android:id="@+id/forget_password"
@@ -133,7 +147,7 @@
         android:layout_marginBottom="32dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent" >
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <com.seamlabs.BlueRide.widgets.CairoTextView
             android:layout_width="wrap_content"

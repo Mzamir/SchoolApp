@@ -109,6 +109,8 @@ public class ParentHomeInteractor {
                             Log.i("updateUserData", "isSuccessful ");
                             UserResponseModel userResponseModel = response.body();
                             UserSettingsPreference.saveUserProfile(getMyApplicationContext(), userResponseModel);
+                            Log.i("updateUserData", "isSuccessful " + userResponseModel.getUnreadNotifications());
+                            listener.onSuccessGettingUserData();
                             return;
                         }
                         try {

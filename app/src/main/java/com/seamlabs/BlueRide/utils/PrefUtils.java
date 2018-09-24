@@ -25,5 +25,13 @@ public class PrefUtils {
         return getPrefUtilsSharedPreferences(context).getString("API_KEY", null);
     }
 
+    public static void storeDeviceToken(Context context, String apiKey) {
+        SharedPreferences.Editor editor = getPrefUtilsSharedPreferences(context).edit();
+        editor.putString("DEVICE_TOKEN", apiKey);
+        editor.commit();
+    }
 
+    public static String getDeviceToken(Context context) {
+        return getPrefUtilsSharedPreferences(context).getString("DEVICE_TOKEN", null);
+    }
 }

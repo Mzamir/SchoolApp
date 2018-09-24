@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.seamlabs.BlueRide.MainActivity;
@@ -46,6 +49,10 @@ public class HelperSigninActivity extends AppCompatActivity implements HelperReg
     @BindView(R.id.forget_password)
     TextView forget_password;
 
+    @BindView(R.id.show_password)
+    ImageView show_password;
+    boolean isPasswordShown = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +77,18 @@ public class HelperSigninActivity extends AppCompatActivity implements HelperReg
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HelperSigninActivity.this, ActivityWebView.class));
+            }
+        });
+        show_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isPasswordShown = !isPasswordShown;
+                if (isPasswordShown) {
+                    password_edx.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                } else {
+                    password_edx.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+                Log.i("ParentgSignInActivity", "Password " + String.valueOf(isPasswordShown));
             }
         });
     }

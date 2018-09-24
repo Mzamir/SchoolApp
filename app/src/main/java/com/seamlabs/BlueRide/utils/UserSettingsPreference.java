@@ -2,6 +2,7 @@ package com.seamlabs.BlueRide.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
 import com.seamlabs.BlueRide.mentor_home.model.MentorStudentModel;
@@ -47,7 +48,9 @@ public class UserSettingsPreference {
     }
 
     public static String getUserType(Context context) {
-        return getUserSettingsSharedPreferences(context).getString(SHARED_USER_TYPE, PARENT_USER_TYPE);
+        String userType = getUserSettingsSharedPreferences(context).getString(SHARED_USER_TYPE, PARENT_USER_TYPE);
+        Log.e(SHARED_USER_PROFILE, "userType " + userType);
+        return userType;
     }
 
     public static void setUserLanguage(Context context, String userType) {
@@ -67,7 +70,7 @@ public class UserSettingsPreference {
             String json = gson.toJson(userProfileModel);
             editor.putString(SHARED_USER_PROFILE, json);
             editor.commit();
-            UserSettingsPreference.setUserType(getMyApplicationContext(), userProfileModel.getRoles().get(0).getName());
+            UserSettingsPreference.setUserType(getMyApplicationContext(), userProfileModel.getLogin_as());
         } catch (Exception e) {
 
         }

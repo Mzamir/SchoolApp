@@ -1,6 +1,7 @@
 package com.seamlabs.BlueRide.parent_flow.home.view;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -48,6 +49,7 @@ import com.seamlabs.BlueRide.utils.MessageEvent;
 import com.seamlabs.BlueRide.utils.UserSettingsPreference;
 import com.seamlabs.BlueRide.utils.Utility;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -111,6 +113,8 @@ public class ParentHomeFragment extends MyFragment implements ParentHomeViewComm
         this.onNotificationIconClickListener = onNotificationIconClickListener;
     }
 
+    Activity activity;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -118,10 +122,11 @@ public class ParentHomeFragment extends MyFragment implements ParentHomeViewComm
         ButterKnife.bind(this, view);
         ((AppCompatActivity) getActivity()).setSupportActionBar(parent_home_toolbar);
         initializeView();
+        activity = getActivity();
         presenter = new ParentHomePresenter(this, new ParentHomeInteractor());
-        presenter.updateUserData();
+        EventBus.getDefault().register(this);
         presenter.getParentSchools();
-
+        presenter.updateUserData();
         startPickup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -211,12 +216,18 @@ public class ParentHomeFragment extends MyFragment implements ParentHomeViewComm
 
     @Override
     public void onSuccessGettingUserData() {
-        UserResponseModel userProfileModel = UserSettingsPreference.getSavedUserProfile(getActivity());
-        if (userProfileModel.getUnreadNotifications() > 0) {
-            notification_count.setText(userProfileModel.getUnreadNotifications());
-            notification_count.setVisibility(View.VISIBLE);
-        } else {
-            notification_count.setVisibility(View.GONE);
+        try {
+            UserResponseModel userProfileModel = UserSettingsPreference.getSavedUserProfile(getActivity());
+            Log.i(TAG, "notification_count " + userProfileModel.getUnreadNotifications());
+            if (userProfileModel.getUnreadNotifications() > 0) {
+                notification_count.setText(String.valueOf(userProfileModel.getUnreadNotifications()));
+                notification_count.setVisibility(View.VISIBLE);
+            } else {
+                notification_count.setVisibility(View.GONE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i(TAG, "onSuccessGettingUserData " + e.getMessage().toString());
         }
     }
 
@@ -306,15 +317,42 @@ public class ParentHomeFragment extends MyFragment implements ParentHomeViewComm
     }
 
     @Subscribe
-    public void onEvent(MessageEvent event) {
+    public void onEvent(final MessageEvent event) {
+        Log.i(TAG, "MessageEvent" + event.getMessage());
         try {
-            if (event.getMessage().equals(EVENT_NOTIFICATION_RECEIVED)) {
-                int notificationCounter = Integer.parseInt(notification_count.getText().toString());
-                notification_count.setText(String.valueOf(notificationCounter + 1));
-            }
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (event.getMessage().equals(EVENT_NOTIFICATION_RECEIVED)) {
+                        int notificationCounter = Integer.parseInt(notification_count.getText().toString());
+                        notification_count.setText(String.valueOf(notificationCounter + 1));
+                        notification_count.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+
         } catch (Exception e) {
             Log.i(TAG, "Change picture" + e.getMessage().toString());
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (EventBus.getDefault().isRegistered(this) == false)
+            EventBus.getDefault().register(this);
+    }
 }

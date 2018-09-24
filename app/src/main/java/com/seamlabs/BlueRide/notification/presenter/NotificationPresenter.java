@@ -4,6 +4,7 @@ import com.seamlabs.BlueRide.network.response.NotificationResponseModel;
 import com.seamlabs.BlueRide.notification.view.NotificationViewCommunicator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class NotificationPresenter implements NotificationInteractor.NotificationInteractorListener {
     NotificationViewCommunicator view;
@@ -32,6 +33,7 @@ public class NotificationPresenter implements NotificationInteractor.Notificatio
     public void onSuccessGetttingNotifications(ArrayList<NotificationResponseModel> notificationsList) {
         if (view != null) {
             view.hideProgress();
+            Collections.reverse(notificationsList);
             view.onSuccessGettingNotifications(notificationsList);
         }
     }

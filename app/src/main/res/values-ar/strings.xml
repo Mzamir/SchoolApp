@@ -40,7 +40,7 @@
     <string name="empty_field">أملئ البيانات</string>
     <string name="invalid_id">10 أرقام على الأفل</string>
     <string name="invalid_password">6 أحرف على الأقل</string>
-    <string name="helper">مساعد؟</string>
+    <string name="are_u_helper">مساعد؟</string>
     <string name="signup_here">سجل من هنا</string>
     <string name="have_account">لديك حساب بالغعل؟</string>
     <string name="signup_as_helper">سجل الان كمساعد!</string>
@@ -62,7 +62,7 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_tracking_helper_map">Map</string>
     <string name="address">العنوان</string>
-    <string name="change_your_photo">غير صورتك</string>
+    <string name="change_your_photo">إضافة صورة شخصية</string>
     <string name="new_password_hint">كلمة المرور الجديدة</string>
     <string name="confirm_password_hint">تأكيد كلمة المرور</string>
     <string name="no_requests_to_track">ليس هناك مساعدين لتتبعهم الآن</string>
@@ -102,7 +102,7 @@
     <string name="notification">الرسائل</string>
     <string name="basic_information">المعلومات الأساسية</string>
     <string name="parent_toolbar_title">يرجى اختيار مدرسة ابنك/ابنتك</string>
-    <string name="start">Start</string>
+    <string name="start">ابدا</string>
     <string name="add_helper_mobile_hint">الرجاء كتابة رقم جوال المساعد</string>
     <string name="later">لاحقًا</string>
     <string name="school_notified">تم إشعار المدرسة</string>
@@ -115,6 +115,16 @@
     <string name="deliverd_to_supervisor_state">مع المشرف</string>
     <string name="grade">مستوى</string>
     <string name="student_class">الفصل</string>
+    <string name="select">أختر</string>
+    <string name="parent">أب</string>
+    <string name="mentor">مشرف</string>
+    <string name="teacher">مدرس</string>
+    <string name="helper">مساعد</string>
+    <string name="edit_your_information">تغير البيانات الشخصية</string>
+    <string name="your_students">الأبناء</string>
+    <string name="your_helpers">المساعدين</string>
+    <string name="role_switcher_title">أختر الحساب المراد التبديل له</string>
+
     <array name="phoneCodes">
         <item>"+966"</item>
         <item>"+2"</item>

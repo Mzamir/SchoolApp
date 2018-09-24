@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +25,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListPopupWindow;
 import android.widget.TextView;
@@ -90,6 +93,11 @@ public class HelperSignupActivity extends MyActivity implements HelperRegistrati
     String spinnerList[];
     String selectedCountryCode = "+966";
 
+    @BindView(R.id.show_password)
+    ImageView show_password;
+
+    boolean isPasswordShown = false;
+
     private void handleCountrySpinner() {
         spinnerList = getCountryCodes();
         spinner_counter_codes.setText(spinnerList[0]);
@@ -111,6 +119,19 @@ public class HelperSignupActivity extends MyActivity implements HelperRegistrati
             @Override
             public void onClick(View v) {
                 listPopupWindow.show();
+            }
+        });
+
+        show_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isPasswordShown = !isPasswordShown;
+                if (isPasswordShown) {
+                    password_edx.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                } else {
+                    password_edx.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+                Log.i("ParentgSignInActivity", "Password " + String.valueOf(isPasswordShown));
             }
         });
     }

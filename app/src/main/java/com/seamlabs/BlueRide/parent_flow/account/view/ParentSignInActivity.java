@@ -1,17 +1,23 @@
 package com.seamlabs.BlueRide.parent_flow.account.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.seamlabs.BlueRide.MainActivity;
 import com.seamlabs.BlueRide.MyActivity;
+import com.seamlabs.BlueRide.MyApplication;
 import com.seamlabs.BlueRide.R;
 import com.seamlabs.BlueRide.helper_account.view.ActivityWebView;
 import com.seamlabs.BlueRide.network.response.UserResponseModel;
@@ -27,6 +33,7 @@ import butterknife.ButterKnife;
 
 import static com.seamlabs.BlueRide.MyApplication.getMyApplicationContext;
 import static com.seamlabs.BlueRide.utils.Constants.ADMIN_LOGIN_ERROR;
+import static com.seamlabs.BlueRide.utils.Constants.SHARED_PENDING_STUDENTS;
 import static com.seamlabs.BlueRide.utils.Constants.USER_ID;
 import static com.seamlabs.BlueRide.utils.Constants.USER_NATIONAL_ID;
 
@@ -48,12 +55,26 @@ public class ParentSignInActivity extends MyActivity implements ParentRegistrati
     @BindView(R.id.forget_password)
     TextView forget_password;
 
+    @BindView(R.id.show_password)
+    ImageView show_password;
+
+    boolean isPasswordShown = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.main_background_color));
 //        }
+        if (getIntent() != null) {
+            if (getIntent().getStringExtra("ComingFromWhere") != null) {
+                if (getIntent().getStringExtra("ComingFromWhere").equals("Lgout")) {
+                    UserSettingsPreference.getUserSettingsSharedPreferences(MyApplication.getMyApplicationContext()).edit().clear().commit();
+                    PrefUtils.getPrefUtilsSharedPreferences(MyApplication.getMyApplicationContext()).edit().clear().commit();
+                    getSharedPreferences(SHARED_PENDING_STUDENTS, Context.MODE_PRIVATE).edit().clear().commit();
+                }
+            }
+        }
         setContentView(R.layout.activity_parent_sign_in);
         ButterKnife.bind(this);
         presenter = new ParentSignInPresenter(this, new ParentRegistrationInteractor());
@@ -76,6 +97,18 @@ public class ParentSignInActivity extends MyActivity implements ParentRegistrati
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ParentSignInActivity.this, ActivityWebView.class));
+            }
+        });
+        show_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isPasswordShown = !isPasswordShown;
+                if (isPasswordShown) {
+                    password_edx.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                } else {
+                    password_edx.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+                Log.i("ParentgSignInActivity", "Password " + String.valueOf(isPasswordShown));
             }
         });
     }

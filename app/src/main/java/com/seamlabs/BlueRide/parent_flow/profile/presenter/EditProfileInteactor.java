@@ -55,9 +55,11 @@ public class EditProfileInteactor {
 
                         if (response.isSuccessful()) {
                             UserResponseModel responseModel = (UserResponseModel) response.body();
-                            if (responseModel.getRoles().size() == 1 && responseModel.getRoles().get(0).getName().equalsIgnoreCase("admin")) {
-                                listener.onErrorGettingEditProfile(ADMIN_LOGIN_ERROR);
-                                return;
+                            if (responseModel.getLogin_as() != null) {
+                                if (responseModel.getLogin_as().equalsIgnoreCase("admin") || responseModel.getLogin_as().equalsIgnoreCase("security")) {
+                                    listener.onErrorGettingEditProfile(ADMIN_LOGIN_ERROR);
+                                    return;
+                                }
                             }
                             if (responseModel.getErrors() != null) {
                                 listener.onErrorGettingEditProfile(responseModel.getErrors());

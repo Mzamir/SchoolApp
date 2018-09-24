@@ -5,6 +5,8 @@ import android.content.Context;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
+import static com.seamlabs.BlueRide.utils.Constants.MAPS_SERVER_KEY;
+
 /**
  * Created by ocittwo on 11/14/16.
  *
@@ -25,8 +27,10 @@ public class DrawRouteMaps {
         return instance;
     }
 
-    public DrawRouteMaps draw(LatLng origin, LatLng destination, GoogleMap googleMap){
-        String url_route = FetchUrl.getUrl(origin, destination);
+    public DrawRouteMaps draw(LatLng origin, LatLng destination, GoogleMap googleMap) {
+        // as the new update of google maps require to include the key in url
+        String url_route = FetchUrl.getUrl(origin, destination) + MAPS_SERVER_KEY;
+
         DrawRoute drawRoute = new DrawRoute(googleMap);
         drawRoute.execute(url_route);
         return instance;

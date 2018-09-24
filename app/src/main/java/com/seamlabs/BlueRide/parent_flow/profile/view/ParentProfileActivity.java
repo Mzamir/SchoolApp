@@ -79,15 +79,16 @@ public class ParentProfileActivity extends AppCompatActivity implements ParentPr
         prsenter = new ParentProfilePresenter(this, new ParentProfileInteactor());
         initializeView();
         userProfileModel = UserSettingsPreference.getSavedUserProfile(this);
-        if (userProfileModel.getRoles().get(0).getName().equals(HELPER_USER_TYPE)) {
-            helpers_layout.setVisibility(View.GONE);
-        }
+        if (userProfileModel.getLogin_as() != null)
+            if (userProfileModel.getLogin_as().equals(HELPER_USER_TYPE)) {
+                helpers_layout.setVisibility(View.GONE);
+            }
         bindBasicDateToViews(userProfileModel);
     }
 
     private void bindBasicDateToViews(UserResponseModel userProfileModel) {
         if (userProfileModel.getImages() != null)
-            if (userProfileModel.getImages().size() >0) {
+            if (userProfileModel.getImages().size() > 0) {
                 Uri uri = Uri.parse(userProfileModel.getImages().get(0).getPath());
                 user_profile_picture.setImageURI(uri);
             }

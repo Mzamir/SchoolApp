@@ -37,7 +37,7 @@ public class ParentRegistrationInteractor {
         ApiService apiService = ApiClient.getClient(getMyApplicationContext())
                 .create(ApiService.class);
 
-        apiService.signUpParent(national_id, password)
+        apiService.signUpParent(national_id, password, PrefUtils.getDeviceToken(getMyApplicationContext()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<Response>() {
@@ -45,8 +45,8 @@ public class ParentRegistrationInteractor {
                     public void onSuccess(Response response) {
                         if (response.isSuccessful()) {
                             UserResponseModel userResponseModel = (UserResponseModel) response.body();
-                            if (userResponseModel.getRoles().size() == 1) {
-                                if (userResponseModel.getRoles().get(0).getName().equalsIgnoreCase("admin") || userResponseModel.getRoles().get(0).getName().equalsIgnoreCase("security")) {
+                            if (userResponseModel.getLogin_as() != null) {
+                                if (userResponseModel.getLogin_as().equalsIgnoreCase("admin") || userResponseModel.getLogin_as().equalsIgnoreCase("security")) {
                                     listener.onError(ADMIN_LOGIN_ERROR);
                                     return;
                                 }
@@ -88,14 +88,14 @@ public class ParentRegistrationInteractor {
                 .create(ApiService.class);
 
         Log.i(TAG, "parenetSignin");
-        apiService.login(email, password)
+        apiService.login(email, password, PrefUtils.getDeviceToken(getMyApplicationContext()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<UserResponseModel>() {
                     @Override
                     public void onSuccess(UserResponseModel userResponseModel) {
-                        if (userResponseModel.getRoles().size() == 1) {
-                            if (userResponseModel.getRoles().get(0).getName().equalsIgnoreCase("admin") || userResponseModel.getRoles().get(0).getName().equalsIgnoreCase("security")) {
+                        if (userResponseModel.getLogin_as() != null) {
+                            if (userResponseModel.getLogin_as().equalsIgnoreCase("admin") || userResponseModel.getLogin_as().equalsIgnoreCase("security")) {
                                 listener.onError(ADMIN_LOGIN_ERROR);
                                 return;
                             }

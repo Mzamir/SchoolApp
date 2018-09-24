@@ -24,10 +24,6 @@
             android:visible="false"
             android:title="@string/nav_pending_students" />
         <item
-            android:id="@+id/nav_notification"
-            android:icon="@mipmap/notification"
-            android:title="@string/notification" />
-        <item
             android:id="@+id/nav_setting"
             android:icon="@mipmap/setting_ico"
             android:title="@string/nav_setting" />

@@ -8,11 +8,13 @@ import android.util.Log;
 
 import com.pusher.client.Pusher;
 import com.pusher.client.PusherOptions;
+import com.pusher.pushnotifications.PushNotificationsInstance;
 import com.seamlabs.BlueRide.utils.LocaleUtils;
 import com.seamlabs.BlueRide.utils.PrefUtils;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.pusher.pushnotifications.PushNotifications;
 import com.seamlabs.BlueRide.utils.UserSettingsPreference;
+import com.seamlabs.BlueRide.utils.Utility;
 
 import java.util.Locale;
 
@@ -40,6 +42,8 @@ public class MyApplication extends Application {
         LocaleUtils.setLocale(new Locale(UserSettingsPreference.getUserLanguage(this)));
         LocaleUtils.updateConfig(this, getBaseContext().getResources().getConfiguration());
 
+        Utility.getDeviceToken(context);
+
     }
 
     @Override
@@ -57,7 +61,6 @@ public class MyApplication extends Application {
     public static Context getMyApplicationContext() {
         return context;
     }
-
 
 
 }

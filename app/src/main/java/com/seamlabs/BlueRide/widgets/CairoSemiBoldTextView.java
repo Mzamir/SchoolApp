@@ -21,7 +21,7 @@ public class CairoSemiBoldTextView extends android.support.v7.widget.AppCompatTe
     }
 
     public void init() {
-        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo-Bold.ttf");
+        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Cairo-SemiBold.ttf");
         setTypeface(tf);
     }
 }

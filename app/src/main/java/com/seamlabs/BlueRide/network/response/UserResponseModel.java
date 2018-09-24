@@ -16,12 +16,13 @@ public class UserResponseModel extends BaseResponse {
     private int status;
     private String authy_code;
     private String token;
-    int is_verified ;
+    int is_verified;
     private String address;
     private double lat;
     @SerializedName("long")
     private double lon;
     int unreadNotifications;
+    String login_as;
     private ArrayList<ImagesResponseModel> images = new ArrayList<>();
     private ArrayList<RolesResponseModel> roles = new ArrayList<>();
     private ArrayList<SchoolsResponse> schools = new ArrayList<>();
@@ -168,5 +169,13 @@ public class UserResponseModel extends BaseResponse {
 
     public void setIs_verified(int is_verified) {
         this.is_verified = is_verified;
+    }
+
+    public String getLogin_as() {
+        return login_as;
+    }
+
+    public void setLogin_as(String login_as) {
+        this.login_as = login_as;
     }
 }

@@ -193,7 +193,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.i(TAG, "onLocationChanged " + "Distance " + remainingDistance);
 
             if (remainingDistance <= schoolModel.getSmall_zone()) {
-                if (!IsParentMadeRequest()) {
+                if (IsParentMadeRequest()==false) {
                     presenter.parentPickUpRequest(parentPickUpRequestModel);
                     school_notified.setVisibility(View.VISIBLE);
                     new Handler().postDelayed(new Runnable() {
@@ -208,7 +208,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     pick_up.setVisibility(View.VISIBLE);
                 }
             } else if (remainingDistance <= schoolModel.getBig_zone()) {
-                if (!IsParentMadeRequest()) {
+                if (IsParentMadeRequest()==false) {
                     presenter.parentPickUpRequest(parentPickUpRequestModel);
                     school_notified.setVisibility(View.VISIBLE);
                 }

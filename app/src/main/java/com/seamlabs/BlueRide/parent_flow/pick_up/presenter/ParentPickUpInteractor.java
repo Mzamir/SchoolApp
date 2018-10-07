@@ -68,6 +68,7 @@ public class ParentPickUpInteractor {
                 .subscribe(new DisposableSingleObserver<ParentPickUpResponseModel>() {
                     @Override
                     public void onSuccess(ParentPickUpResponseModel parentSchoolsResponse) {
+                        Log.i("ParentHomeInteractor", "onSuccess");
                         if (parentSchoolsResponse == null) {
                             listener.onError(GENERAL_ERROR);
                         } else {

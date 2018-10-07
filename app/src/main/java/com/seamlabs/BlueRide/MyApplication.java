@@ -42,8 +42,6 @@ public class MyApplication extends Application {
         LocaleUtils.setLocale(new Locale(UserSettingsPreference.getUserLanguage(this)));
         LocaleUtils.updateConfig(this, getBaseContext().getResources().getConfiguration());
 
-        Utility.getDeviceToken(context);
-
     }
 
     @Override

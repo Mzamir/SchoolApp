@@ -28,6 +28,8 @@ import static com.seamlabs.BlueRide.utils.Constants.ADMIN_LOGIN_ERROR;
 import static com.seamlabs.BlueRide.utils.Constants.GENERAL_ERROR;
 import static com.seamlabs.BlueRide.utils.Constants.PHONE_NUMBER_CODE;
 import static com.seamlabs.BlueRide.utils.Constants.SERVER_ERROR;
+import static com.seamlabs.BlueRide.utils.PrefUtils.getDeviceToken;
+import static com.seamlabs.BlueRide.utils.PrefUtils.storeDeviceToken;
 
 public class HelperRegistrationInteractor {
 
@@ -43,8 +45,8 @@ public class HelperRegistrationInteractor {
     void helperSignin(String email, String password, final OnRegistrationFinishedListener listener) {
         ApiService apiService = ApiClient.getClient(MyApplication.getMyApplicationContext())
                 .create(ApiService.class);
-
-        apiService.login(email, password, PrefUtils.getDeviceToken(getMyApplicationContext()))
+        storeDeviceToken(MyApplication.getMyApplicationContext() , email) ;
+        apiService.login(email, password, email)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<UserResponseModel>() {
@@ -82,7 +84,8 @@ public class HelperRegistrationInteractor {
     void helperSignup(String name, String email, String password, String national_id, String phone, final OnRegistrationFinishedListener listener) {
         ApiService apiService = ApiClient.getClient(MyApplication.getMyApplicationContext())
                 .create(ApiService.class);
-        apiService.signupHelper(name, email, password, national_id, phone, PrefUtils.getDeviceToken(getMyApplicationContext()))
+        storeDeviceToken(MyApplication.getMyApplicationContext() , email) ;
+        apiService.signupHelper(name, email, password, national_id, phone, email)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<Response>() {

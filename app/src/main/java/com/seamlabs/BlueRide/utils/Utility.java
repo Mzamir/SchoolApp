@@ -103,15 +103,15 @@ public class Utility {
         return originalText;
     }
 
-    public static String getDeviceToken(Context context) {
-        String androidId = "";
-        try {
-            androidId = androidId + android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
-            PrefUtils.storeDeviceToken(context, androidId);
-            Log.i("Utility", "DeviceToken " + androidId);
-        } catch (Exception e) {
-            Log.i("Utility", "DeviceToken exception " + e.getMessage().toString());
-        }
-        return androidId;
-    }
+//    public static String getDeviceToken(Context context) {
+//        String androidId = "";
+//        try {
+//            androidId = androidId + android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+//            PrefUtils.storeDeviceToken(context, androidId);
+//            Log.i("Utility", "DeviceToken " + androidId);
+//        } catch (Exception e) {
+//            Log.i("Utility", "DeviceToken exception " + e.getMessage().toString());
+//        }
+//        return androidId;
+//    }
 }

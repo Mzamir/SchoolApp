@@ -2,6 +2,7 @@ package com.seamlabs.BlueRide.parent_flow.account.presenter;
 
 import android.util.Log;
 
+import com.seamlabs.BlueRide.MyApplication;
 import com.seamlabs.BlueRide.network.ApiClient;
 import com.seamlabs.BlueRide.network.ApiService;
 import com.seamlabs.BlueRide.network.response.UserResponseModel;
@@ -18,6 +19,7 @@ import retrofit2.Response;
 import static com.seamlabs.BlueRide.MyApplication.getMyApplicationContext;
 import static com.seamlabs.BlueRide.utils.Constants.ADMIN_LOGIN_ERROR;
 import static com.seamlabs.BlueRide.utils.Constants.SERVER_ERROR;
+import static com.seamlabs.BlueRide.utils.PrefUtils.storeDeviceToken;
 
 public class ParentRegistrationInteractor {
 
@@ -36,8 +38,8 @@ public class ParentRegistrationInteractor {
     public void parenetSignup(final String national_id, final String password, final OnParentSignInFinishedListener listener) {
         ApiService apiService = ApiClient.getClient(getMyApplicationContext())
                 .create(ApiService.class);
-
-        apiService.signUpParent(national_id, password, PrefUtils.getDeviceToken(getMyApplicationContext()))
+        storeDeviceToken(MyApplication.getMyApplicationContext(), national_id);
+        apiService.signUpParent(national_id, password, national_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<Response>() {
@@ -88,7 +90,8 @@ public class ParentRegistrationInteractor {
                 .create(ApiService.class);
 
         Log.i(TAG, "parenetSignin");
-        apiService.login(email, password, PrefUtils.getDeviceToken(getMyApplicationContext()))
+        storeDeviceToken(MyApplication.getMyApplicationContext(), email);
+        apiService.login(email, password, email)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<UserResponseModel>() {

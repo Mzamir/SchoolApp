@@ -66,9 +66,9 @@ import static com.seamlabs.BlueRide.utils.Constants.PARENT_ACTIVITY;
 import static com.seamlabs.BlueRide.utils.Constants.PARENT_USER_TYPE;
 import static com.seamlabs.BlueRide.utils.Constants.SHARED_PENDING_STUDENTS;
 import static com.seamlabs.BlueRide.utils.Constants.TEACHER_USER_TYPE;
+import static com.seamlabs.BlueRide.utils.PrefUtils.getDeviceToken;
 import static com.seamlabs.BlueRide.utils.UserSettingsPreference.getUserType;
 import static com.seamlabs.BlueRide.utils.UserSettingsPreference.setUserType;
-import static com.seamlabs.BlueRide.utils.Utility.getDeviceToken;
 
 public class MainActivity extends MyActivity
         implements NavigationView.OnNavigationItemSelectedListener, ParentProfileFragment.onEditProfileClickListener, MyFragment.onNavigationIconClickListener, ParentHomeFragment.onNotificationIconClickListener {
@@ -130,7 +130,10 @@ public class MainActivity extends MyActivity
 //        getSupportActionBar().setIcon(R.mipmap.school_ico);
         userProfileModel = UserSettingsPreference.getSavedUserProfile(this);
 
-        PushNotifications.subscribe(getDeviceToken(this));
+        String deviceToken = getDeviceToken(this);
+        if (deviceToken != null)
+            PushNotifications.subscribe(deviceToken);
+
         Log.i("NotificationsService", "Subscribed Email " + userProfileModel.getEmail());
         drawer = findViewById(R.id.drawer_layout);
 

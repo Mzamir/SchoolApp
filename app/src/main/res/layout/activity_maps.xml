@@ -90,5 +90,18 @@
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="15sp" />
+
+        <com.seamlabs.BlueRide.widgets.CairoButton
+            android:id="@+id/cancel_temp_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/button_main_background"
+            android:enabled="true"
+            android:visibility="gone"
+            android:text="@string/cancel"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
     </LinearLayout>
 </FrameLayout>

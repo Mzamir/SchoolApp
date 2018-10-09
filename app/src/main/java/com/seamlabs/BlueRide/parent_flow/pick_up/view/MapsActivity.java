@@ -78,6 +78,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @BindView(R.id.school_notified)
     TextView school_notified;
 
+    @BindView(R.id.cancel_temp_button)
+    Button cancel_temp_button;
+
     private int LARGE_RADIUSE = 50;
     private int SMALL_RADIUSE = 20;
     private final int ZOOM_LEVEL = 15;
@@ -122,7 +125,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
+        cancel_temp_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MapsActivity.this, "Can't cancel request now", Toast.LENGTH_SHORT).show();
 
+            }
+        });
         // here means that the parent arrived
         pick_up.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,7 +202,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.i(TAG, "onLocationChanged " + "Distance " + remainingDistance);
 
             if (remainingDistance <= schoolModel.getSmall_zone()) {
-                if (IsParentMadeRequest()==false) {
+                if (IsParentMadeRequest() == false) {
                     presenter.parentPickUpRequest(parentPickUpRequestModel);
                     school_notified.setVisibility(View.VISIBLE);
                     new Handler().postDelayed(new Runnable() {
@@ -208,9 +217,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     pick_up.setVisibility(View.VISIBLE);
                 }
             } else if (remainingDistance <= schoolModel.getBig_zone()) {
-                if (IsParentMadeRequest()==false) {
+                if (IsParentMadeRequest() == false) {
                     presenter.parentPickUpRequest(parentPickUpRequestModel);
                     school_notified.setVisibility(View.VISIBLE);
+                    sowHideCancelTEmpButton(true);
                 }
             }
             DrawDirection();
@@ -340,13 +350,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onSuccessPickUpRequest(ParentPickUpResponseModel responseModel) {
         this.request_id = responseModel.getid();
         saveIsParentMadeRequest(true);
+        sowHideCancelTEmpButton(false);
         Toast.makeText(this, getResources().getString(R.string.request_sent), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onError(String errorMessage) {
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+        // TODO override this method to take boolean  "Canceled" to clear the "saveIsParentMadeRequest" or NOT
+        // or create a new one that "nErrorMade/CancelRequest" which will do the same logic here but will also clear the"saveIsParentMadeRequest"
         saveIsParentMadeRequest(false);
+        sowHideCancelTEmpButton(false);
     }
 
     @Override
@@ -395,5 +409,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onStop();
     }
 
-
+    private void sowHideCancelTEmpButton(boolean showTemp) {
+        if (showTemp) {
+            cancel_temp_button.setVisibility(View.VISIBLE);
+            cancel_request.setVisibility(View.GONE);
+        } else {
+            cancel_temp_button.setVisibility(View.GONE);
+            cancel_request.setVisibility(View.VISIBLE);
+        }
+    }
 }

@@ -5,14 +5,14 @@ apply plugin: 'com.android.application'
 //apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 android {
-    signingConfigs {
-        config {
-            keyAlias 'schoolstorekey'
-            keyPassword 'xzmir95'
-            storeFile file('E:\\PersonalData\\AndroidProjects\\SchoolApp\\SchoolAppAnd\\store.keystore')
-            storePassword 'xzmir95'
-        }
-    }
+//    signingConfigs {
+//        config {
+//            keyAlias 'schoolstorekey'
+//            keyPassword 'xzmir95'
+//            storeFile file('E:\\PersonalData\\AndroidProjects\\SchoolApp\\SchoolAppAnd\\store.keystore')
+//            storePassword 'xzmir95'
+//        }
+//    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.seamlabs.BlueRide"
@@ -64,7 +64,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
+//            signingConfig signingConfigs.config
         }
     }
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/fonts'] } }

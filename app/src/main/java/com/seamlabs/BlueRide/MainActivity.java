@@ -102,7 +102,8 @@ public class MainActivity extends MyActivity
     @BindView(R.id.toolbar_logo)
     SimpleDraweeView toolbar_logo;
 
-
+    @BindView(R.id.nav_privacy)
+    TextView privacy;
 
     String userType;
 
@@ -159,6 +160,13 @@ public class MainActivity extends MyActivity
         if (userProfileModel.getImages().size() > 0) {
             nav_header_icon.setImageURI(Uri.parse(userProfileModel.getImages().get(0).getPath()));
         }
+
+        privacy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, PrivacyPolicy.class));
+            }
+        });
 
         nav_header_switchaccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -361,9 +369,6 @@ public class MainActivity extends MyActivity
                 }
                 startActivity(intent1);
                 finish();
-                break;
-            case R.id.nav_privacy:
-                startActivity(new Intent(MainActivity.this, PrivacyPolicy.class));
                 break;
             default:
         }

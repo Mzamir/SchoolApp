@@ -28,10 +28,6 @@
             android:icon="@mipmap/setting_ico"
             android:title="@string/nav_setting" />
 
-        <item
-            android:id="@+id/nav_privacy"
-            android:icon="@drawable/ic_outline_lock_24px"
-            android:title="@string/nav_privacy"/>
 
         <item
             android:id="@+id/nav_logout"

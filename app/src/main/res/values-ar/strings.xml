@@ -76,7 +76,7 @@
     <string name="nav_pending_students">قيد الانتظار</string>
     <string name="nav_setting">الإعدادات</string>
     <string name="nav_logout">الخروج</string>
-    <string name="nav_privacy">سياسة الخصوصية</string>
+    <string name="nav_privacy">شروط الإستخدام وسياسة الخصوصية</string>
     <string name="you_dont_have_another_account">ليس لديك حساب آخر للتبديل</string>
     <string name="no_app_to_PDF">لا يوجد تطبيق متاح لعرض PDF</string>
     <string name="permission_granted">تم منح الإذن</string>
@@ -126,7 +126,7 @@
     <string name="your_helpers">المساعدين</string>
     <string name="role_switcher_title">أختر الحساب المراد التبديل له</string>
 
-    <string name="title_activity_privacy_policy">سياسة الخصوصية</string>
+    <string name="title_activity_privacy_policy">شروط الإستخدام وسياسة الخصوصية</string>
     <array name="phoneCodes">
         <item>"+966"</item>
         <item>"+2"</item>

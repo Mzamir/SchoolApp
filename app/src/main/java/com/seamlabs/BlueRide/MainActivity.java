@@ -20,6 +20,8 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -99,6 +101,8 @@ public class MainActivity extends MyActivity
     TextView toolbar_subtitle;
     @BindView(R.id.toolbar_logo)
     SimpleDraweeView toolbar_logo;
+
+
 
     String userType;
 
@@ -357,6 +361,9 @@ public class MainActivity extends MyActivity
                 }
                 startActivity(intent1);
                 finish();
+                break;
+            case R.id.nav_privacy:
+                startActivity(new Intent(MainActivity.this, PrivacyPolicy.class));
                 break;
             default:
         }

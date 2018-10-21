@@ -75,6 +75,7 @@
     <string name="nav_pending_students">Pending students</string>
     <string name="nav_setting">Settings</string>
     <string name="nav_logout">Logout</string>
+    <string name="nav_privacy">Terms &amp; Privacy Policy</string>
     <string name="you_dont_have_another_account">You don\'t have another account to switch</string>
     <string name="no_app_to_PDF">No Application available to view PDF</string>
     <string name="permission_granted">Permission Granted!</string>
@@ -124,6 +125,7 @@
     <string name="your_helpers">Your helpers</string>
     <string name="role_switcher_title">Select the account to switch</string>
 
+    <string name="title_activity_privacy_policy">Terms &amp; Privacy Policy</string>
     <array name="phoneCodes">
         <item>"+966"</item>
         <item>"+2"</item>
